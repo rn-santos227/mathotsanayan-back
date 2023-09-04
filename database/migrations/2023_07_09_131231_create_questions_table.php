@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('course_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
@@ -30,6 +31,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('questions', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });  
         Schema::dropIfExists('questions');
     }
 };

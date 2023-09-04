@@ -3,6 +3,21 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\ModuleConroller;
+use App\Http\Controllers\OptionController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SolutionController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes

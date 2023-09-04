@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +25,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('courses', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        }); 
         Schema::dropIfExists('courses');
     }
 };

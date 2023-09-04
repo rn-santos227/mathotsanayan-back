@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('teachers', function (Blueprint $table) {
-            $table->bigIncrements('id');;
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->string('first_name', 50);
             $table->string('middle_name', 50)->nullable();
             $table->string('last_name', 50);
@@ -21,7 +22,9 @@ return new class extends Migration
             $table->string('contact_number');
             $table->unsignedBigInteger('school_id');
             $table->timestamps();
+            $table->softDeletes();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
         });
     }
@@ -31,6 +34,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('teachers', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        }); 
         Schema::dropIfExists('teachers');
     }
 };
