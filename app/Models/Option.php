@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Course;
+use App\Models\Module;
+use App\Models\Question;
+
 class Option extends Model
 {
     use HasFactory, SoftDeletes;
@@ -17,4 +21,16 @@ class Option extends Model
         'course_id',
         'question_id',
     ];
+
+    public function course() {
+        return $this->belongsTo(Course::class, 'module_id', 'id');
+    }
+
+    public function module() {
+        return $this->belongsTo(Module::class, 'course_id', 'id');
+    }
+
+    public function question() {
+        return $this->belongsTo(Question::class, 'question_id', 'id');
+    }
 }
