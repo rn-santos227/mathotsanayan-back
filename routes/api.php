@@ -32,3 +32,15 @@ use App\Http\Controllers\TeacherController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => ['admin']], function() {
+
+});
+
+Route::group(['middleware' => ['admin','teacher']], function() {
+
+});
+
+Route::group(['middleware' => ['admin','teacher','student']], function() {
+
+});
