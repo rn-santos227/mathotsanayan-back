@@ -29,18 +29,26 @@ use App\Http\Controllers\TeacherController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 
-Route::group(['middleware' => ['admin']], function() {
+Route::group(['middleware' => ['auth:sanctum','admin']], function() {
 
 });
 
-Route::group(['middleware' => ['admin','teacher']], function() {
+Route::group(['middleware' => ['auth:sanctum','admin','teacher']], function() {
 
 });
 
-Route::group(['middleware' => ['admin','teacher','student']], function() {
+Route::group(['middleware' => ['auth:sanctum','admin','teacher','student']], function() {
 
 });
+
+//public access
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/auth', [AuthController::class, 'auth'])->name('auth');
