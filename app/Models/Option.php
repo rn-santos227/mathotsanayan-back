@@ -23,11 +23,11 @@ class Option extends Model
     ];
 
     public function course() {
-        return $this->belongsTo(Course::class, 'module_id', 'id');
+        return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 
     public function module() {
-        return $this->belongsTo(Module::class, 'course_id', 'id');
+        return $this->belongsTo(Module::class, 'module_id', 'id');
     }
 
     public function question() {

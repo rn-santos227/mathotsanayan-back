@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Course;
 use App\Models\Module;
 
+use App\Models\Option;
+
 class Question extends Model
 {
     use HasFactory, SoftDeletes;
@@ -26,5 +28,9 @@ class Question extends Model
 
     public function module() {
         return $this->belongsTo(Module::class, 'course_id', 'id');
+    }
+
+    public function options() {
+        return $this->hasMany(Option::class);
     }
 }

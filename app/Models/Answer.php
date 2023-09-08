@@ -11,6 +11,8 @@ use App\Models\Question;
 use App\Models\Result;
 use App\Models\Student;
 
+use App\Models\Answer;
+
 class Answer extends Model
 {
     use HasFactory, SoftDeletes;
@@ -22,4 +24,24 @@ class Answer extends Model
         'question_id',
         'content',
     ];
+
+    public function module() {
+        return $this->belongsTo(Course::class, 'module_id', 'id');
+    }
+
+    public function question() {
+        return $this->belongsTo(Question::class, 'question_id', 'id');
+    }
+
+    public function result() {
+        return $this->belongsTo(Result::class, 'result_id', 'id');
+    }
+
+    public function student() {
+        return $this->belongsTo(Student::class, 'student_id', 'id');
+    }
+
+    public function answers() {
+        return $this->hasMany(Answer::class);
+    }
 }
