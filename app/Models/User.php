@@ -55,4 +55,19 @@ class User extends Authenticatable
     public function setUsrPasswordAttribute($value){
         $this->attributes['password'] = Hash::make($value);
     }
+
+    public function validate($request) {
+        return $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string|min:6'
+        ]);
+    }
+
+    public function getToken($user, $token) {
+        $token = $user->createToken(env('PASSWORD_SALT'))->plainTextToken;
+        return response([
+            'user' => $user,
+            'token' => $token
+        ], 201);
+    }
 }

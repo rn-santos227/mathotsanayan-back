@@ -50,5 +50,7 @@ Route::group(['middleware' => ['auth:sanctum','admin','teacher','student']], fun
 });
 
 //public access
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/admin', [AuthController::class, 'admin'])->name('admin');
+Route::post('/teacher', [AuthController::class, 'teacher'])->name('teacher');
+Route::post('/student', [AuthController::class, 'student'])->name('student');
 Route::get('/auth', [AuthController::class, 'auth'])->name('auth');
