@@ -52,21 +52,21 @@ class User extends Authenticatable
         else return false;
     }
 
-    public function setUsrPasswordAttribute($value){
-        $this->attributes['password'] = Hash::make($value);
-    }
-
-    public function validate($request) {
+    public static function validate($request) {
         return $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string|min:6'
         ]);
     }
 
-    public function getToken($user, $token) {
+    public function setUsrPasswordAttribute($value){
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    public static function getToken($user) {
         $token = $user->createToken(env('PASSWORD_SALT'))->plainTextToken;
         return response([
-            'user' => $user,
+            'admin' => $user,
             'token' => $token
         ], 201);
     }
