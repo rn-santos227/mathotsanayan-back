@@ -45,9 +45,15 @@ class AuthController extends Controller
         return User::getToken($user);
     }
 
-    public function auth(Request $request) {
+    public function auth() {
         return [
-            'auth' => auth('sanctum')->check()
+            'auth' => auth('sanctum')->check(),
+        ];
+    }
+
+    public function user() {
+        return [
+            'user' => auth('sanctum')->user(),
         ];
     }
 

@@ -52,15 +52,19 @@ class User extends Authenticatable
         else return false;
     }
 
+    public function setUsrPasswordAttribute($value){
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function currentAccessToken() {
+        return $this->tokens()->latest()->first();
+    }
+
     public static function validate($request) {
         return $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string|min:6'
         ]);
-    }
-
-    public function setUsrPasswordAttribute($value){
-        $this->attributes['password'] = Hash::make($value);
     }
 
     public static function getToken($user) {

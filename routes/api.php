@@ -35,6 +35,7 @@ use App\Http\Controllers\TeacherController;
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'user']);
 });
 
 Route::group(['middleware' => ['auth:sanctum','admin']], function() {
