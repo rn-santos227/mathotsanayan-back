@@ -15,6 +15,7 @@ class Option extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'content',
+        'correct',
         'type',
         'file',
         'module_id',

@@ -43,6 +43,10 @@ class Grade extends Model
         return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 
+    public function result() {
+        return $this->belongsTo(Result::class, 'result_id', 'id');
+    }
+
     public function solution() {
         return $this->belongsTo(Solution::class, 'solution_id', 'id');
     }

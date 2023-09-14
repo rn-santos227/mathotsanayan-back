@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Module;
 
 use App\Models\Option;
+use App\Models\Solution;
 
 class Question extends Model
 {
@@ -32,5 +33,9 @@ class Question extends Model
 
     public function options() {
         return $this->hasMany(Option::class);
+    }
+
+    public function solutions() {
+        return $this->hasMany(Solution::class);
     }
 }

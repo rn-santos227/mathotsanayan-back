@@ -26,6 +26,10 @@ class Student extends Model
         'school_id',
     ];
 
+    protected $hidden = [
+        'user_id',
+    ];
+
     public function school() {
         return $this->belongsTo(School::class, 'school_id', 'id');
     }

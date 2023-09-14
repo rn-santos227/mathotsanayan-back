@@ -15,7 +15,7 @@ class Solution extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'content',
-        'solution',
+        'title',
         'type',
         'file',
         'module_id',

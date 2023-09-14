@@ -11,8 +11,6 @@ use App\Models\Question;
 use App\Models\Result;
 use App\Models\Student;
 
-use App\Models\Answer;
-
 class Answer extends Model
 {
     use HasFactory, SoftDeletes;
