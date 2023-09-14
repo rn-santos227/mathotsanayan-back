@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\School;
 use App\Models\Teacher;
+use App\Models\Student;
 
 class Section extends Model
 {
@@ -25,6 +26,10 @@ class Section extends Model
     }
 
     public function teacher() {
-        return $this->belongsTo(School::class, 'teacher_id', 'id');
+        return $this->belongsTo(Teacher::class, 'teacher_id', 'id');
+    }
+
+    public function students() {
+        return $this->hasMany(Student::class);
     }
 }
