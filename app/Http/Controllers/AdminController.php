@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 
+use App\Http\Requests\AdminRequest;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -17,5 +18,17 @@ class AdminController extends Controller
         return response()->json([
             'admins' => $admins
         ]);
+    }
+
+    public function create(AdminRequest $request) {
+
+    }
+
+    public function update(AdminRequest $request) {
+
+    }
+
+    public function delete(Request $request ){
+        
     }
 }

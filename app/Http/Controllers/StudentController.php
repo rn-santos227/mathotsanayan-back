@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 
+use App\Http\Requests\StudentRequest;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -17,5 +18,17 @@ class StudentController extends Controller
         return response()->json([
             'students' => $students
         ]);
+    }
+
+    public function create(StudentRequest $request) {
+
+    }
+
+    public function update(StudentRequest $request) {
+
+    }
+
+    public function delete(Request $request ){
+        
     }
 }

@@ -10,6 +10,7 @@ use App\Models\School;
 use App\Models\Section;
 use App\Models\User;
 
+use App\Models\Result;
 class Student extends Model
 {
     use HasFactory, SoftDeletes;
@@ -40,5 +41,9 @@ class Student extends Model
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function results() {
+        return $this->hasMany(Result::class);
     }
 }

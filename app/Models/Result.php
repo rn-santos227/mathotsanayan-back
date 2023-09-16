@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Course;
 use App\Models\Module;
+use App\Models\Student;
 
 class Result extends Model
 {
@@ -20,8 +20,8 @@ class Result extends Model
         'course_id',
     ];
 
-    public function course() {
-        return $this->belongsTo(Course::class, 'module_id', 'id');
+    public function student() {
+        return $this->belongsTo(Student::class, 'module_id', 'id');
     }
 
     public function module() {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 
+use App\Http\Requests\ModuleRequest;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller
@@ -17,5 +18,17 @@ class ModuleController extends Controller
         return response()->json([
             'modules' => $modules
         ]);
+    }
+
+    public function create(ModuleRequest $request) {
+
+    }
+
+    public function update(ModuleRequest $request) {
+
+    }
+
+    public function delete(Request $request ){
+        
     }
 }
