@@ -23,7 +23,6 @@ class SchoolRequest extends FormRequest
     {
         return [
             'name' => 'required|max:200',
-            'contact_number' => 'required|max:50',
         ];
     }
 }

@@ -14,14 +14,14 @@ class CourseController extends Controller
     }
 
     public function index() {
-        $courses = Course::get();
+        $courses = Course::with("modules")->get();
         return response()->json([
             'courses' => $courses
         ]);
     }
 
     public function create(CourseRequest $request) {
-        $request->validate();
+        $request->validated();
         $course = Course::create(
             $request->only([
                 "name",
@@ -35,7 +35,7 @@ class CourseController extends Controller
     }
 
     public function update(CourseRequest $request) {
-        $request->validate();
+        $request->validated();
         if($request->id) {
             $course = Course::find($request->id);
             $course->update(

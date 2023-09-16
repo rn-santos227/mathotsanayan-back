@@ -21,14 +21,46 @@ class SchoolController extends Controller
     }
 
     public function create(SchoolRequest $request) {
+        $request->validated();
+        $school = School::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'address' => $request->address,
+            'contact_number' => $request->contact_number,
+            'description' => $request->description
+        ]);
 
+        return response([
+            'school' => $school,
+        ], 201);
     }
 
     public function update(SchoolRequest $request) {
-
+        $request->validated();
+        if($request->id) {
+            $school = School::find($request->id);
+            $school->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'address' => $request->address,
+                'contact_number' => $request->contact_number,
+                'description' => $request->description
+            ]);
+            return response([
+                'school' => $school,
+            ], 201);
+        }  else return response([
+            'error' => 'Illegal Access',
+        ], 500);
     }
 
     public function delete(Request $request ){
-        
+        if($request->id) {
+            $school = School::find($request->id);
+            $school->delete();
+        } 
+        else return response([
+            'error' => 'Illegal Access',
+        ], 500); 
     }
 }

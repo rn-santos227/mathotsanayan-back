@@ -14,7 +14,7 @@ class ModuleController extends Controller
     }
 
     public function index() {
-        $modules = Module::get();
+        $modules = Module::with('course', 'questions.solutions', 'questions.options')->get();
         return response()->json([
             'modules' => $modules
         ]);

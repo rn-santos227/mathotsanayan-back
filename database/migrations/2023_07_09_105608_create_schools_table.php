@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('schools', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->text('address');
-            $table->string('email');
-            $table->string('contact_number');
+            $table->text('address')->nullable();
+            $table->string('email')->nullable();
+            $table->string('contact_number')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
