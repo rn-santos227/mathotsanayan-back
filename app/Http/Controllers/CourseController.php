@@ -56,6 +56,9 @@ class CourseController extends Controller
         if($request->id) {
             $course = Course::find($request->id);
             $course->delete();
+            return response([
+                'course' => $course,
+            ], 201);
         } 
         else return response([
             'error' => 'Illegal Access',

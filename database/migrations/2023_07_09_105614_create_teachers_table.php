@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('last_name', 50);
             $table->string('suffix', 5)->nullable();
             $table->string('email')->unique();
-            $table->string('contact_number');
+            $table->string('contact_number')->nullable();
             $table->unsignedBigInteger('school_id');
             $table->timestamps();
             $table->softDeletes();

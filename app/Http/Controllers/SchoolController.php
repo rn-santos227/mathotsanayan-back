@@ -58,6 +58,9 @@ class SchoolController extends Controller
         if($request->id) {
             $school = School::find($request->id);
             $school->delete();
+            return response([
+                'school' => $school,
+            ], 201);
         } 
         else return response([
             'error' => 'Illegal Access',

@@ -52,7 +52,7 @@ class User extends Authenticatable
         else return false;
     }
 
-    public function setUsrPasswordAttribute($value){
+    public function setPasswordAttribute($value){
         $this->attributes['password'] = Hash::make($value);
     }
 
@@ -68,7 +68,7 @@ class User extends Authenticatable
     }
 
     public static function getToken($user) {
-        $token = $user->createToken(env('PASSWORD_SALT'))->plainTextToken;
+        $token = $user->createToken('APP_SALT')->plainTextToken;
         return response([
             'admin' => $user,
             'token' => $token
