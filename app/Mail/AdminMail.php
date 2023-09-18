@@ -39,7 +39,7 @@ class AdminMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.emails.admin',
+            view: 'emails.admin',
             with: [
                 'email' => $this->email,
                 'password' => $this->password, 

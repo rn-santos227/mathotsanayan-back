@@ -39,7 +39,7 @@ class TeacherMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.emails.teacher',
+            view: 'emails.teacher',
             with: [
                 'email' => $this->email,
                 'password' => $this->password, 

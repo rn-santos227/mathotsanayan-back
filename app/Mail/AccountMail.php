@@ -39,7 +39,7 @@ class AccountMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.emails.account',
+            view: 'emails.account',
             with: [
                 'email' => $this->email,
                 'password' => $this->password, 
