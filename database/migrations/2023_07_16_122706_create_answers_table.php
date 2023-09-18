@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->longText('content');
+            $table->integer('attempts')->default(0);
+            $table->time('timer')->nullable();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('result_id');
             $table->unsignedBigInteger('module_id');

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('student_number', 50);
             $table->string('email')->unique();
             $table->string('contact_number');
-            $table->unsignedBigInteger('section_id');
-            $table->unsignedBigInteger('school_id');
+            $table->unsignedBigInteger('section_id')->nullable();
+            $table->unsignedBigInteger('school_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
