@@ -18,14 +18,13 @@ return new class extends Migration
             $table->string('middle_name', 50)->nullable();
             $table->string('last_name', 50);
             $table->string('suffix', 5)->nullable();
-            $table->string('student_number', 50);
+            $table->string('student_number', 50)->nullable();
             $table->string('email')->unique();
             $table->string('contact_number');
             $table->unsignedBigInteger('section_id')->nullable();
             $table->unsignedBigInteger('school_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
