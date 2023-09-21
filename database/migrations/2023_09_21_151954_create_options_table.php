@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('type');
             $table->string('file')->nullable();
             $table->unsignedBigInteger('module_id');
-            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('question_id');
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }

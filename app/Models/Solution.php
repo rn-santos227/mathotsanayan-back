@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Course;
+use App\Models\Subject;
 use App\Models\Module;
 use App\Models\Question;
 
@@ -19,19 +19,18 @@ class Solution extends Model
         'type',
         'file',
         'module_id',
-        'course_id',
+        'subject_id',
         'question_id',
     ];
-
-    public function course() {
-        return $this->belongsTo(Course::class, 'module_id', 'id');
-    }
-
     public function module() {
-        return $this->belongsTo(Module::class, 'course_id', 'id');
+        return $this->belongsTo(Module::class, 'module_id', 'id');
     }
 
     public function question() {
         return $this->belongsTo(Question::class, 'question_id', 'id');
+    }
+
+    public function subject() {
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 }

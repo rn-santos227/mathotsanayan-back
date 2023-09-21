@@ -15,6 +15,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SolutionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -69,6 +70,11 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::post('/students/create', [StudentController::class, 'create'])->name('create');
     Route::patch('/students/{id}', [StudentController::class, 'update'])->name('update');
     Route::delete('/students/{id}', [StudentController::class, 'delete'])->name('delete');
+
+    Route::get('/subjects', [SubjectController::class, 'index'])->name('index');
+    Route::post('/subjects/create', [SubjectController::class, 'create'])->name('create');
+    Route::patch('/subjects/{id}', [SubjectController::class, 'update'])->name('update');
+    Route::delete('/subjects/{id}', [SubjectController::class, 'delete'])->name('delete');
 
     Route::get('/teachers', [TeacherController::class, 'index'])->name('index');
     Route::post('/teachers/create', [TeacherController::class, 'create'])->name('create');

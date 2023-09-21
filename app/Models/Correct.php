@@ -8,19 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Module;
 use App\Models\Question;
-use App\Models\Result;
-use App\Models\Student;
+use App\Models\Subject;
 
-class Answer extends Model
+class Correct extends Model
 {
     use HasFactory, SoftDeletes;
-
     protected $fillable = [
-        'student_id',
-        'result_id',
+        'content',
         'module_id',
         'question_id',
-        'content',
+        'subject_id',
     ];
 
     public function module() {
@@ -31,15 +28,7 @@ class Answer extends Model
         return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 
-    public function result() {
-        return $this->belongsTo(Result::class, 'result_id', 'id');
-    }
-
-    public function student() {
-        return $this->belongsTo(Student::class, 'student_id', 'id');
-    }
-
-    public function answers() {
-        return $this->hasMany(Answer::class);
+    public function subject() {
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 }

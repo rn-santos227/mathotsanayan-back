@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('modules', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 50);
+            $table->string('name');
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('school_id');
+            $table->integer('step');
+            $table->unsignedBigInteger('subject_id');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
-            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
     }
 
@@ -30,9 +29,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('sections', function (Blueprint $table) {
+        Schema::table('modules', function (Blueprint $table) {
             $table->dropSoftDeletes();
         }); 
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('modules');
     }
 };

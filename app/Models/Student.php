@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Course;
 use App\Models\School;
 use App\Models\Section;
 use App\Models\User;
@@ -23,6 +24,7 @@ class Student extends Model
         'email',
         'contact_number',
         'user_id',
+        'course_id',
         'section_id',
         'school_id',
     ];
@@ -30,6 +32,10 @@ class Student extends Model
     protected $hidden = [
         'user_id',
     ];
+
+    public function course() {
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
 
     public function school() {
         return $this->belongsTo(School::class, 'school_id', 'id');

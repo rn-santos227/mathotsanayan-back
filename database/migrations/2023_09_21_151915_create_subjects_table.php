@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('step');
-            $table->unsignedBigInteger('course_id');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 
@@ -29,9 +25,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('modules', function (Blueprint $table) {
+        Schema::table('subjects', function (Blueprint $table) {
             $table->dropSoftDeletes();
         }); 
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('subjects');
     }
 };

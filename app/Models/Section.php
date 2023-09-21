@@ -15,7 +15,6 @@ class Section extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'name',
-        'level',
         'description',
         'teacher_id',
         'school_id',

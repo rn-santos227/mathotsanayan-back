@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('solution_id');
             $table->unsignedBigInteger('answer_id');
+            $table->unsignedBigInteger('correct_id');
             $table->timestamps();
             $table->softDeletes();
             
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->foreign('solution_id')->references('id')->on('solutions')->onDelete('cascade');
             $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
+            $table->foreign('correct_id')->references('id')->on('corrects')->onDelete('cascade');
         });
     }
 
