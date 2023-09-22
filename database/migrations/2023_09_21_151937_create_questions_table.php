@@ -11,20 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('options', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->longText('content');
-            $table->string('type');
             $table->string('file')->nullable();
+            $table->string('type');
             $table->unsignedBigInteger('module_id');
-            $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('question_id');
+            $table->unsignedBigInteger('course_id');
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 
@@ -33,9 +31,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('options', function (Blueprint $table) {
+        Schema::table('questions', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });  
-        Schema::dropIfExists('options');
+        Schema::dropIfExists('questions');
     }
 };
