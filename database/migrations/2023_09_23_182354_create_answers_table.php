@@ -15,7 +15,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->longText('content');
             $table->integer('attempts')->default(0);
-            $table->time('timer')->nullable();
+            $table->bigInteger('timer')->nullable();
+            $table->unsignedBigInteger('progress_id');
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('result_id');
             $table->unsignedBigInteger('module_id');
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('result_id')->references('id')->on('results')->onDelete('cascade');
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+            $table->foreign('progress_id')->references('id')->on('progress')->onDelete('cascade');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }

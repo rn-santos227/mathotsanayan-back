@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ModuleRequest extends FormRequest
+class ProgressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return false;
     }
 
     /**
@@ -22,9 +22,7 @@ class ModuleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:200',
-            'step' => 'required',
-            'subject' => 'required',
+            //
         ];
     }
 }

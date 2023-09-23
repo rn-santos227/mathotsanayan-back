@@ -14,7 +14,7 @@ class ModuleController extends Controller
     }
 
     public function index() {
-        $modules = Module::with('course', 'questions.solutions', 'questions.options')->get();
+        $modules = Module::with('subject', 'questions', 'questions.solutions', 'questions.options')->get();
         return response()->json([
             'modules' => $modules
         ]);
@@ -22,14 +22,12 @@ class ModuleController extends Controller
 
     public function create(ModuleRequest $request) {
         $request->validated();
-        $module = Module::create(
-            $request->only([
-                'name',
-                'description',
-                'step',
-                'subject_id',
-            ])
-        );
+        $module = Module::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'step' => $request->step,
+            'subject_id' => $request->subject,
+        ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
 
         return response([
             'module' => $module,
@@ -40,14 +38,12 @@ class ModuleController extends Controller
         $request->validated();
         if($request->id) {
             $module = Module::find($request->id);
-            $module->update(
-                $request->only([
-                    'name',
-                    'description',
-                    'step',
-                    'subject_id',
-                ])
-            );
+            $module->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'step' => $request->step,
+                'subject_id' => $request->subject,
+            ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
             return response([
                 'module' => $module,
             ], 201);

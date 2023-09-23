@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->tinyInteger('completed')->default(0);
-            $table->time('timer')->nullable();
+            $table->bigInteger('timer')->nullable();
             $table->bigInteger('total_score');
+            $table->unsignedBigInteger('progress_id');
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('module_id');
             $table->timestamps();
@@ -23,6 +24,7 @@ return new class extends Migration
 
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+            $table->foreign('progress_id')->references('id')->on('progress')->onDelete('cascade');
         });
     }
 

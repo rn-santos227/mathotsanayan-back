@@ -56,6 +56,15 @@ return [
             'throw' => false,
         ],
 
+        'minio' => [
+            'driver' => 's3',
+            'key' => env('MINIO_KEY', 'your minio server key'),
+            'secret' => env('MINIO_SECRET', 'your minio server secret'),
+            'region' => 'ap-southeast-1',
+            'bucket' => env('MINIO_BUCKET','your minio bucket name'),
+            'endpoint' => env('MINIO_ENDPOINT','http://localhost:9000'),
+            'use_path_style_endpoint' => true,
+        ],
     ],
 
     /*
