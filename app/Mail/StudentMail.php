@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TeacherMail extends Mailable
+class StudentMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $email;
@@ -29,7 +29,7 @@ class TeacherMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Mathotsanayan CAA Teacher Account',
+            subject: 'Mathotsanayan CAA Student Account',
         );
     }
 
@@ -39,7 +39,7 @@ class TeacherMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.teacher',
+            view: 'emails.students',
             with: [
                 'email' => $this->email,
                 'password' => $this->password, 

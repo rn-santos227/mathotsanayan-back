@@ -8,6 +8,6 @@
     <p>You have recieved a teacher account to Mathotsanayan CAA.</p>
     <p>Your username is: {{ $email }}</p>
     <p>Your temporary password is: {{ $password }}</p>
-    <p>Please log in and change your password.</p>
+    <p>Please log in at <a href="http://teachers.mathotsanayan.com">teachers.mathotsanayan.com</a> and change your password.</p>
 </body>
 </html>

@@ -27,9 +27,10 @@ class StudentRequest extends FormRequest
             'last_name' => 'required|max:50|string',
             'suffix' => 'max:5|string|nullable',
             'contact_number' => 'max:50|string|nullable',
-            'student_number' => 'max:50|string|nullable',
-            'school' => 'integer',
-            'section' => 'integer',
+            'student_number' => 'required|max:50|string|nullable',
+            'course' => 'required|integer',
+            'school' => 'required|integer',
+            'section' => 'required|integer',
             'password' => 'required|min:6|max:50',
         ];
     }

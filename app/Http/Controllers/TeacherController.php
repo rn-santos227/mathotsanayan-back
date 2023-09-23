@@ -58,9 +58,8 @@ class TeacherController extends Controller
         if($request->id) {
             $teacher = Teacher::find($request->id);
             if(!empty($request->password)) {
-                $user = User::where([
-                    'email' => $request->email
-                ])->first();
+                $teacher->makeVisible('user_id');
+                $user = User::find($teacher->user_id);
                 $user->update([
                     'email' => $request->email,
                     'password' => $request->password,
@@ -75,7 +74,7 @@ class TeacherController extends Controller
                 'email' => $request->email,
                 'contact_number' => $request->contact_number,
                 'school_id' => $request->school,
-            ]);
+            ])->load('school');
 
             return response([
                 'teacher' => $teacher,
