@@ -22,7 +22,9 @@ class ModuleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:200',
+            'step' => 'required',
+            'subject_id' => 'required',
         ];
     }
 }

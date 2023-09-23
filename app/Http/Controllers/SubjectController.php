@@ -25,7 +25,7 @@ class SubjectController extends Controller
         $subject = Subject::create(
             $request->only([
                 "name",
-                "destination",
+                "description",
             ])
         );
 
@@ -41,7 +41,7 @@ class SubjectController extends Controller
             $subject->update(
                 $request->only([
                     "name",
-                    "destination",
+                    "description",
                 ])
             );
             return response([
