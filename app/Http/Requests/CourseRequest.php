@@ -23,6 +23,7 @@ class CourseRequest extends FormRequest
     {
         return [
             'name' => 'required|max:200',
+            'abbreviation' => 'required|max:10',
         ];
     }
 }

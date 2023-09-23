@@ -25,6 +25,7 @@ class CourseController extends Controller
         $course = Course::create(
             $request->only([
                 "name",
+                "abbreviation",
                 "destination",
             ])
         );
@@ -41,6 +42,7 @@ class CourseController extends Controller
             $course->update(
                 $request->only([
                     "name",
+                    "abbreviation",
                     "destination",
                 ])
             );
