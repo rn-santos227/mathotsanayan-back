@@ -14,7 +14,7 @@ class CourseController extends Controller
     }
 
     public function index() {
-        $courses = Course::with("modules")->get();
+        $courses = Course::get();
         return response()->json([
             'courses' => $courses
         ]);

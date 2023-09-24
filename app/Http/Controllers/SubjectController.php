@@ -27,7 +27,7 @@ class SubjectController extends Controller
                 "name",
                 "description",
             ])
-        );
+        )->load('modules');
 
         return response([
             'subject' => $subject,
@@ -43,7 +43,7 @@ class SubjectController extends Controller
                     "name",
                     "description",
                 ])
-            );
+            )->load('modules');
             return response([
                 'subject' => $subject,
             ], 201);
