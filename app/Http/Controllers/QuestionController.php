@@ -62,4 +62,16 @@ class QuestionController extends Controller
         ], 500);
     }
 
+    public function delete(Request $request ){
+        if($request->id) {
+            $question = Question::find($request->id);
+            $question->delete();
+            return response([
+                'question' => $question,
+            ], 201);
+        } 
+        else return response([
+            'error' => 'Illegal Access',
+        ], 500); 
+    }
 }

@@ -56,6 +56,12 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::patch('/modules/{id}', [ModuleController::class, 'update'])->name('update');
     Route::delete('/modules/{id}', [ModuleController::class, 'delete'])->name('delete');
 
+    Route::get('/questions', [QuestionController::class, 'index'])->name('index');
+    Route::post('/questions/create', [QuestionController::class, 'create'])->name('create');
+    Route::post('/questions/create/all', [QuestionController::class, 'create'])->name('createAll');
+    Route::patch('/questions/{id}', [QuestionController::class, 'update'])->name('update');
+    Route::delete('/questions/{id}', [QuestionController::class, 'delete'])->name('delete');
+
     Route::get('/schools', [SchoolController::class, 'index'])->name('index');
     Route::post('/schools/create', [SchoolController::class, 'create'])->name('create');
     Route::patch('/schools/{id}', [SchoolController::class, 'update'])->name('update');

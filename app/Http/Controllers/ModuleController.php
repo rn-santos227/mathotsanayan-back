@@ -52,7 +52,7 @@ class ModuleController extends Controller
         ], 500);
     }
 
-    public function delete(Request $request ){
+    public function delete(Request $request){
         if($request->id) {
             $module = Module::find($request->id);
             $module->delete();
