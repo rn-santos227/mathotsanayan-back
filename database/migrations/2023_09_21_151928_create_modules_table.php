@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('step');
+            $table->tinyInteger('active')->default(0);
             $table->unsignedBigInteger('subject_id');
             $table->timestamps();
             $table->softDeletes();

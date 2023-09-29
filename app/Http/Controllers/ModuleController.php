@@ -42,6 +42,7 @@ class ModuleController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'step' => $request->step,
+                'active' => $request->active,
                 'subject_id' => $request->subject,
             ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
             return response([

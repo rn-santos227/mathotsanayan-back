@@ -17,6 +17,7 @@ class Module extends Model
         'name',
         'description',
         'step',
+        'active',
         'subject_id',
     ];
 
