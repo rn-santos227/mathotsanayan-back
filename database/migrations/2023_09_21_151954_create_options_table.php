@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->longText('content');
-            $table->string('type');
             $table->string('file')->nullable();
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('subject_id');

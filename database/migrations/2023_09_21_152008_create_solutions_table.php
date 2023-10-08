@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('solutions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
             $table->longText('solution');
-            $table->string('type');
             $table->string('file')->nullable();
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('subject_id');

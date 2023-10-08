@@ -62,7 +62,7 @@ class QuestionController extends Controller
         ], 500);
     }
 
-    public function delete(Request $request ){
+    public function delete(Request $request){
         if($request->id) {
             $question = Question::find($request->id);
             $question->delete();
