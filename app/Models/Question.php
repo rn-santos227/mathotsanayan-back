@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Subject;
 use App\Models\Module;
 
+use App\Models\Corrects;
 use App\Models\Option;
 use App\Models\Solution;
 
@@ -29,6 +30,11 @@ class Question extends Model
 
     public function subject() {
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
+    }
+
+    
+    public function corrects() {
+        return $this->hasMany(Corrects::class);
     }
 
     public function options() {
