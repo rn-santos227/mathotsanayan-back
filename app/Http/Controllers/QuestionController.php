@@ -25,6 +25,15 @@ class QuestionController extends Controller
                 'module_id' => $request->module,
                 'subject_id' => $request->subject,
             ]);
+
+            foreach($question['options'] as $option) {
+                Option::create([
+                    'content' => $option['content'],
+                    'module_id' => $request->module,
+                    'subject_id' => $request->subject,
+                    'question_id' => $new_question->id,
+                ]);
+            };
             array_push($questions, $new_question);
         }
 
