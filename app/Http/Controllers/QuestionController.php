@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Solution;
+use App\Models\Correct;
+use App\Models\Option;
 use App\Models\Question;
 
 use App\Http\Requests\QuestionRequest;
