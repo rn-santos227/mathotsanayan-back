@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
+
 use App\Models\Solution;
 use App\Models\Correct;
 use App\Models\Option;
@@ -25,6 +27,12 @@ class QuestionController extends Controller
                 'module_id' => $request->module,
                 'subject_id' => $request->subject,
             ]);
+
+            $file_name = "question-".$new_question->id."module".$request->module.".png";
+
+            if (!Storage::exists('questions/'.$file_name)) {
+                Storage::disk('minio')->put('questions/'.$file_name, (string) $question->file);
+            }
 
             foreach($question['options'] as $option) {
                 Option::create([
@@ -52,6 +60,8 @@ class QuestionController extends Controller
                     'question_id' => $new_question->id,
                 ]);
             };
+
+            $new_question->load('corrects', 'options', 'solutions');
             array_push($questions, $new_question);
         }
 
