@@ -34,6 +34,24 @@ class QuestionController extends Controller
                     'question_id' => $new_question->id,
                 ]);
             };
+
+            foreach($question['options'] as $option) {
+                Correct::create([
+                    'content' => $option['content'],
+                    'module_id' => $request->module,
+                    'subject_id' => $request->subject,
+                    'question_id' => $new_question->id,
+                ]);
+            };
+
+            foreach($question['options'] as $option) {
+                Solution::create([
+                    'solution' => $option['content'],
+                    'module_id' => $request->module,
+                    'subject_id' => $request->subject,
+                    'question_id' => $new_question->id,
+                ]);
+            };
             array_push($questions, $new_question);
         }
 
