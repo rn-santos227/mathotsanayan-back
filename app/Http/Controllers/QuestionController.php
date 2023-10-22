@@ -43,8 +43,8 @@ class QuestionController extends Controller
                 ]);
                 $filename_option = "option-".$new_option->id."-".$file_name;
 
-                if (!Storage::exists('questions/question'.$new_question->id."/".$filename_option)) {
-                    Storage::disk('minio')->put('questions/'.$filename_option, (string) $option->file);
+                if (!Storage::exists('questions/question'.$new_question->id."/options/".$filename_option)) {
+                    Storage::disk('minio')->put('questions/question'.$new_question->id."/options/".$filename_option, (string) $option->file);
                 }
             };
 
@@ -56,6 +56,10 @@ class QuestionController extends Controller
                     'question_id' => $new_question->id,
                 ]);
                 $file_name_correct = "correct-".$new_correct->id."-".$file_name;
+                
+                if (!Storage::exists('questions/question'.$new_question->id."/corrects/".$file_name_correct)) {
+                    Storage::disk('minio')->put('questions/question'.$new_question->id."/corrects/".$file_name_correct, (string) $option->file);
+                }
 
             };
 
