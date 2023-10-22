@@ -49,21 +49,25 @@ class QuestionController extends Controller
             };
 
             foreach($question['corrects'] as $correct) {
-                Correct::create([
+                $new_correct =  Correct::create([
                     'content' => $correct['content'],
                     'module_id' => $request->module,
                     'subject_id' => $request->subject,
                     'question_id' => $new_question->id,
                 ]);
+                $file_name_correct = "correct-".$new_correct->id."-".$file_name;
+
             };
 
             foreach($question['solutions'] as $solution) {
-                Solution::create([
+                $new_solution = Solution::create([
                     'solution' => $solution['content'],
                     'module_id' => $request->module,
                     'subject_id' => $request->subject,
                     'question_id' => $new_question->id,
                 ]);
+                $file_name_solution = "solution-".$new_solution->id."-".$file_name;
+
             };
 
             $new_question->load('corrects', 'options', 'solutions');
