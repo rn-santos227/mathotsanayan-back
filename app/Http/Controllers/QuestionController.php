@@ -58,9 +58,8 @@ class QuestionController extends Controller
                 $file_name_correct = "correct-".$new_correct->id."-".$file_name;
                 
                 if (!Storage::exists('questions/question'.$new_question->id."/corrects/".$file_name_correct)) {
-                    Storage::disk('minio')->put('questions/question'.$new_question->id."/corrects/".$file_name_correct, (string) $option->file);
+                    Storage::disk('minio')->put('questions/question'.$new_question->id."/corrects/".$file_name_correct, (string) $correct->file);
                 }
-
             };
 
             foreach($question['solutions'] as $solution) {
@@ -72,6 +71,9 @@ class QuestionController extends Controller
                 ]);
                 $file_name_solution = "solution-".$new_solution->id."-".$file_name;
 
+                if (!Storage::exists('questions/question'.$new_question->id."/solutions/".$file_name_solution)) {
+                    Storage::disk('minio')->put('questions/question'.$new_question->id."/solutions/".$file_name_solution, (string) $solution->file);
+                }
             };
 
             $new_question->load('corrects', 'options', 'solutions');
