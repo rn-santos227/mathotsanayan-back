@@ -35,12 +35,17 @@ class QuestionController extends Controller
             }
 
             foreach($question['options'] as $option) {
-                Option::create([
+                $new_option = Option::create([
                     'content' => $option['content'],
                     'module_id' => $request->module,
                     'subject_id' => $request->subject,
                     'question_id' => $new_question->id,
                 ]);
+                $filename_option = "option-".$new_option->id."-".$file_name;
+
+                if (!Storage::exists('questions/question'.$new_question->id."/".$filename_option)) {
+                    Storage::disk('minio')->put('questions/'.$filename_option, (string) $option->file);
+                }
             };
 
             foreach($question['options'] as $option) {
