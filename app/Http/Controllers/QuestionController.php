@@ -171,14 +171,17 @@ class QuestionController extends Controller
             $options = Option::where([
                 "question_id" => $request->id,
             ])->get();
+            $options->delete();
 
             $corrects = Correct::where([
                 "question_id" => $request->id,
             ])->get();
+            $corrects->delete();
 
             $solutions = Solution::where([
                 "question_id" => $request->id,
             ])->get();
+            $solutions->delete();
             
             $question->delete();
             return response([
