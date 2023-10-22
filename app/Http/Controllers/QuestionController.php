@@ -48,18 +48,18 @@ class QuestionController extends Controller
                 }
             };
 
-            foreach($question['options'] as $option) {
+            foreach($question['corrects'] as $correct) {
                 Correct::create([
-                    'content' => $option['content'],
+                    'content' => $correct['content'],
                     'module_id' => $request->module,
                     'subject_id' => $request->subject,
                     'question_id' => $new_question->id,
                 ]);
             };
 
-            foreach($question['options'] as $option) {
+            foreach($question['solutions'] as $solution) {
                 Solution::create([
-                    'solution' => $option['content'],
+                    'solution' => $solution['content'],
                     'module_id' => $request->module,
                     'subject_id' => $request->subject,
                     'question_id' => $new_question->id,
