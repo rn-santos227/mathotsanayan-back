@@ -28,6 +28,14 @@ class QuestionController extends Controller
                 'subject_id' => $request->subject,
             ]);
 
+            foreach ($request->all() as $key => $file) {
+                if (str_starts_with($key, 'question_file')) {
+
+                    
+                }
+            }
+    
+
             // $file_name = "question-".$new_question->id."module".$request->module.".png";
 
             // if (!Storage::exists('questions/'.$file_name)) {
