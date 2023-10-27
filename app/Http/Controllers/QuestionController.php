@@ -28,17 +28,6 @@ class QuestionController extends Controller
                 'subject_id' => $request->subject,
             ]);
 
-            foreach ($request->all() as $key => $file) {
-                if (str_starts_with($key, 'question_file')) {
-                    $file_name = "question-".$new_question->id."module".$request->module.".png";
-                    $file_url = "questions/'.$file_name";
-                    if (!Storage::exists($file_url)) {
-
-                    }
-                }
-            }
-    
-
             // $file_name = "question-".$new_question->id."module".$request->module.".png";
 
             // if (!Storage::exists('questions/'.$file_name)) {
@@ -86,6 +75,16 @@ class QuestionController extends Controller
                 //     Storage::disk('minio')->put('questions/question'.$new_question->id."/solutions/".$file_name_solution, (string) $solution->file);
                 // }
             };
+
+            foreach ($request->all() as $key => $file) {
+                if (str_starts_with($key, 'question_file')) {
+                    $file_name = "question-".$new_question->id."module".$request->module.".png";
+                    $file_url = "questions/'.$file_name";
+                    if (!Storage::exists($file_url)) {
+
+                    }
+                }
+            }
 
             $new_question->load('corrects', 'options', 'solutions');
             array_push($questions, $new_question);
