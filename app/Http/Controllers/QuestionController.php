@@ -54,6 +54,12 @@ class QuestionController extends Controller
             };
         }
 
+        // foreach ($request->all() as $key => $file) {
+        //     if (str_starts_with($key, 'question_file')) {
+                
+        //     }
+        // }
+
         $questions = Question::with('corrects', 'options', 'solutions')->where([
             'module_id' => $request->module['id'],
         ])->get();
