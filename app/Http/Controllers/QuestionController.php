@@ -19,79 +19,43 @@ class QuestionController extends Controller
     }
 
     public function createMany(Request $request) {
-        $questions = array();
         foreach($request->questions as $question) {
             $new_question = Question::create([
                 'content' => $question->content,
                 'type' => $question->type,
-                'module_id' => $request->module,
-                'subject_id' => $request->subject,
+                'module_id' => $request->module['id'],
+                'subject_id' => $request->module['subject_id'],
             ]);
-
-            // $file_name = "question-".$new_question->id."module".$request->module.".png";
-
-            // if (!Storage::exists('questions/'.$file_name)) {
-            //     Storage::disk('minio')->put('questions/'.$file_name, (string) $question->file);
-            // }
-
             foreach($question['options'] as $option) {
-                $new_option = Option::create([
+                Option::create([
                     'content' => $option['content'],
-                    'module_id' => $request->module,
-                    'subject_id' => $request->subject,
+                    'module_id' => $request->module['id'],
+                    'subject_id' => $request->module['subject_id'],
                     'question_id' => $new_question->id,
                 ]);
-                // $filename_option = "option-".$new_option->id."-".$file_name;
-
-                // if (!Storage::exists('questions/question'.$new_question->id."/options/".$filename_option)) {
-                //     Storage::disk('minio')->put('questions/question'.$new_question->id."/options/".$filename_option, (string) $option->file);
-                // }
             };
 
             foreach($question['corrects'] as $correct) {
-                $new_correct =  Correct::create([
+                Correct::create([
                     'content' => $correct['content'],
-                    'module_id' => $request->module,
-                    'subject_id' => $request->subject,
+                    'module_id' => $request->module['id'],
+                    'subject_id' => $request->module['subject_id'],
                     'question_id' => $new_question->id,
                 ]);
-                // $file_name_correct = "correct-".$new_correct->id."-".$file_name;
-                
-                // if (!Storage::exists('questions/question'.$new_question->id."/corrects/".$file_name_correct)) {
-                //     Storage::disk('minio')->put('questions/question'.$new_question->id."/corrects/".$file_name_correct, (string) $correct->file);
-                // }
             };
 
             foreach($question['solutions'] as $solution) {
-                $new_solution = Solution::create([
+                 Solution::create([
                     'solution' => $solution['content'],
-                    'module_id' => $request->module,
-                    'subject_id' => $request->subject,
+                    'module_id' => $request->module['id'],
+                    'subject_id' => $request->module['subject_id'],
                     'question_id' => $new_question->id,
                 ]);
-                // $file_name_solution = "solution-".$new_solution->id."-".$file_name;
-
-                // if (!Storage::exists('questions/question'.$new_question->id."/solutions/".$file_name_solution)) {
-                //     Storage::disk('minio')->put('questions/question'.$new_question->id."/solutions/".$file_name_solution, (string) $solution->file);
-                // }
             };
-
-            foreach ($request->all() as $key => $file) {
-                if (str_starts_with($key, 'question_file')) {
-                    $file_name = "question-".$new_question->id."module".$request->module.".png";
-                    $file_url = "questions/'.$file_name";
-                    if (!Storage::exists($file_url)) {
-
-                    }
-                }
-            }
-
-            $new_question->load('corrects', 'options', 'solutions');
-            array_push($questions, $new_question);
         }
 
         return response([
-            'questions' => $questions,
+        
         ], 201);
     }
 
