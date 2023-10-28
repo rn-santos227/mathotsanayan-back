@@ -54,8 +54,12 @@ class QuestionController extends Controller
             };
         }
 
+        $questions = Question::with('corrects', 'options', 'solutions')->where([
+            'module_id' => $request->module['id'],
+        ])->get();
+
         return response([
-        
+            'questions' => $questions,
         ], 201);
     }
 
