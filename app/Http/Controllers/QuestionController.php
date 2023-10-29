@@ -22,40 +22,41 @@ class QuestionController extends Controller
         $payload_questions = json_decode($request->questions, true);
         $payload_module = json_decode($request->module, true);
 
-        // foreach($request->questions as $question) {
-        //     $new_question = Question::create([
-        //         'content' => $question->content,
-        //         'type' => $question->type,
-        //         'module_id' => $request->module['id'],
-        //         'subject_id' => $request->module['subject_id'],
-        //     ]);
-        //     foreach($question['options'] as $option) {
-        //         Option::create([
-        //             'content' => $option['content'],
-        //             'module_id' => $request->module['id'],
-        //             'subject_id' => $request->module['subject_id'],
-        //             'question_id' => $new_question->id,
-        //         ]);
-        //     };
+        foreach($payload_questions as $question) {
+            $new_question = Question::create([
+                'content' => $question->content,
+                'type' => $question->type,
+                'module_id' => $request->module['id'],
+                'subject_id' => $request->module['subject_id'],
+            ]);
+            
+            foreach($question['options'] as $option) {
+                Option::create([
+                    'content' => $option['content'],
+                    'module_id' => $request->module['id'],
+                    'subject_id' => $request->module['subject_id'],
+                    'question_id' => $new_question->id,
+                ]);
+            };
 
-        //     foreach($question['corrects'] as $correct) {
-        //         Correct::create([
-        //             'content' => $correct['content'],
-        //             'module_id' => $request->module['id'],
-        //             'subject_id' => $request->module['subject_id'],
-        //             'question_id' => $new_question->id,
-        //         ]);
-        //     };
+            foreach($question['corrects'] as $correct) {
+                Correct::create([
+                    'content' => $correct['content'],
+                    'module_id' => $request->module['id'],
+                    'subject_id' => $request->module['subject_id'],
+                    'question_id' => $new_question->id,
+                ]);
+            };
 
-        //     foreach($question['solutions'] as $solution) {
-        //          Solution::create([
-        //             'solution' => $solution['content'],
-        //             'module_id' => $request->module['id'],
-        //             'subject_id' => $request->module['subject_id'],
-        //             'question_id' => $new_question->id,
-        //         ]);
-        //     };
-        // }
+            foreach($question['solutions'] as $solution) {
+                 Solution::create([
+                    'solution' => $solution['content'],
+                    'module_id' => $request->module['id'],
+                    'subject_id' => $request->module['subject_id'],
+                    'question_id' => $new_question->id,
+                ]);
+            };
+        }
 
         // // foreach ($request->all() as $key => $file) {
         // //     if (str_starts_with($key, 'question_file')) {
