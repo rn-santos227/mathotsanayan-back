@@ -60,7 +60,7 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
 
     Route::get('/questions', [QuestionController::class, 'index'])->name('questions_index');
     Route::post('/questions/create', [QuestionController::class, 'create'])->name('questions_create');
-    Route::post('/questions/create-all/{id}', [QuestionController::class, 'create'])->name('questions_createAll');
+    Route::post('/questions/create-all/{id}', [QuestionController::class, 'createMany'])->name('questions_createAll');
     Route::patch('/questions/{id}', [QuestionController::class, 'update'])->name('questions_update');
     Route::delete('/questions/{id}', [QuestionController::class, 'delete'])->name('questions_delete');
 
