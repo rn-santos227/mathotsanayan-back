@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\Solution;
 use App\Models\Correct;
 use App\Models\Option;
 use App\Models\Question;
@@ -42,15 +41,6 @@ class QuestionController extends Controller
             foreach($question['corrects'] as $correct) {
                 Correct::create([
                     'content' => $correct['content'],
-                    'module_id' => $request->module['id'],
-                    'subject_id' => $request->module['subject_id'],
-                    'question_id' => $new_question->id,
-                ]);
-            };
-
-            foreach($question['solutions'] as $solution) {
-                 Solution::create([
-                    'solution' => $solution['content'],
                     'module_id' => $request->module['id'],
                     'subject_id' => $request->module['subject_id'],
                     'question_id' => $new_question->id,
@@ -118,20 +108,6 @@ class QuestionController extends Controller
             }
         };
 
-        foreach($request->solutions  as $solution) {
-            $new_solution = Solution::create([
-                'solution' => $solution['content'],
-                'module_id' => $request->module,
-                'subject_id' => $request->subject,
-                'question_id' => $question->id,
-            ]);
-            $file_name_solution = "solution-".$new_solution->id."-".$file_name;
-
-            if (!Storage::exists('questions/question'.$question->id."/solutions/".$file_name_solution)) {
-                Storage::disk('minio')->put('questions/question'.$question->id."/solutions/".$file_name_solution, (string) $solution->file);
-            }
-        };
-
         return response([
             'question' => $question,
         ], 201);
@@ -167,11 +143,6 @@ class QuestionController extends Controller
                 "question_id" => $request->id,
             ])->get();
             $corrects->delete();
-
-            $solutions = Solution::where([
-                "question_id" => $request->id,
-            ])->get();
-            $solutions->delete();
             
             $question->delete();
             return response([
