@@ -25,6 +25,7 @@ class ModuleController extends Controller
         $module = Module::create([
             'name' => $request->name,
             'description' => $request->description,
+            'passing' => $request->passing,
             'step' => $request->step,
             'subject_id' => $request->subject,
         ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
@@ -42,6 +43,7 @@ class ModuleController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'step' => $request->step,
+                'passing' => $request->passing,
                 'active' => $request->active,
                 'subject_id' => $request->subject,
             ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
