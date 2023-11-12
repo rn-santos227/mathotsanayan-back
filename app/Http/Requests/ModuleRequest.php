@@ -24,6 +24,7 @@ class ModuleRequest extends FormRequest
         return [
             'name' => 'required|max:200',
             'step' => 'required',
+            'passing' => 'required',
             'subject' => 'required',
         ];
     }
