@@ -18,6 +18,7 @@ class Module extends Model
         'description',
         'pasing',
         'step',
+        'passing',
         'active',
         'subject_id',
     ];
