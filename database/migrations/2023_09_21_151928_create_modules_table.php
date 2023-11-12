@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('modules', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->text('objective')->nullable();
+            $table->text('direction')->nullable();
             $table->text('description')->nullable();
             $table->integer('step');
             $table->decimal('passing', 11, 2);
