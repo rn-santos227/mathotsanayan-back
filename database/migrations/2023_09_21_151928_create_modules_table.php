@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('step');
-            $table->decimal('passing', 3, 2);
+            $table->decimal('passing', 11, 2);
             $table->tinyInteger('active')->default(0);
             $table->unsignedBigInteger('subject_id');
             $table->timestamps();
