@@ -76,11 +76,12 @@ class StudentController extends Controller
                     'email' => $request->email,
                     'contact_number' => $request->contact_number,
                     'student_number' => $request->student_number,
-                    'course_id' => $request->course,
-                    'school_id' => $request->school,
-                    'section_id' => $request->section,
-                ])->load('school', 'section', 'course');
-
+                    'course_id' => is_numeric($request->course) ? $request->course['id'] : $request->course_id,
+                    'school_id' => is_numeric($request->school) ? $request->school['id'] : $request->school_id,
+                    'section_id' => is_numeric($request->section)  ? $request->section['id'] : $request->section_id,
+                ]);
+                
+                $student->load('school', 'section', 'course');
                 return response([
                     'student' => $student,
                 ], 201);

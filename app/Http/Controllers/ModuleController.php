@@ -27,7 +27,7 @@ class ModuleController extends Controller
             'objective' => $request->objective,
             'description' => $request->description,
             'direction' => $request->objective,
-            'passing' => $request->passing,
+            'passing' => $request->direction,
             'step' => $request->step,
             'subject_id' => $request->subject,
         ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
@@ -45,11 +45,12 @@ class ModuleController extends Controller
                 'name' => $request->name,
                 'objective' => $request->objective,
                 'description' => $request->description,
-                'direction' => $request->objective,
+                'direction' => $request->direction,
                 'passing' => $request->passing,
                 'step' => $request->step,
-                'subject_id' => $request->subject,
-            ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
+                'subject_id' => is_numeric($request->subject) ? $request->subject['id'] : $request->subject_id,
+            ]);
+            $module->load('subject', 'questions', 'questions.solutions', 'questions.options');
             return response([
                 'module' => $module,
             ], 201);

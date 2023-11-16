@@ -73,9 +73,10 @@ class TeacherController extends Controller
                 'suffix' => $request->suffix,
                 'email' => $request->email,
                 'contact_number' => $request->contact_number,
-                'school_id' => $request->school,
-            ])->load('school');
-
+                'school_id' => is_numeric($request->school) ? $request->school['id'] : $request->school_id,
+            ]);
+            
+            $teacher->load('school');
             return response([
                 'teacher' => $teacher,
             ], 201);
