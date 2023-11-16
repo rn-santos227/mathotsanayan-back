@@ -15,7 +15,9 @@ class Module extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'name',
+        'objective',
         'description',
+        'direction',
         'pasing',
         'step',
         'passing',
