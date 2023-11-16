@@ -24,7 +24,9 @@ class ModuleController extends Controller
         $request->validated();
         $module = Module::create([
             'name' => $request->name,
+            'objective' => $request->objective,
             'description' => $request->description,
+            'direction' => $request->objective,
             'passing' => $request->passing,
             'step' => $request->step,
             'subject_id' => $request->subject,
@@ -41,10 +43,11 @@ class ModuleController extends Controller
             $module = Module::find($request->id);
             $module->update([
                 'name' => $request->name,
+                'objective' => $request->objective,
                 'description' => $request->description,
-                'step' => $request->step,
+                'direction' => $request->objective,
                 'passing' => $request->passing,
-                'active' => $request->active,
+                'step' => $request->step,
                 'subject_id' => $request->subject,
             ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
             return response([
