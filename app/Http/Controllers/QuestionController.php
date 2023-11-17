@@ -25,15 +25,15 @@ class QuestionController extends Controller
             $new_question = Question::create([
                 'content' => $question->content,
                 'type' => $question->type,
-                'module_id' => $request->module['id'],
-                'subject_id' => $request->module['subject_id'],
+                'module_id' => $payload_module['id'],
+                'subject_id' => $payload_module['subject_id'],
             ]);
             
             foreach($question['options'] as $option) {
                 Option::create([
                     'content' => $option['content'],
-                    'module_id' => $request->module['id'],
-                    'subject_id' => $request->module['subject_id'],
+                    'module_id' => $payload_module['id'],
+                    'subject_id' => $payload_module['subject_id'],
                     'question_id' => $new_question->id,
                 ]);
             };
@@ -41,20 +41,21 @@ class QuestionController extends Controller
             foreach($question['corrects'] as $correct) {
                 Correct::create([
                     'content' => $correct['content'],
-                    'module_id' => $request->module['id'],
-                    'subject_id' => $request->module['subject_id'],
+                    'solution' => $correct['solution'],
+                    'module_id' => $payload_module['id'],
+                    'subject_id' => $payload_module['subject_id'],
                     'question_id' => $new_question->id,
                 ]);
             };
         }
 
-        foreach ($request->all() as $key => $file) {
-            if (str_starts_with($key, 'question_file')) {
-                if (!Storage::exists('test/test.png')) {
-                    Storage::disk('minio')->put('test/test.png',(string)$file);
-                }
-            }
-        }
+        // foreach ($request->all() as $key => $file) {
+        //     if (str_starts_with($key, 'question_file')) {
+        //         if (!Storage::exists('test/test.png')) {
+        //             Storage::disk('minio')->put('test/test.png',(string)$file);
+        //         }
+        //     }
+        // }
 
         $questions = Question::with('corrects', 'options', 'solutions')->where([
             'module_id' => $payload_module['id'],

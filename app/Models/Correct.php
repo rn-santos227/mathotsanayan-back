@@ -15,7 +15,9 @@ class Correct extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'content',
+        'solution',
         'module_id',
+        'file',
         'question_id',
         'subject_id',
     ];
