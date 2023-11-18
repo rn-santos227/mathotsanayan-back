@@ -23,7 +23,7 @@ class QuestionController extends Controller
 
         foreach($payload_questions as $question) {
             $new_question = Question::create([
-                'content' => $question->content,
+                'content' => $question['content'],
                 'type' => $question->type,
                 'module_id' => $payload_module['id'],
                 'subject_id' => $payload_module['subject_id'],
@@ -48,14 +48,6 @@ class QuestionController extends Controller
                 ]);
             };
         }
-
-        // foreach ($request->all() as $key => $file) {
-        //     if (str_starts_with($key, 'question_file')) {
-        //         if (!Storage::exists('test/test.png')) {
-        //             Storage::disk('minio')->put('test/test.png',(string)$file);
-        //         }
-        //     }
-        // }
 
         $questions = Question::with('corrects', 'options', 'solutions')->where([
             'module_id' => $payload_module['id'],
