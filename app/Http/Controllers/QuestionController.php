@@ -24,7 +24,7 @@ class QuestionController extends Controller
         foreach($payload_questions as $question) {
             $new_question = Question::create([
                 'content' => $question['content'],
-                'type' => $question->type,
+                'type' => $question['type'],
                 'module_id' => $payload_module['id'],
                 'subject_id' => $payload_module['subject_id'],
             ]);
