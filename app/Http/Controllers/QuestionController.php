@@ -93,15 +93,12 @@ class QuestionController extends Controller
     public function delete(Request $request){
         if($request->id) {
             $question = Question::find($request->id);
-            $options = Option::where([
+            Option::where([
                 "question_id" => $question->id,
-            ])->get();
-            $options->delete();
-
-            $corrects = Correct::where([
+            ])->delete();
+            Correct::where([
                 "question_id" => $question->id,
-            ])->get();
-            $corrects->delete();
+            ])->delete();
             
             $question->delete();
             return response([
