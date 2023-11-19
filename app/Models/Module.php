@@ -18,7 +18,7 @@ class Module extends Model
         'objective',
         'description',
         'direction',
-        'pasing',
+        'passing',
         'step',
         'passing',
         'active',

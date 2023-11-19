@@ -9,9 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Subject;
 use App\Models\Module;
 
-use App\Models\Corrects;
+use App\Models\Correct;
 use App\Models\Option;
-use App\Models\Solution;
 
 class Question extends Model
 {
@@ -33,14 +32,10 @@ class Question extends Model
     }
     
     public function corrects() {
-        return $this->hasMany(Corrects::class);
+        return $this->hasMany(Correct::class);
     }
 
     public function options() {
         return $this->hasMany(Option::class);
-    }
-
-    public function solutions() {
-        return $this->hasMany(Solution::class);
     }
 }

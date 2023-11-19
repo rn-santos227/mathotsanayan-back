@@ -14,7 +14,7 @@ class ModuleController extends Controller
     }
 
     public function index() {
-        $modules = Module::with('subject', 'questions', 'questions.solutions', 'questions.options')->get();
+        $modules = Module::with('subject', 'questions', 'questions.corrects', 'questions.options')->get();
         return response()->json([
             'modules' => $modules
         ]);
@@ -27,7 +27,7 @@ class ModuleController extends Controller
             'objective' => $request->objective,
             'description' => $request->description,
             'direction' => $request->objective,
-            'passing' => $request->direction,
+            'passing' => $request->passing,
             'step' => $request->step,
             'subject_id' => $request->subject,
         ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
@@ -50,7 +50,7 @@ class ModuleController extends Controller
                 'step' => $request->step,
                 'subject_id' => is_numeric($request->subject) ? $request->subject['id'] : $request->subject_id,
             ]);
-            $module->load('subject', 'questions', 'questions.solutions', 'questions.options');
+            $module->load('subject', 'questions', 'questions.corrects', 'questions.options');
             return response([
                 'module' => $module,
             ], 201);

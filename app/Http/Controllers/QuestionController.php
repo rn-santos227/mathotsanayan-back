@@ -49,7 +49,7 @@ class QuestionController extends Controller
             };
         }
 
-        $questions = Question::with('corrects', 'options', 'solutions')->where([
+        $questions = Question::with('corrects', 'options')->where([
             'module_id' => $payload_module['id'],
         ])->get();
 
@@ -66,40 +66,6 @@ class QuestionController extends Controller
             'module_id' => $request->module,
             'subject_id' => $request->subject,
         ]);
-
-        $file_name = "question-".$question->id."module".$request->module.".png";
-
-        if (!Storage::exists('questions/'.$file_name)) {
-            Storage::disk('minio')->put('questions/'.$file_name, (string) $question->file);
-        }
-
-        foreach($request->options as $option) {
-            $new_option = Option::create([
-                'content' => $option['content'],
-                'module_id' => $request->module,
-                'subject_id' => $request->subject,
-                'question_id' => $question->id,
-            ]);
-            $filename_option = "option-".$new_option->id."-".$file_name;
-
-            if (!Storage::exists('questions/question'.$question->id."/options/".$filename_option)) {
-                Storage::disk('minio')->put('questions/question'.$question->id."/options/".$filename_option, (string) $option->file);
-            }
-        };
-
-        foreach($request->corrects as $correct) {
-            $new_correct =  Correct::create([
-                'content' => $correct['content'],
-                'module_id' => $request->module,
-                'subject_id' => $request->subject,
-                'question_id' => $question->id,
-            ]);
-            $file_name_correct = "correct-".$new_correct->id."-".$file_name;
-            
-            if (!Storage::exists('questions/question'.$question->id."/corrects/".$file_name_correct)) {
-                Storage::disk('minio')->put('questions/question'.$question->id."/corrects/".$file_name_correct, (string) $correct->file);
-            }
-        };
 
         return response([
             'question' => $question,
@@ -128,12 +94,12 @@ class QuestionController extends Controller
         if($request->id) {
             $question = Question::find($request->id);
             $options = Option::where([
-                "question_id" => $request->id,
+                "question_id" => $question->id,
             ])->get();
             $options->delete();
 
             $corrects = Correct::where([
-                "question_id" => $request->id,
+                "question_id" => $question->id,
             ])->get();
             $corrects->delete();
             
