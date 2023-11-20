@@ -73,15 +73,17 @@ class QuestionController extends Controller
     }
 
     public function update(QuestionRequest $request) {
-        $request->validated();
         if($request->id) {
+            $request->validated();
+            $question = json_decode($request->question, true);
+
             $question = Question::find($request->id);
             $question->update([
-                'content' => $request->content,
-                'type' => $request->type,
-                'module_id' => $request->module,
-                'subject_id' => $request->subject,
+                'content' => $question['content'],
+                'type' => $question['type'],
             ]);
+            
+            $question->load('corrects', 'options');
             return response([
                 'question' => $question,
             ], 201);
@@ -100,6 +102,7 @@ class QuestionController extends Controller
                 "question_id" => $question->id,
             ])->delete();
             
+            $question->load('corrects', 'options');
             $question->delete();
             return response([
                 'question' => $question,
