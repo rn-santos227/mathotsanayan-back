@@ -82,7 +82,15 @@ class QuestionController extends Controller
                 'content' => $question['content'],
                 'type' => $question['type'],
             ]);
+
+            $file = $request->file;
+            $file_url = 'files/question-'.$question->id.'.png';
             
+            if ($file) {
+                $question->update(['file' => $file_url]);
+                Storage::disk('minio')->put($file_url, (string) $file);
+            }
+    
             $question->load('corrects', 'options');
             return response([
                 'question' => $question,
