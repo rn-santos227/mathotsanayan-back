@@ -20,6 +20,8 @@ class QuestionController extends Controller
     public function createMany(Request $request) {
         $payload_questions = json_decode($request->questions, true);
         $payload_module = json_decode($request->module, true);
+        $files = $request->question_files;
+        $index = 0;
 
         foreach($payload_questions as $question) {
             $new_question = Question::create([
@@ -29,24 +31,32 @@ class QuestionController extends Controller
                 'subject_id' => $payload_module['subject_id'],
             ]);
             
-            foreach($question['options'] as $option) {
-                Option::create([
-                    'content' => $option['content'],
-                    'module_id' => $payload_module['id'],
-                    'subject_id' => $payload_module['subject_id'],
-                    'question_id' => $new_question->id,
-                ]);
-            };
+            // foreach($question['options'] as $option) {
+            //     Option::create([
+            //         'content' => $option['content'],
+            //         'module_id' => $payload_module['id'],
+            //         'subject_id' => $payload_module['subject_id'],
+            //         'question_id' => $new_question->id,
+            //     ]);
+            // };
 
-            foreach($question['corrects'] as $correct) {
-                Correct::create([
-                    'content' => $correct['content'],
-                    'solution' => $correct['solution'],
-                    'module_id' => $payload_module['id'],
-                    'subject_id' => $payload_module['subject_id'],
-                    'question_id' => $new_question->id,
-                ]);
-            };
+            // foreach($question['corrects'] as $correct) {
+            //     Correct::create([
+            //         'content' => $correct['content'],
+            //         'solution' => $correct['solution'],
+            //         'module_id' => $payload_module['id'],
+            //         'subject_id' => $payload_module['subject_id'],
+            //         'question_id' => $new_question->id,
+            //     ]);
+            // };
+
+            $file_question = $files[$index];
+            if($file_question) {
+                $file_url = 'files/question-'.$new_question->id.'.png';
+                $new_question->update(['file' => $file_url]);
+                Storage::disk('minio')->put($file_url, (string) $file_question);
+            }
+            $index++;
         }
 
         $questions = Question::with('corrects', 'options')->where([
@@ -54,6 +64,7 @@ class QuestionController extends Controller
         ])->get();
 
         return response([
+            'file' => $files ,
             'questions' => $questions,
         ], 201);
     }
