@@ -21,7 +21,8 @@ class QuestionController extends Controller
         $payload_questions = json_decode($request->questions, true);
         $payload_module = json_decode($request->module, true);
         $files = $request->question_files;
-        $file_id = 0;
+        $file_ids = array();
+        $file_count = 0;
 
         foreach($payload_questions as $question) {
             $new_question = Question::create([
@@ -50,7 +51,16 @@ class QuestionController extends Controller
                 ]);
             };
 
-            $file_id = $new_question->id;
+            if($question['has_file']) {
+                array_push($file_ids, $new_question->id);
+            }
+        }
+
+        foreach($files as $file) {
+            $id = $file_ids[$file_count];
+            $file_url = 'files/question-'.$id.'/question-'.$id.'.png';
+            Storage::disk('minio')->put($file_url, (string) $file);
+            $file_count++;
         }
 
         $questions = Question::with('corrects', 'options')->where([
