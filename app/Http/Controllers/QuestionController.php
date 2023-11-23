@@ -20,8 +20,13 @@ class QuestionController extends Controller
     public function createMany(Request $request) {
         $payload_questions = json_decode($request->questions, true);
         $subject = json_decode($request->subject, true);
-        $files = $request->file('question_files');
-        $file_ids = array();
+        $question_files = $request->file('question_files');
+        $option_files = $request->file('option_files');
+        $correct_files = $request->file('correct_files');
+
+        $file_questions_ids = array();
+        $file_options_ids = array();
+        $file_correct_ids = array();
 
         foreach($payload_questions as $question) {
             $new_question = Question::create([
@@ -51,18 +56,18 @@ class QuestionController extends Controller
             };
 
             if($question['has_file']) {
-                array_push($file_ids, $new_question->id);
+                array_push($file_questions_ids, $new_question->id);
             }
         }
 
         $file_count = 0;
-        foreach($files as $file) {
-            $id = $file_ids[$file_count];
+        foreach($question_files as $question_file) {
+            $id = $file_questions_ids[$file_count];
             $file_url = '/files/question-'.$id.'/question-'.$id.'.png';
 
             $question = Question::find($id);
             $question->update(['file' => $file_url]);
-            Storage::disk('minio')->put($file_url, (string) $file);
+            Storage::disk('minio')->put($file_url, (string) $question_file);
             $file_count++;
         }
 
