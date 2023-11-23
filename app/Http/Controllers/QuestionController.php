@@ -37,22 +37,30 @@ class QuestionController extends Controller
             ]);
             
             foreach($question['options'] as $option) {
-                Option::create([
+                $option = Option::create([
                     'content' => $option['content'],
                     'module_id' => $$request->module,
                     'subject_id' => $subject['id'],
                     'question_id' => $new_question->id,
                 ]);
+
+                if($option['has_file']) {
+                    array_push($file_options_ids, $option->id);
+                }
             };
 
             foreach($question['corrects'] as $correct) {
-                Correct::create([
+                $correct = Correct::create([
                     'content' => $correct['content'],
                     'solution' => $correct['solution'],
                     'module_id' => $request->module,
                     'subject_id' => $subject['id'],
                     'question_id' => $new_question->id,
                 ]);
+
+                if($correct['has_file']) {
+                    array_push($file_correct_ids, $correct->id);
+                }
             };
 
             if($question['has_file']) {
@@ -63,11 +71,33 @@ class QuestionController extends Controller
         $file_count = 0;
         foreach($question_files as $question_file) {
             $id = $file_questions_ids[$file_count];
-            $file_url = '/files/question-'.$id.'/question-'.$id.'.png';
+            $file_url = '/questions/question-'.$id.'/question-'.$id.'.png';
 
             $question = Question::find($id);
             $question->update(['file' => $file_url]);
             Storage::disk('minio')->put($file_url, (string) $question_file);
+            $file_count++;
+        }
+
+        $file_count = 0;
+        foreach($option_files as $option_file) {
+            $id = $file_questions_ids[$file_count];
+            $file_url = '/options/option-'.$id.'/option-'.$id.'.png';
+
+            $option = Option::find($id);
+            $option->update(['file' => $file_url]);
+            Storage::disk('minio')->put($file_url, (string) $option_file);
+            $file_count++;
+        }
+
+        $file_count = 0;
+        foreach($correct_files as $correct_file) {
+            $id = $file_questions_ids[$file_count];
+            $file_url = '/corrects/correct-'.$id.'/correct-'.$id.'.png';
+
+            $correct = Correct::find($id);
+            $correct->update(['file' => $file_url]);
+            Storage::disk('minio')->put($file_url, (string) $correct_file);
             $file_count++;
         }
 
