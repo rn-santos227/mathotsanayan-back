@@ -71,33 +71,33 @@ class QuestionController extends Controller
         $file_count = 0;
         foreach($question_files as $question_file) {
             $id = $file_questions_ids[$file_count];
-            $file_url = '/questions/question-'.$id.'/question-'.$id.'.png';
+            $file_url = '/questions/question-'.$id.'/'.$question_file->getClientOriginalName();;
 
             $question = Question::find($id);
             $question->update(['file' => $file_url]);
-            Storage::disk('minio')->put($file_url, (string) $question_file);
+            Storage::disk('minio')->put($file_url, file_get_contents($question_file));
             $file_count++;
         }
 
         $file_count = 0;
         foreach($option_files as $option_file) {
             $id = $file_questions_ids[$file_count];
-            $file_url = '/options/option-'.$id.'/option-'.$id.'.png';
+            $file_url = '/options/option-'.$id.'/'.$option_file->getClientOriginalName();
 
             $option = Option::find($id);
             $option->update(['file' => $file_url]);
-            Storage::disk('minio')->put($file_url, (string) $option_file);
+            Storage::disk('minio')->put($file_url, file_get_contents($option_file));
             $file_count++;
         }
 
         $file_count = 0;
         foreach($correct_files as $correct_file) {
             $id = $file_questions_ids[$file_count];
-            $file_url = '/corrects/correct-'.$id.'/correct-'.$id.'.png';
+            $file_url = '/corrects/correct-'.$id.'/'.$correct_file->getClientOriginalName();
 
             $correct = Correct::find($id);
             $correct->update(['file' => $file_url]);
-            Storage::disk('minio')->put($file_url, (string) $correct_file);
+            Storage::disk('minio')->put($file_url, file_get_contents($correct_file));
             $file_count++;
         }
 
