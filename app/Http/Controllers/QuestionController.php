@@ -28,78 +28,78 @@ class QuestionController extends Controller
         $file_options_ids = array();
         $file_correct_ids = array();
 
-        foreach($payload_questions as $question) {
-            $new_question = Question::create([
-                'content' => $question['content'],
-                'type' => $question['type'],
-                'module_id' => $request->module,
-                'subject_id' => $subject['id'],
-            ]);
+        // foreach($payload_questions as $question) {
+        //     $new_question = Question::create([
+        //         'content' => $question['content'],
+        //         'type' => $question['type'],
+        //         'module_id' => $request->module,
+        //         'subject_id' => $subject['id'],
+        //     ]);
             
-            foreach($question['options'] as $option) {
-                $option = Option::create([
-                    'content' => $option['content'],
-                    'module_id' => $$request->module,
-                    'subject_id' => $subject['id'],
-                    'question_id' => $new_question->id,
-                ]);
+        //     foreach($question['options'] as $option) {
+        //         $option = Option::create([
+        //             'content' => $option['content'],
+        //             'module_id' => $$request->module,
+        //             'subject_id' => $subject['id'],
+        //             'question_id' => $new_question->id,
+        //         ]);
 
-                if($option['has_file']) {
-                    array_push($file_options_ids, $option->id);
-                }
-            };
+        //         if($option['has_file']) {
+        //             array_push($file_options_ids, $option->id);
+        //         }
+        //     };
 
-            foreach($question['corrects'] as $correct) {
-                $correct = Correct::create([
-                    'content' => $correct['content'],
-                    'solution' => $correct['solution'],
-                    'module_id' => $request->module,
-                    'subject_id' => $subject['id'],
-                    'question_id' => $new_question->id,
-                ]);
+        //     foreach($question['corrects'] as $correct) {
+        //         $correct = Correct::create([
+        //             'content' => $correct['content'],
+        //             'solution' => $correct['solution'],
+        //             'module_id' => $request->module,
+        //             'subject_id' => $subject['id'],
+        //             'question_id' => $new_question->id,
+        //         ]);
 
-                if($correct['has_file']) {
-                    array_push($file_correct_ids, $correct->id);
-                }
-            };
+        //         if($correct['has_file']) {
+        //             array_push($file_correct_ids, $correct->id);
+        //         }
+        //     };
 
-            if($question['has_file']) {
-                array_push($file_questions_ids, $new_question->id);
-            }
-        }
+        //     if($question['has_file']) {
+        //         array_push($file_questions_ids, $new_question->id);
+        //     }
+        // }
 
-        $file_count = 0;
-        foreach($question_files as $question_file) {
-            $id = $file_questions_ids[$file_count];
-            $file_url = '/questions/question-'.$id.'/question-'.$id.'.png';
+        // $file_count = 0;
+        // foreach($question_files as $question_file) {
+        //     $id = $file_questions_ids[$file_count];
+        //     $file_url = '/questions/question-'.$id.'/question-'.$id.'.png';
 
-            $question = Question::find($id);
-            $question->update(['file' => $file_url]);
-            Storage::disk('minio')->put($file_url, (string) $question_file);
-            $file_count++;
-        }
+        //     $question = Question::find($id);
+        //     $question->update(['file' => $file_url]);
+        //     Storage::disk('minio')->put($file_url, (string) $question_file);
+        //     $file_count++;
+        // }
 
-        $file_count = 0;
-        foreach($option_files as $option_file) {
-            $id = $file_questions_ids[$file_count];
-            $file_url = '/options/option-'.$id.'/option-'.$id.'.png';
+        // $file_count = 0;
+        // foreach($option_files as $option_file) {
+        //     $id = $file_questions_ids[$file_count];
+        //     $file_url = '/options/option-'.$id.'/option-'.$id.'.png';
 
-            $option = Option::find($id);
-            $option->update(['file' => $file_url]);
-            Storage::disk('minio')->put($file_url, (string) $option_file);
-            $file_count++;
-        }
+        //     $option = Option::find($id);
+        //     $option->update(['file' => $file_url]);
+        //     Storage::disk('minio')->put($file_url, (string) $option_file);
+        //     $file_count++;
+        // }
 
-        $file_count = 0;
-        foreach($correct_files as $correct_file) {
-            $id = $file_questions_ids[$file_count];
-            $file_url = '/corrects/correct-'.$id.'/correct-'.$id.'.png';
+        // $file_count = 0;
+        // foreach($correct_files as $correct_file) {
+        //     $id = $file_questions_ids[$file_count];
+        //     $file_url = '/corrects/correct-'.$id.'/correct-'.$id.'.png';
 
-            $correct = Correct::find($id);
-            $correct->update(['file' => $file_url]);
-            Storage::disk('minio')->put($file_url, (string) $correct_file);
-            $file_count++;
-        }
+        //     $correct = Correct::find($id);
+        //     $correct->update(['file' => $file_url]);
+        //     Storage::disk('minio')->put($file_url, (string) $correct_file);
+        //     $file_count++;
+        // }
 
         $questions = Question::with('corrects', 'options')->where([
             'module_id' => $request->module,
