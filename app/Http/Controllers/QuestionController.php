@@ -106,7 +106,6 @@ class QuestionController extends Controller
         ])->get();
 
         return response([
-            'file' => $file_count,
             'questions' => $questions,
         ], 201);
     }
