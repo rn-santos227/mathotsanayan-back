@@ -12,6 +12,7 @@
         "laravel/octane": "^2.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "league/flysystem-aws-s3-v3": "^3.21",
         "spiral/roadrunner": "^2023.2"
     },
     "require-dev": {

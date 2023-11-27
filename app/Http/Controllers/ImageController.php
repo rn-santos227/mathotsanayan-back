@@ -13,7 +13,7 @@ class ImageController extends Controller
 
     public function image(ImageRequest $request) {
         $request->validated();
-        $url = Storage::disk('minio')->temporaryUrl($request->image, now()->addMinutes(5));
+        $url = Storage::disk('minio')->temporaryUrl($request->image, now()->addMinutes(30));
 
         return response([
             'url' => $url,
