@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuestionController;
@@ -88,6 +89,8 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::post('/teachers/create', [TeacherController::class, 'create'])->name('teachers_create');
     Route::patch('/teachers/{id}', [TeacherController::class, 'update'])->name('teachers_update');
     Route::delete('/teachers/{id}', [TeacherController::class, 'delete'])->name('teachers_delete');
+
+    Route::post('/image', [ImageController::class, 'image'])->name('image');
 });
 
 Route::group(['middleware' => ['auth:sanctum','admin','teacher']], function() {
