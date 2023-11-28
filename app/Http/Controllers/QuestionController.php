@@ -131,12 +131,12 @@ class QuestionController extends Controller
 
     public function update(Request $request) {
         if($request->id) {
-            $question = json_decode($request->question, true);
+            $payload_questions = json_decode($request->question, true);
 
             $question = Question::find($request->id);
             $question->update([
-                'content' => $question['content'],
-                'type' => $question['type'],
+                'content' => $payload_questions['content'],
+                'type' => $payload_questions['type'],
             ]);
 
             $file = $request->file('question_file');
