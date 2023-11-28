@@ -8,7 +8,6 @@ use App\Models\Correct;
 use App\Models\Option;
 use App\Models\Question;
 
-use App\Http\Requests\QuestionRequest;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -116,7 +115,7 @@ class QuestionController extends Controller
         ], 201);
     }
 
-    public function create(QuestionRequest $request) {
+    public function create(Request $request) {
         $request->validated();
         $question = Question::create([
             'content' => $request->content,
@@ -130,9 +129,8 @@ class QuestionController extends Controller
         ], 201);
     }
 
-    public function update(QuestionRequest $request) {
+    public function update(Request $request) {
         if($request->id) {
-            $request->validated();
             $question = json_decode($request->question, true);
 
             $question = Question::find($request->id);
@@ -142,11 +140,16 @@ class QuestionController extends Controller
             ]);
 
             $file = $request->file('question_file');
-            $file_url = '/files/question-'.$question->id.'.png';
-            
-            if ($file) {
+
+            if(isset($file)) {
+                $file_url = '/questions/question-'.$question->id.'/question-'.$question->id.'.'.$file->getClientOriginalExtension();
+    
+                if (Storage::disk('minio')->exists($file_url)) {
+                    Storage::disk('minio')->delete($file_url);
+                }
+                
                 $question->update(['file' => $file_url]);
-                Storage::disk('minio')->put($file_url, (string) $file);
+                Storage::disk('minio')->put($file_url, file_get_contents($file));
             }
     
             $question->load('corrects', 'options');
