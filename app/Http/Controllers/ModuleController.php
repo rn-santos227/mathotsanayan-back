@@ -38,8 +38,8 @@ class ModuleController extends Controller
     }
 
     public function update(ModuleRequest $request) {
-        $request->validated();
         if($request->id) {
+            $request->validated();
             $module = Module::find($request->id);
             $module->update([
                 'name' => $request->name,

@@ -36,8 +36,8 @@ class SchoolController extends Controller
     }
 
     public function update(SchoolRequest $request) {
-        $request->validated();
         if($request->id) {
+            $request->validated();
             $school = School::find($request->id);
             $school->update([
                 'name' => $request->name,

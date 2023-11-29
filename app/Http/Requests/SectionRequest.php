@@ -22,7 +22,9 @@ class SectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:200',
+            'school' => 'required|integer',
+            'teacher' => 'required|integer',
         ];
     }
 }

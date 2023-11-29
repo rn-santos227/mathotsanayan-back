@@ -33,6 +33,18 @@ class Student extends Model
         'user_id',
     ];
 
+    protected $appends = [
+        'full_name'
+    ];
+
+    public function getFullNameAttribute()
+    {
+        $fullname = $this->last_name . ', ' . $this->first_name;
+        if(!empty($this->middle_name)) $fullname = $fullname.' '.strtoupper(substr($this->middle_name, 0, 1)).'.';
+        if(!empty($this->suffix)) $fullname = $fullname.' '.$this->suffix;
+        return $fullname;
+    }
+
     public function course() {
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }

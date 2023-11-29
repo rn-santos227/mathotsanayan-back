@@ -54,9 +54,10 @@ class TeacherController extends Controller
     }
 
     public function update(TeacherRequest $request) {
-        $request->validated();
         if($request->id) {
+            $request->validated();
             $teacher = Teacher::find($request->id);
+            
             if(!empty($request->password)) {
                 $teacher->makeVisible('user_id');
                 $user = User::find($teacher->user_id);

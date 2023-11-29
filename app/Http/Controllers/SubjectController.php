@@ -35,15 +35,16 @@ class SubjectController extends Controller
     }
 
     public function update(SubjectRequest $request) {
-        $request->validated();
         if($request->id) {
+            $request->validated();
             $subject = Subject::find($request->id);
             $subject->update(
                 $request->only([
                     "name",
                     "description",
                 ])
-            )->load('modules');
+            );
+            $section->load('modules');
             return response([
                 'subject' => $subject,
             ], 201);
