@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::patch('/teachers/{id}', [TeacherController::class, 'update'])->name('teachers_update');
     Route::delete('/teachers/{id}', [TeacherController::class, 'delete'])->name('teachers_delete');
 
+    Route::post('/test/{id}', [TestController::class, 'submit'])->name('admin_test');
     Route::post('/image', [ImageController::class, 'image'])->name('image');
 });
 

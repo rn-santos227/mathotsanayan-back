@@ -11,6 +11,10 @@ class TestController extends Controller
     }
 
     public function submit(Request $request) {
+        if($request->id) {
 
+        } else return response([
+            'error' => 'Illegal Access',
+        ], 500);
     }
 }
