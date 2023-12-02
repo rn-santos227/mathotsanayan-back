@@ -20,6 +20,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SolutionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,6 +100,8 @@ Route::group(['middleware' => ['auth:sanctum','admin','teacher']], function() {
 
 Route::group(['middleware' => ['auth:sanctum','admin','teacher','student']], function() {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
+    
+    Route::get('/student/modules', [ModuleController::class, 'student'])->name('moduldes_student_index');
 });
 
 //public access

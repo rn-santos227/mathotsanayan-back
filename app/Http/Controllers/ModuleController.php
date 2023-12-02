@@ -20,6 +20,13 @@ class ModuleController extends Controller
         ]);
     }
 
+    public function student() {
+        $modules = Module::with('subject', 'questions', 'questions.options')->get();
+        return response()->json([
+            'modules' => $modules
+        ]);
+    }
+
     public function create(ModuleRequest $request) {
         $request->validated();
         $module = Module::create([
