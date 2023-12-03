@@ -71,7 +71,6 @@ class User extends Authenticatable
         $token = $user->createToken(env('APP_SALT'))->plainTextToken;
         return response([
             $type => $account,
-            'user' => $user,
             'token' => $token
         ], 201);
     }

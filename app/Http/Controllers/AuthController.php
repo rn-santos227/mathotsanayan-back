@@ -76,7 +76,6 @@ class AuthController extends Controller
                     "user_id" => $user->id,
                 ])->first();
                 return [
-                    'user' => $user,
                     'admin' => $admin
                 ];
             } else if ($request->tye == 2) {
@@ -86,7 +85,6 @@ class AuthController extends Controller
 
                 $teacher->load('school');
                 return [
-                    'user' => $user,
                     'teacher' => $teacher
                 ];
             } else {
@@ -96,7 +94,6 @@ class AuthController extends Controller
 
                 $student->load('section','section','school','section.teacher');
                 return [
-                    'user' => $user,
                     'student' => $student
                 ];
             }
