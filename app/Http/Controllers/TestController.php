@@ -18,16 +18,15 @@ class TestController extends Controller
             $question = Question::find($request->id);
             $question->load('corrects');
             $correct = 0;
-            $solution_id = 0;
+            $solution = "";
 
             foreach($question->corrects as $correct) {
+                $solution = $correct->solution;
                 if(strtolower($correct->content) == strtolower($request->content)) {
                     $correct = 1;
-                    $solution_id = $correct->id;
                 }
             }
 
-            $solution = Correct::find($solution_id);
             return response([
                 'solution' => $solution,
                 'correct' => $correct,
