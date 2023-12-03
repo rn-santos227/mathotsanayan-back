@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Correct;
 use App\Models\Question;
 
 use Illuminate\Http\Request;
@@ -17,14 +18,18 @@ class TestController extends Controller
             $question = Question::find($request->id);
             $question->load('corrects');
             $correct = 0;
+            $solution_id = 0;
 
             foreach($question->corrects as $correct) {
                 if(strtolower($correct->content) == strtolower($request->content)) {
                     $correct = 1;
+                    $solution_id = $correct->id;
                 }
             }
 
+            $solution = Correct::find($solution_id);
             return response([
+                'solution' => $solution,
                 'correct' => $correct,
             ], 201);
         } else return response([
