@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -18,7 +21,10 @@ class AuthController extends Controller
             ], 401);
         }
 
-        return User::getToken($user, "admin");
+        $admin = Admin::where([
+            "user_id" => $user->id,
+        ])->first();
+        return User::getToken($user, $admin, "admin");
     }
 
     public function teacher(Request $request) {
@@ -30,7 +36,11 @@ class AuthController extends Controller
                 'message' => 'Bad Credentials'
             ], 401);
         }
-        return User::getToken($user, "teacher");
+
+        $teacher = Teacher::where([
+            "user_id" => $user->id,
+        ])->first();
+        return User::getToken($user, $teacher, "teacher");
     }
 
     public function student(Request $request) {
@@ -42,7 +52,11 @@ class AuthController extends Controller
                 'message' => 'Bad Credentials'
             ], 401);
         }
-        return User::getToken($user, "student");
+        
+        $student = Student::where([
+            "user_id" => $user->id,
+        ])->first();
+        return User::getToken($user, $student, "student");
     }
 
     public function auth() {
@@ -51,10 +65,37 @@ class AuthController extends Controller
         ];
     }
 
-    public function user() {
-        return [
-            'user' => auth('sanctum')->user(),
-        ];
+    public function user(Request $request) {
+        if($request->type) {
+            $user = auth('sanctum')->user();
+            if($request->type == 1) {
+                $admin = Admin::where([
+                    "user_id" => $user->id,
+                ])->first();
+                return [
+                    'user' => $user,
+                    'admin' => $admin
+                ];
+            } else if ($request->tye == 2) {
+                $teacher = Teacher::where([
+                    "user_id" => $user->id,
+                ])->first();
+                return [
+                    'user' => $user,
+                    'teacher' => $teacher
+                ];
+            } else {
+                $student = Student::where([
+                    "user_id" => $user->id,
+                ])->first();
+                return [
+                    'user' => $user,
+                    'student' => $student
+                ];
+            }
+        } else return response([
+            'error' => 'Illegal Access',
+        ], 500); 
     }
 
     public function logout(Request $request) {

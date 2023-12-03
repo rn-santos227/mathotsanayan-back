@@ -39,7 +39,7 @@ use App\Http\Controllers\TestController;
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
+    Route::get('/user/{type}', [AuthController::class, 'user']);
 });
 
 Route::group(['middleware' => ['auth:sanctum','admin']], function() {

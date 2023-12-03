@@ -67,10 +67,11 @@ class User extends Authenticatable
         ]);
     }
 
-    public static function getToken($user, $type) {
+    public static function getToken($user, $account, $type) {
         $token = $user->createToken(env('APP_SALT'))->plainTextToken;
         return response([
-            $type => $user,
+            $type => $account,
+            'user' => $user,
             'token' => $token
         ], 201);
     }
