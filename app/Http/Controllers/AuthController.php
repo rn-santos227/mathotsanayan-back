@@ -18,7 +18,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        return User::getToken($user);
+        return User::getToken($user, "admin");
     }
 
     public function teacher(Request $request) {
@@ -30,7 +30,7 @@ class AuthController extends Controller
                 'message' => 'Bad Credentials'
             ], 401);
         }
-        return User::getToken($user);
+        return User::getToken($user, "teacher");
     }
 
     public function student(Request $request) {
@@ -42,7 +42,7 @@ class AuthController extends Controller
                 'message' => 'Bad Credentials'
             ], 401);
         }
-        return User::getToken($user);
+        return User::getToken($user, "student");
     }
 
     public function auth() {
