@@ -17,19 +17,19 @@ class TestController extends Controller
         if($request->id) {
             $question = Question::find($request->id);
             $question->load('corrects');
-            $correct = 0;
-            $solution = "";
+            $check = false;
+            $solution = [];
 
             foreach($question->corrects as $correct) {
-                $solution = $correct->solution;
+                $solution = Correct::find($correct->id);
                 if(strtolower($correct->content) == strtolower($request->content)) {
-                    $correct = 1;
+                    $check = true;
                 }
             }
 
             return response([
                 'solution' => $solution,
-                'correct' => $correct,
+                'correct' => $check,
             ], 201);
         } else return response([
             'error' => 'Illegal Access',
