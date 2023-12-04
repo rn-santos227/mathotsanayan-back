@@ -58,7 +58,7 @@ class AuthController extends Controller
             "user_id" => $user->id,
         ])->first();
 
-        $student->load('section','section','school','section.teacher');
+        $student->load('course','section','section','school','section.teacher');
         return User::getToken($user, $student, "student");
     }
 
@@ -92,7 +92,7 @@ class AuthController extends Controller
                     "user_id" => $user->id,
                 ])->first();
 
-                $student->load('section','section','school','section.teacher');
+                $student->load('course','section','section','school','section.teacher');
                 return [
                     'student' => $student
                 ];
