@@ -95,13 +95,12 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::post('/image', [ImageController::class, 'image'])->name('image');
 });
 
-Route::group(['middleware' => ['auth:sanctum','admin','teacher']], function() {
+Route::group(['middleware' => ['auth:sanctum','teacher']], function() {
     Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher_dashboard');
 });
 
-Route::group(['middleware' => ['auth:sanctum','admin','teacher','student']], function() {
+Route::group(['middleware' => ['auth:sanctum','student']], function() {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
-    
     Route::get('/student/modules', [ModuleController::class, 'student'])->name('moduldes_student_index');
 });
 

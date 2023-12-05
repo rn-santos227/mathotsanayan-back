@@ -17,7 +17,7 @@ class Student
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() && Auth::user()->type == 3) {
+        if (Auth::user() && Auth::user()->type <= 3) {
             return $next($request);
         }
         abort(403, 'Access denied');

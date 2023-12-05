@@ -17,7 +17,7 @@ class Teacher
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() && Auth::user()->type == 2) {
+        if (Auth::user() && Auth::user()->type <= 2) {
             return $next($request);
         }
         abort(403, 'Access denied');
