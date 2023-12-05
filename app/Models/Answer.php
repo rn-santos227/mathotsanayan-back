@@ -16,11 +16,14 @@ class Answer extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'content',
+        'timer',
+        'attempts',
+        'progress_id',
         'student_id',
         'result_id',
         'module_id',
         'question_id',
-        'content',
     ];
 
     public function module() {

@@ -12,7 +12,7 @@ class AnswerController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function index() {
+    public function create(Request $request) {
         
     }
 }

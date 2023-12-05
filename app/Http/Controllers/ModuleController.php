@@ -19,9 +19,12 @@ class ModuleController extends Controller
             'modules' => $modules
         ]);
     }
+    
 
     public function student() {
-        $modules = Module::with('subject', 'questions', 'questions.options')->get();
+        $modules = Module::where([
+            "active" => 1,
+        ])->with('subject', 'questions', 'questions.options')->get();
         return response()->json([
             'modules' => $modules
         ]);
@@ -55,6 +58,7 @@ class ModuleController extends Controller
                 'direction' => $request->direction,
                 'passing' => $request->passing,
                 'step' => $request->step,
+                'active' => $request->active,
                 'subject_id' => is_numeric($request->subject) ? $request->subject['id'] : $request->subject_id,
             ]);
             $module->load('subject', 'questions', 'questions.corrects', 'questions.options');
