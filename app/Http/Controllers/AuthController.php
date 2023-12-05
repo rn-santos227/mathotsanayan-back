@@ -58,7 +58,7 @@ class AuthController extends Controller
             "user_id" => $user->id,
         ])->first();
 
-        $student->load('course','section','section','school','section.teacher');
+        $student->load('course','section','school','section.teacher');
         return User::getToken($user, $student, "student");
     }
 
