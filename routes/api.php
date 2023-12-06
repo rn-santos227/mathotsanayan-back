@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CorrectRequest;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GradeController;
@@ -50,6 +51,10 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::patch('/admins/{id}', [AdminController::class, 'update'])->name('admin_update');
     Route::delete('/admins/{id}', [AdminController::class, 'delete'])->name('admin_delete');
 
+    Route::post('/options/create/{id}', [CorrectRequest::class, 'create'])->name('correct_create');
+    Route::patch('/options/{id}', [CorrectRequest::class, 'update'])->name('correct_update');
+    Route::delete('/options/{id}', [CorrectRequest::class, 'delete'])->name('correct_delete');
+
     Route::get('/courses', [CourseController::class, 'index'])->name('courses_index');
     Route::post('/courses/create', [CourseController::class, 'create'])->name('courses_create');
     Route::patch('/courses/{id}', [CourseController::class, 'update'])->name('courses_update');
@@ -59,6 +64,10 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::post('/modules/create', [ModuleController::class, 'create'])->name('moduldes_create');
     Route::patch('/modules/{id}', [ModuleController::class, 'update'])->name('moduldes_update');
     Route::delete('/modules/{id}', [ModuleController::class, 'delete'])->name('moduldes_delete');
+
+    Route::post('/options/create/{id}', [OptionController::class, 'create'])->name('options_create');
+    Route::patch('/options/{id}', [OptionController::class, 'update'])->name('options_update');
+    Route::delete('/options/{id}', [OptionController::class, 'delete'])->name('options_delete');
 
     Route::get('/questions', [QuestionController::class, 'index'])->name('questions_index');
     Route::post('/questions/create', [QuestionController::class, 'create'])->name('questions_create');
