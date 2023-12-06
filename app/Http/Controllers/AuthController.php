@@ -40,7 +40,11 @@ class AuthController extends Controller
         $teacher = Teacher::where([
             "user_id" => $user->id,
         ])->first();
-        $teacher->load('school');
+
+        if($teacher) {
+            $teacher->load('school');
+        }
+
         return User::getToken($user, $teacher, "teacher");
     }
 
@@ -58,7 +62,10 @@ class AuthController extends Controller
             "user_id" => $user->id,
         ])->first();
 
-        $student->load('course','section','school','section.teacher');
+        if($student) {
+            $student->load('course','section','school','section.teacher');
+        }
+
         return User::getToken($user, $student, "student");
     }
 
@@ -92,7 +99,7 @@ class AuthController extends Controller
                     "user_id" => $user->id,
                 ])->first();
 
-                $student->load('course','section','section','school','section.teacher');
+                $student->load('course','section','school','section.teacher');
                 return [
                     'student' => $student
                 ];
