@@ -16,8 +16,8 @@ class Correct extends Model
     protected $fillable = [
         'content',
         'solution',
-        'module_id',
         'file',
+        'module_id',
         'question_id',
         'subject_id',
     ];

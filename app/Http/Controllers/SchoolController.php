@@ -61,8 +61,7 @@ class SchoolController extends Controller
             return response([
                 'school' => $school,
             ], 201);
-        } 
-        else return response([
+        } else return response([
             'error' => 'Illegal Access',
         ], 500); 
     }

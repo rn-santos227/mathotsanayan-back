@@ -139,31 +139,6 @@ class QuestionController extends Controller
                 'type' => $payload_questions['type'],
             ]);
 
-            $current_option = Option::where([
-                "question_id" => $question->id,
-            ])->get();
-
-            $current_correct = Correct::where([
-                "question_id" => $question->id,
-            ])->get();
-
-            for ($index = 0; $index < sizeof($current_option); $index++) {
-                $content = $payload_questions['options'][$index]['content'];
-                $current_option[$index]->update([
-                    'content' => $content,
-                ]);
-            }
-
-            for ($index = 0; $index < sizeof($current_correct); $index++) {
-                $content = $payload_questions['corrects'][$index]['content'];
-                $solution = $payload_questions['corrects'][$index]['solution'];
-                $current_correct[$index]->update([
-                    'content' => $content,
-                    'solution' => $solution,
-                ]);
-            }
-
-
             $file = $request->file('question_file');
 
             if(isset($file)) {

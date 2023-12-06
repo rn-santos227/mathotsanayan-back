@@ -2,26 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Option;
+use App\Models\Correct;
 
-use App\Http\Requests\OptionRequest;
+use App\Http\Requests\CorrectRequest;
 use Illuminate\Http\Request;
 
-class OptionController extends Controller
+class CorrectController extends Controller
 {
     public function __construct() {
         $this->middleware('auth:sanctum');
     }
 
-    public function create(OptionRequest $request) {
-        if($request->id) {
+    public function create(CorrectRequest $request) {
 
-        } else return response([
-            'error' => 'Illegal Access',
-        ], 500); 
     }
 
-    public function update(OptionRequest $request) {
+    public function update(CorrectRequest $request) {
         if($request->id) {
 
         } else return response([
