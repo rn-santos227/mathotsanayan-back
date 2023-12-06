@@ -18,12 +18,16 @@ class TestController extends Controller
             $question = Question::find($request->id);
             $question->load('corrects');
             $check = false;
-            $solution = [];
+            $solution = Correct::where([
+                "question_id" => $question->id,
+            ])->first();
+            
 
             foreach($question->corrects as $correct) {
-                $solution = Correct::find($correct->id);
                 if(strtolower($correct->content) == strtolower($request->content)) {
                     $check = true;
+                    $solution = Correct::find($correct->id);
+                    break;
                 }
             }
 
