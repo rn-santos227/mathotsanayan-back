@@ -16,15 +16,27 @@ class CorrectController extends Controller
     public function create(CorrectRequest $request) {
         if($request->id) {
             $request->validated();
-            
+            $payload_correct = json_decode($request->correct, true);
             $question = Question::find($id);
-            Correct::create([
-                'content' => $request->content,
-                'solution' => $$request->solution,
+            $correct = Correct::create([
+                'content' => $payload_correct['content'],
+                'solution' => $payload_correct['solution'],
                 'module_id' => $question->module,
                 'subject_id' => $question->subject,
                 'question_id' => $question->id,
             ]);
+
+            $file = $request->file('correct_file');
+            if(isset($file)) {
+                $file_url = '/corrects/correct-'.$correct->id.'/correct-'.$correct->id.'.'.$file->getClientOriginalExtension();
+    
+                if (Storage::disk('minio')->exists($file_url)) {
+                    Storage::disk('minio')->delete($file_url);
+                }
+                
+                $correct->update(['file' => $file_url]);
+                Storage::disk('minio')->put($file_url, file_get_contents($file));
+            }
 
             $corrects = Correct::where([
                 "question_id" => $question->id,
@@ -40,6 +52,25 @@ class CorrectController extends Controller
     public function update(CorrectRequest $request) {
         if($request->id) {
             $request->validated();
+            $payload_correct = json_decode($request->correct, true);
+
+            $correct = Correct::find($request->id);
+            $correct->update([
+                'content' => $payload_correct['content'],
+                'solution' => $payload_correct['solution'],
+            ]);
+
+            $file = $request->file('correct_file');
+            if(isset($file)) {
+                $file_url = '/corrects/correct-'.$correct->id.'/correct-'.$correct->id.'.'.$file->getClientOriginalExtension();
+    
+                if (Storage::disk('minio')->exists($file_url)) {
+                    Storage::disk('minio')->delete($file_url);
+                }
+                
+                $correct->update(['file' => $file_url]);
+                Storage::disk('minio')->put($file_url, file_get_contents($file));
+            }
 
             $corrects = Correct::where([
                 "question_id" => $question->id,

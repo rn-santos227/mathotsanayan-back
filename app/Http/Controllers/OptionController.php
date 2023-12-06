@@ -26,7 +26,7 @@ class OptionController extends Controller
                 'question_id' => $question->id,
             ]);
 
-            $file = $request->file('question_file');
+            $file = $request->file('option_file');
             if(isset($file)) {
                 $file_url = '/options/option-'.$option->id.'/option-'.$option->id.'.'.$file->getClientOriginalExtension();
     
@@ -60,7 +60,7 @@ class OptionController extends Controller
                 'content' => $payload_option['content'],
             ]);
 
-            $file = $request->file('question_file');
+            $file = $request->file('option_file');
             if(isset($file)) {
                 $file_url = '/options/option-'.$option->id.'/option-'.$option->id.'.'.$file->getClientOriginalExtension();
     

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CorrectRequest;
+use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GradeController;
@@ -51,9 +51,9 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::patch('/admins/{id}', [AdminController::class, 'update'])->name('admin_update');
     Route::delete('/admins/{id}', [AdminController::class, 'delete'])->name('admin_delete');
 
-    Route::post('/options/create/{id}', [CorrectRequest::class, 'create'])->name('correct_create');
-    Route::patch('/options/{id}', [CorrectRequest::class, 'update'])->name('correct_update');
-    Route::delete('/options/{id}', [CorrectRequest::class, 'delete'])->name('correct_delete');
+    Route::post('/corrects/create/{id}', [CorrectController::class, 'create'])->name('correct_create');
+    Route::patch('/corrects/{id}', [CorrectController::class, 'update'])->name('correct_update');
+    Route::delete('/corrects/{id}', [CorrectController::class, 'delete'])->name('correct_delete');
 
     Route::get('/courses', [CourseController::class, 'index'])->name('courses_index');
     Route::post('/courses/create', [CourseController::class, 'create'])->name('courses_create');
