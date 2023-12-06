@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::delete('/admins/{id}', [AdminController::class, 'delete'])->name('admin_delete');
 
     Route::post('/corrects/create/{id}', [CorrectController::class, 'create'])->name('correct_create');
-    Route::patch('/corrects/{id}', [CorrectController::class, 'update'])->name('correct_update');
+    Route::post('/corrects/{id}', [CorrectController::class, 'update'])->name('correct_update');
     Route::delete('/corrects/{id}', [CorrectController::class, 'delete'])->name('correct_delete');
 
     Route::get('/courses', [CourseController::class, 'index'])->name('courses_index');
@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::delete('/modules/{id}', [ModuleController::class, 'delete'])->name('moduldes_delete');
 
     Route::post('/options/create/{id}', [OptionController::class, 'create'])->name('options_create');
-    Route::patch('/options/{id}', [OptionController::class, 'update'])->name('options_update');
+    Route::post('/options/{id}', [OptionController::class, 'update'])->name('options_update');
     Route::delete('/options/{id}', [OptionController::class, 'delete'])->name('options_delete');
 
     Route::get('/questions', [QuestionController::class, 'index'])->name('questions_index');
