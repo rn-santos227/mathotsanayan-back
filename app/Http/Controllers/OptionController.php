@@ -86,9 +86,13 @@ class OptionController extends Controller
     public function delete(Request $request ) { 
         if($request->id) {
             $option = Option::find($request->id);
+            $options = Option::where([
+                "question_id" => $option->question_id,
+            ])->get();
+
             $option->delete();
             return response([
-                'option' => $option,
+                'options' => $options,
             ], 201);
         } else return response([
             'error' => 'Illegal Access',

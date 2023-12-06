@@ -86,9 +86,13 @@ class CorrectController extends Controller
     public function delete(Request $request ) { 
         if($request->id) {
             $correct = Correct::find($request->id);
+            $corrects = Correct::where([
+                "question_id" => $correct->question_id,
+            ])->get();
+
             $correct->delete();
             return response([
-                'correct' => $correct,
+                'corrects' => $corrects,
             ], 201);
         } else return response([
             'error' => 'Illegal Access',
