@@ -22,8 +22,8 @@ class CorrectController extends Controller
             $correct = Correct::create([
                 'content' => $payload_correct['content'],
                 'solution' => $payload_correct['solution'],
-                'module_id' => $question->module,
-                'subject_id' => $question->subject,
+                'module_id' => $question->module_id,
+                'subject_id' => $question->subject_id,
                 'question_id' => $question->id,
             ]);
 
