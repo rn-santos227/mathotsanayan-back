@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
+
+use App\Models\Question;
 use App\Models\Option;
 
-use App\Http\Requests\OptionRequest;
 use Illuminate\Http\Request;
 
 class OptionController extends Controller
@@ -13,11 +15,10 @@ class OptionController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function create(OptionRequest $request) {
+    public function create(Request $request) {
         if($request->id) {
-            $request->validated();
             $payload_option = json_decode($request->option, true);
-            $question = Question::find($id);
+            $question = Question::find($request->id);
 
             $option = Option::create([
                 'content' => $payload_option['content'],
@@ -38,21 +39,20 @@ class OptionController extends Controller
                 Storage::disk('minio')->put($file_url, file_get_contents($file));
             }
 
-            $options = Option::where([
-                "question_id" => $question->id,
+            $questions = Question::with('corrects', 'options')->where([
+                'module_id' => $question->module_id,
             ])->get();
 
             return response([
-                'options' => $options,
+                'questions' => $questions,
             ], 201);
         } else return response([
             'error' => 'Illegal Access',
         ], 500); 
     }
 
-    public function update(OptionRequest $request) {
+    public function update(Request $request) {
         if($request->id) {
-            $request->validated();
             $payload_option = json_decode($request->option, true);
 
             $option = Option::find($request->id);
@@ -72,11 +72,13 @@ class OptionController extends Controller
                 Storage::disk('minio')->put($file_url, file_get_contents($file));
             }
 
-            $options = Option::where([
-                "question_id" => $question->id,
+            $question = Question::find($option->question_id);
+            $questions = Question::with('corrects', 'options')->where([
+                'module_id' => $question->module_id,
             ])->get();
+
             return response([
-                'options' => $options,
+                'questions' => $questions,
             ], 201);
         } else return response([
             'error' => 'Illegal Access',
@@ -86,13 +88,14 @@ class OptionController extends Controller
     public function delete(Request $request ) { 
         if($request->id) {
             $option = Option::find($request->id);
-            $options = Option::where([
-                "question_id" => $option->question_id,
-            ])->get();
-
             $option->delete();
+
+            $question = Question::find($option->question_id);
+            $questions = Question::with('corrects', 'options')->where([
+                'module_id' => $question->module_id,
+            ])->get();
             return response([
-                'options' => $options,
+                'questions' => $questions,
             ], 201);
         } else return response([
             'error' => 'Illegal Access',
