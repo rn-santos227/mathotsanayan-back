@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('activity');
             $table->string('table');
-            $table->string('content');
+            $table->longText('content');
             $table->string('ip_address');
             $table->timestamps();
 
