@@ -10,6 +10,7 @@ use App\Models\User;
 class Audit extends Model
 {
     use HasFactory;
+    protected $table = "audits";
     protected $fillable = [
         'user_id',
         'activity',

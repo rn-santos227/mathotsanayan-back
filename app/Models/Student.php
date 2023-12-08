@@ -11,10 +11,12 @@ use App\Models\School;
 use App\Models\Section;
 use App\Models\User;
 
+use App\Traits\Auditable;
+
 use App\Models\Result;
 class Student extends Model
 {
-    use HasFactory, SoftDeletes;
+    use Auditable, HasFactory, SoftDeletes;
     protected $fillable = [
         'first_name',
         'middle_name',
