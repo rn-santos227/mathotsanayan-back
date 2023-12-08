@@ -23,7 +23,6 @@ trait Auditable
     }
 
     protected function audit($activity) {
-
         $excludedFields = ['file']; 
         $attributesToAudit = array_diff_key($this->attributes, array_flip($excludedFields));
 
@@ -33,6 +32,17 @@ trait Auditable
             'table'      => $this->getTable(),
             'content'    => json_encode($this->attributes),
             'ip_address' => Request::ip(),
+        ]);
+    }
+
+    public static function logLoginAudit($user) {
+       Audit::create([
+            'user_id'    => $user->id,
+            'activity'   => 'login',
+            'table'      => 'users', 
+            'content'    => json_encode($user),
+            'ip_address' => Request::ip(),
+            'created_at' => now(),
         ]);
     }
 }

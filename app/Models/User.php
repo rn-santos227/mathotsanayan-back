@@ -10,9 +10,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Traits\Auditable;
+
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use Auditable, HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -67,8 +69,9 @@ class User extends Authenticatable
         ]);
     }
 
-    public static function getToken($user, $account, $type) {
+    public function getToken($user, $account, $type) {
         $token = $user->createToken(env('APP_SALT'))->plainTextToken;
+        $this->logLoginAudit($user);
         return response([
             $type => $account,
             'token' => $token

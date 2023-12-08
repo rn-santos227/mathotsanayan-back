@@ -24,7 +24,7 @@ class AuthController extends Controller
         $admin = Admin::where([
             "user_id" => $user->id,
         ])->first();
-        return User::getToken($user, $admin, "admin");
+        return $user->getToken($user, $admin, "admin");
     }
 
     public function teacher(Request $request) {
@@ -45,7 +45,7 @@ class AuthController extends Controller
             $teacher->load('school');
         }
 
-        return User::getToken($user, $teacher, "teacher");
+        return $user->getToken($user, $teacher, "teacher");
     }
 
     public function student(Request $request) {
@@ -66,7 +66,7 @@ class AuthController extends Controller
             $student->load('course','section','school','section.teacher');
         }
 
-        return User::getToken($user, $student, "student");
+        return $user->getToken($user, $student, "student");
     }
 
     public function auth() {
