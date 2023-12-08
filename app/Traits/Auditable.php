@@ -23,6 +23,10 @@ trait Auditable
     }
 
     protected function audit($activity) {
+
+        $excludedFields = ['file']; 
+        $attributesToAudit = array_diff_key($this->attributes, array_flip($excludedFields));
+
         Audit::create([
             'user_id'    => Auth::id(),
             'activity'   => $activity,

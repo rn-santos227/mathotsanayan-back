@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\Auditable;
+
 use App\Models\Module;
 use App\Models\Question;
 use App\Models\Subject;
 
 class Correct extends Model
 {
-    use HasFactory, SoftDeletes;
+    use Auditable, HasFactory, SoftDeletes;
     protected $fillable = [
         'content',
         'solution',

@@ -25,7 +25,11 @@ class AdminController extends Controller
     }
 
     public function update(AdminRequest $request) {
+        if($request->id) {
 
+        }  else return response([
+            'error' => 'Illegal Access',
+        ], 500); 
     }
 
     public function delete(Request $request ){
