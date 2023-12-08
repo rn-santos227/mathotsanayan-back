@@ -29,6 +29,10 @@ class AdminController extends Controller
     }
 
     public function delete(Request $request ){
-        
+        if($request->id) {
+
+        }  else return response([
+            'error' => 'Illegal Access',
+        ], 500); 
     }
 }
