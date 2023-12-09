@@ -21,7 +21,7 @@ class SubjectController extends Controller
     }
 
     public function student() {
-        $subjects = Subject::get();
+        $subjects = Subject::has('modules')->get();
         return response()->json([
             'subjects' => $subjects
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use App\Models\Module;
 
 use App\Http\Requests\ModuleRequest;
@@ -22,9 +23,11 @@ class ModuleController extends Controller
     
 
     public function student() {
+        $subject = Subject::first();
         $modules = Module::where([
+            "subject_id" => $subject->id,
             "active" => 1,
-        ])->with('subject', 'questions', 'questions.options')->get();
+        ])->has('questions')->with('subject', 'questions', 'questions.options')->get();
         return response()->json([
             'modules' => $modules
         ]);
