@@ -20,6 +20,13 @@ class SubjectController extends Controller
         ]);
     }
 
+    public function student() {
+        $subjects = Subject::get();
+        return response()->json([
+            'subjects' => $subjects
+        ]);
+    }
+
     public function create(SubjectRequest $request) {
         $request->validated();
         $subject = Subject::create(
