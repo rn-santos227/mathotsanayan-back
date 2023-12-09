@@ -22,15 +22,21 @@ class ModuleController extends Controller
     }
     
 
-    public function student() {
-        $subject = Subject::first();
-        $modules = Module::where([
-            "subject_id" => $subject->id,
-            "active" => 1,
-        ])->has('questions')->with('subject', 'questions', 'questions.options')->get();
-        return response()->json([
-            'modules' => $modules
-        ]);
+    public function student(Request $request) {
+        if($request->id) {
+            $subject = Subject::find($request->id);
+            $modules = Module::where([
+                "subject_id" => $subject->id,
+                "active" => 1,
+            ])->has('questions')->with('subject', 'questions', 'questions.options')->get();
+            return response()->json([
+                'modules' => $modules
+            ]);
+        } else {
+            return response()->json([
+                'modules' => []
+            ]);
+        }
     }
 
     public function create(ModuleRequest $request) {

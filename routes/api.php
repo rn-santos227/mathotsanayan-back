@@ -110,8 +110,8 @@ Route::group(['middleware' => ['auth:sanctum','teacher']], function() {
 
 Route::group(['middleware' => ['auth:sanctum','student']], function() {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
-    Route::get('/student/modules', [ModuleController::class, 'student'])->name('moduldes_student_index');
-    Route::get('/subjects/modules', [SubjectController::class, 'student'])->name('subjects_student_index');
+    Route::get('/student/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
+    Route::get('/student/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
 });
 
 //public access
