@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ModuleController;
@@ -112,6 +113,9 @@ Route::group(['middleware' => ['auth:sanctum','student']], function() {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
     Route::get('/student/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
     Route::get('/student/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
+
+    Route::get('/student/question/{id}', [ExamController::class, 'questions'])->name('exam_question');
+    Route::post('/student/answer/{id}', [ExamController::class, 'answer'])->name('exam_answer');
 });
 
 //public access
