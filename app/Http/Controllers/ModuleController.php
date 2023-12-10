@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Progress;
 use App\Models\Subject;
 use App\Models\Module;
 
@@ -25,11 +26,23 @@ class ModuleController extends Controller
     public function student(Request $request) {
         if($request->id) {
             $subject = Subject::find($request->id);
+            $progress = Progress::firstOrCreate([
+                'student_id' => $request->query('student_id'),
+                'subject_id' => $subject->id,
+            ]);
+            
+            $step = $progress->progress + 1;
             $modules = Module::where([
                 "subject_id" => $subject->id,
                 "active" => 1,
-            ])->has('questions')->with('subject', 'questions', 'questions.options')->get();
+            ])
+            ->where('step', '<=', $step)
+            ->has('questions')
+            ->with('subject', 'questions', 'questions.options')
+            ->get();
+            
             return response()->json([
+                'progress' => $progress,
                 'modules' => $modules
             ]);
         } else {

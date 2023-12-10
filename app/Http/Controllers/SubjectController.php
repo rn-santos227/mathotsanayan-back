@@ -21,7 +21,10 @@ class SubjectController extends Controller
     }
 
     public function student() {
-        $subjects = Subject::has('modules')->get();
+        $subjects = Subject::whereHas('modules', function ($query) {
+            $query->where('active', 1);
+        })->has('modules')->get();
+
         return response()->json([
             'subjects' => $subjects
         ]);
@@ -51,7 +54,7 @@ class SubjectController extends Controller
                     "description",
                 ])
             );
-            $section->load('modules');
+            $subject->load('modules');
             return response([
                 'subject' => $subject,
             ], 201);
