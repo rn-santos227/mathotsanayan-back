@@ -93,8 +93,7 @@ class TeacherController extends Controller
             return response([
                 'teacher' => $teacher,
             ], 201);
-        } 
-        else return response([
+        } else return response([
             'error' => 'Illegal Access',
         ], 500); 
     }
