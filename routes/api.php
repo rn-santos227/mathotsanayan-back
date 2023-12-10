@@ -41,6 +41,7 @@ use App\Http\Controllers\TestController;
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/user/{type}', [AuthController::class, 'user']);
+    Route::post('/image', [ImageController::class, 'image'])->name('image');
 });
 
 Route::group(['middleware' => ['auth:sanctum','admin']], function() {
@@ -101,7 +102,6 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::delete('/teachers/{id}', [TeacherController::class, 'delete'])->name('teachers_delete');
 
     Route::post('/test/{id}', [TestController::class, 'submit'])->name('admin_test');
-    Route::post('/image', [ImageController::class, 'image'])->name('image');
 });
 
 Route::group(['middleware' => ['auth:sanctum','teacher']], function() {
