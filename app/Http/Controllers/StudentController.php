@@ -58,7 +58,6 @@ class StudentController extends Controller
 
     public function update(StudentRequest $request) {
         if($request->id) {
-            $request->validated();
             $student = Student::find($request->id);
             $student->makeVisible('user_id');
             if(!empty($request->password)) {

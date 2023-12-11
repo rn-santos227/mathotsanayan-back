@@ -50,7 +50,7 @@ class ModuleController extends Controller
             ])
             ->where('step', '<=', $step)
             ->has('questions')
-            ->with('subject', 'questions', 'questions.options')
+            ->with('subject')
             ->get();
             
             return response()->json([

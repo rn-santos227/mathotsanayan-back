@@ -19,6 +19,7 @@ class ExamController extends Controller
             $question = Question::where([
                 "module_id" => $request->id,
             ])->inRandomOrder()->first();
+            $question->load('options');
 
             if(isset($question)) {
                 return response([

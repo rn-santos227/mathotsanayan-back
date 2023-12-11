@@ -21,14 +21,28 @@ class TeacherRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'first_name' => 'required|max:50|string',
-            'middle_name' => 'max:50|string|nullable',
-            'last_name' => 'required|max:50|string',
-            'suffix' => 'max:5|string|nullable',
-            'contact_number' => 'max:50|string|nullable',
-            'school' => 'required|integer',
-            'password' => 'required|min:6|max:50',
-        ];
+        if ($this->isMethod('post')) {
+            return [
+                'first_name' => 'required|max:50|string',
+                'middle_name' => 'max:50|string|nullable',
+                'last_name' => 'required|max:50|string',
+                'suffix' => 'max:5|string|nullable',
+                'contact_number' => 'max:50|string|nullable',
+                'school' => 'required|integer',
+                'password' => 'required|min:6|max:50',
+                'email' => 'required|unique:teachers',
+            ];
+        } else {
+            return [
+                'first_name' => 'required|max:50|string',
+                'middle_name' => 'max:50|string|nullable',
+                'last_name' => 'required|max:50|string',
+                'suffix' => 'max:5|string|nullable',
+                'contact_number' => 'max:50|string|nullable',
+                'school' => 'required',
+                'password' => 'min:6|max:50|nullable',
+                'email' => 'required',
+            ];
+        }
     }
 }
