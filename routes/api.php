@@ -42,7 +42,9 @@ use App\Http\Controllers\TestController;
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/user/{type}', [AuthController::class, 'user']);
+
     Route::post('/image', [ImageController::class, 'image'])->name('image');
+    Route::get('/modules/check/{id}', [ModuleController::class, 'check'])->name('moduldes_check');
 });
 
 Route::group(['middleware' => ['auth:sanctum','admin']], function() {
@@ -114,7 +116,7 @@ Route::group(['middleware' => ['auth:sanctum','student']], function() {
     Route::get('/student/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
     Route::get('/student/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
 
-    Route::get('/student/question/{id}', [ExamController::class, 'questions'])->name('exam_question');
+    Route::get('/student/question/{id}', [ExamController::class, 'question'])->name('exam_question');
     Route::post('/student/answer/{id}', [ExamController::class, 'answer'])->name('exam_answer');
 });
 

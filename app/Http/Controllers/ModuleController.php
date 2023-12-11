@@ -21,6 +21,18 @@ class ModuleController extends Controller
             'modules' => $modules
         ]);
     }
+
+    public function check(Request $request) {
+        if($request->id) {
+            $module = Module::find($request->id);
+
+            return response()->json([
+                'module' => $module,
+            ]);
+        } else return response()->json([
+            'modules' => []
+        ]);
+    }
     
 
     public function student(Request $request) {
@@ -45,11 +57,9 @@ class ModuleController extends Controller
                 'progress' => $progress,
                 'modules' => $modules
             ]);
-        } else {
-            return response()->json([
-                'modules' => []
-            ]);
-        }
+        } else return response()->json([
+            'modules' => []
+        ]);
     }
 
     public function create(ModuleRequest $request) {

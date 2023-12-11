@@ -20,9 +20,11 @@ class ExamController extends Controller
                 "module_id" => $request->id,
             ])->inRandomOrder()->first();
 
-            return response([
-                'question' => $question,
-            ], 201);
+            if(isset($question)) {
+                return response([
+                    'question' => $question,
+                ], 201);
+            }
         } else return response([
             'error' => 'Illegal Access',
         ], 500); 
