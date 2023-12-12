@@ -16,16 +16,14 @@ class ExamController extends Controller
 
     public function question(Request $request) {
         if($request->id) {
-            $question = Question::where([
+            $questions = Question::with('options')->where([
                 "module_id" => $request->id,
-            ])->inRandomOrder()->first();
-            $question->load('options');
+            ])->get();
 
-            if(isset($question)) {
-                return response([
-                    'question' => $question,
-                ], 201);
-            }
+            shuffle($questions);
+            return response([
+                'questions' => $questions,
+            ], 201);
         } else return response([
             'error' => 'Illegal Access',
         ], 500); 
