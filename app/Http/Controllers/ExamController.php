@@ -18,9 +18,8 @@ class ExamController extends Controller
         if($request->id) {
             $questions = Question::with('options')->where([
                 "module_id" => $request->id,
-            ])->get();
+            ])->get()->shuffle();
 
-            shuffle($questions);
             return response([
                 'questions' => $questions,
             ], 201);
@@ -48,7 +47,7 @@ class ExamController extends Controller
             }
 
             return response([
-                'solution' => $solution,
+                'solution' => $check ? $solution : null,
                 'correct' => $check,
             ], 201);
         } else return response([

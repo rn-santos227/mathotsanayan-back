@@ -48,6 +48,7 @@ class ModuleController extends Controller
                 "subject_id" => $subject->id,
                 "active" => 1,
             ])
+            ->with('questions')
             ->where('step', '<=', $step)
             ->has('questions')
             ->with('subject')
