@@ -25,7 +25,6 @@ class ModuleController extends Controller
     public function check(Request $request) {
         if($request->id) {
             $module = Module::find($request->id);
-
             return response()->json([
                 'module' => $module,
             ]);

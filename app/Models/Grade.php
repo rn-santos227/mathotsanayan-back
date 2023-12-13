@@ -23,7 +23,7 @@ class Grade extends Model
         'result_id',
         'module_id',
         'question_id',
-        'solution_id',
+        'correct_id',
         'answer_id',
     ];
 
@@ -31,12 +31,8 @@ class Grade extends Model
         return $this->belongsTo(Answer::class, 'answer_id', 'id');
     }
 
-    public function course() {
-        return $this->belongsTo(Course::class, 'module_id', 'id');
-    }
-
     public function module() {
-        return $this->belongsTo(Module::class, 'course_id', 'id');
+        return $this->belongsTo(Module::class, 'module_id', 'id');
     }
 
     public function question() {
@@ -47,8 +43,8 @@ class Grade extends Model
         return $this->belongsTo(Result::class, 'result_id', 'id');
     }
 
-    public function solution() {
-        return $this->belongsTo(Solution::class, 'solution_id', 'id');
+    public function correct() {
+        return $this->belongsTo(Solution::class, 'correct_id', 'id');
     }
 
     public function student() {

@@ -22,6 +22,12 @@ class Result extends Model
         'student_id',
     ];
 
+    protected $hidden = [
+        'timer',
+        'completed',
+        'total_score',
+    ];
+
     public function student() {
         return $this->belongsTo(Student::class, 'module_id', 'id');
     }
