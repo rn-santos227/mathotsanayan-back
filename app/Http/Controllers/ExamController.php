@@ -47,7 +47,7 @@ class ExamController extends Controller
             }
 
             return response([
-                'solution' => $check ? $solution : null,
+                'solution' => $check ? $solution : "",
                 'correct' => $check,
             ], 201);
         } else return response([
