@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Correct;
-use App\Models\Result;
+use App\Models\Progress;
 use App\Models\Question;
+use App\Models\Result;
+
 
 use Illuminate\Http\Request;
 
