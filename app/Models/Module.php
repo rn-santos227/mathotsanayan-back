@@ -25,11 +25,20 @@ class Module extends Model
         'subject_id',
     ];
 
+    protected $appends = [
+        'count'
+    ];
+
     public function subject() {
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 
     public function questions() {
         return $this->hasMany(Question::class);
+    }
+
+    public function getCountAttribute()
+    {
+        return $this->questions()->count();
     }
 }

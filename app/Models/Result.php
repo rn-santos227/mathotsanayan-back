@@ -42,6 +42,6 @@ class Result extends Model
     }
 
     public function module() {
-        return $this->belongsTo(Module::class, 'course_id', 'id');
+        return $this->belongsTo(Module::class, 'module_id', 'id');
     }
 }
