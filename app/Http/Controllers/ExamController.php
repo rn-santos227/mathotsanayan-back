@@ -24,6 +24,10 @@ class ExamController extends Controller
         }
 
         $module = Module::find($request->id);
+        if (!$module) {
+            return response(['error' => 'Illegal Access'], 500);
+        }
+
         $progress = Progress::where([
             'student_id' => $request->query('student_id'),
             'subject_id' => $module->subject_id,
@@ -79,6 +83,10 @@ class ExamController extends Controller
         }
     
         $result = Result::find($request->result);
+        if (!$result) {
+            return response(['error' => 'Illegal Access'], 500);
+        }
+
         $progress = Progress::find($result->progress_id);
         $question = Question::find($request->id);
         $question->load('corrects');
@@ -134,6 +142,9 @@ class ExamController extends Controller
         }
 
         $result = Result::find($request->id);
+        if (!$result) {
+            return response(['error' => 'Illegal Access'], 500);
+        }
 
         $module = Module::find($result->module_id);
         $module->load("questions");
@@ -156,13 +167,12 @@ class ExamController extends Controller
 
         $grade = ($total_score / $question_count) * 100;
         $tries = $progress->tries;
-        $progress = $progress->progress;
 
         if($grade >= $passing) {
             $passed = $progress->passed;
             Progress::update([
                 'tries' => $tries + 1,
-                'progress' => $progress,
+                'progress' => $progress->progress + 1,
                 'passed' => $passed + 1,
             ]);
         } else {

@@ -13,6 +13,24 @@ class ResultController extends Controller
     }
 
     public function index() {
-        
+        Result::with('answers', 'module', 'progress')
+        ->makeVisible(['timer', 'completed', 'total_score'])
+        ->get();
+
+        return response([
+            'results' => $results
+        ], 200);
+    }
+
+    public function student(Request $request) {
+        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
+        $results = Result::with('answers', 'module', 'progress')
+        ->where('student_id', $request->id)
+        ->makeVisible(['timer', 'completed', 'total_score'])
+        ->get();
+    
+        return response([
+            'results' => $results
+        ], 200);
     }
 }

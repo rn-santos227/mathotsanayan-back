@@ -79,6 +79,8 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::post('/questions/{id}', [QuestionController::class, 'update'])->name('questions_update');
     Route::delete('/questions/{id}', [QuestionController::class, 'delete'])->name('questions_delete');
 
+    Route::get('/results', [ResultController::class, 'index'])->name('results_index');
+
     Route::get('/schools', [SchoolController::class, 'index'])->name('schools_index');
     Route::post('/schools/create', [SchoolController::class, 'create'])->name('schools_create');
     Route::patch('/schools/{id}', [SchoolController::class, 'update'])->name('schools_update');
@@ -114,11 +116,12 @@ Route::group(['middleware' => ['auth:sanctum','teacher']], function() {
 Route::group(['middleware' => ['auth:sanctum','student']], function() {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
     Route::get('/student/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
+    Route::get('/student/results/{id}', [ResultController::class, 'student'])->name('results_student_index');
     Route::get('/student/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
 
     Route::get('/student/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
+    Route::get('/student/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
     Route::post('/student/answer/{id}', [ExamController::class, 'answer'])->name('exam_answer');
-    Route::post('/student/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
 });
 
 //public access
