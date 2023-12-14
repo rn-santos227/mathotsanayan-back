@@ -11,7 +11,7 @@ use App\Models\Module;
 use App\Models\Question;
 use App\Models\Result;
 use App\Models\Student;
-use App\Models\Solution;
+use App\Models\Correct;
 
 class Grade extends Model
 {
@@ -25,6 +25,10 @@ class Grade extends Model
         'question_id',
         'correct_id',
         'answer_id',
+    ];
+
+    protected $hidden = [
+        'correct_id',
     ];
 
     public function answer() {
@@ -44,7 +48,7 @@ class Grade extends Model
     }
 
     public function correct() {
-        return $this->belongsTo(Solution::class, 'correct_id', 'id');
+        return $this->belongsTo(Correct::class, 'correct_id', 'id');
     }
 
     public function student() {

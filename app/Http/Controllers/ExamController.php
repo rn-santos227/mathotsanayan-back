@@ -9,7 +9,6 @@ use App\Models\Module;
 use App\Models\Question;
 use App\Models\Result;
 
-
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -73,14 +72,15 @@ class ExamController extends Controller
         $check = false;
         $solution = Correct::where('question_id', $question->id)->first();
         
-        $answer = Answer::create([
-            'content' => $request->content,
-            'timer' => $request->timer,
-            'attempts' => $request->attempts,
+        $answer = Answer::updateOrCreate([
             'progress_id' => $progress->id,
             'student_id' => $result->student_id,
             'result_id' => $result->id,
             'question_id' => $request->id,
+        ],[
+            'content' => $request->content,
+            'timer' => $request->timer,
+            'attempts' => $request->attempts,
         ]);
     
         foreach ($question->corrects as $correct) {
@@ -95,15 +95,16 @@ class ExamController extends Controller
             $result->update(['total_score' => $result->total_score + 1]);
         }
 
-        Grade::create([
-            'evaluation' => $check ? 'correct' : 'wrong',
-            'skipped' => 0,
+        Grade::updateOrCreate([
             'progress_id' => $progress->id,
             'student_id' => $result->student_id,
             'result_id' => $result->id,
             'question_id' => $request->id,
             'answer_id' => $answer->id,
             'correct_id' => $solution->id,
+        ], [
+            'evaluation' => $check ? 'correct' : 'wrong',
+            'skipped' => 0,
         ]);
     
         return response([
@@ -115,6 +116,31 @@ class ExamController extends Controller
     public function submit(Request $request) {
         if (!$request->id) {
             return response(['error' => 'Illegal Access'], 500);
+        }
+
+        $result = Result::find($request->id);
+
+        $module = Module::find($result->module_id);
+        $module->load("questions");
+
+        $progress = Progress::find($result->progress_id);
+
+        $result->makeVisible([
+            'timer',
+            'completed',
+            'total_score',
+        ]);
+        $result->update([
+            'completed' => 1,
+        ]);
+
+        $question_count = $module->questions->count();
+        $total_score = $result->total_score;
+        $passing = $module->passing;
+
+        $grade = ($total_score / $question_count) * 100;
+        if($grade >= $passing) {
+
         }
     }
 }
