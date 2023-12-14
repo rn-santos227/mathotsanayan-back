@@ -43,12 +43,25 @@ class ExamController extends Controller
                 'module_id' => $module->id,
                 'student_id' => $request->query('student_id'),
             ]);
-        }
+        } else {
+            $answers = Answer::where([
+                'progress_id' => $progress->id,
+                'student_id' => $result->student_id,
+                'result_id' => $result->id,
+                'module_id' => $result->module_id,
+            ])->get();
+            $answers->load('grade');
 
-        $result->update([
-            'total_score' => 0,
-            'timer' => null,
-        ]);
+            foreach ($answers as $answer) {
+                $answer->grade->forceDelete();
+                $answer->forceDelete();
+            }
+
+            $result->update([
+                'total_score' => 0,
+                'timer' => null,
+            ]);
+        }
 
         $questions = Question::with('options')->where([
             'module_id' => $request->id,
@@ -73,19 +86,21 @@ class ExamController extends Controller
         $check = false;
         $solution = Correct::where('question_id', $question->id)->first();
         
-        $answer = Answer::updateOrCreate([
+        $answer = Answer::create([
             'progress_id' => $progress->id,
             'student_id' => $result->student_id,
             'result_id' => $result->id,
+            'module_id' => $result->module_id,
             'question_id' => $request->id,
-        ],[
             'content' => $request->content,
             'timer' => $request->timer,
             'attempts' => $request->attempts,
         ]);
     
-        foreach ($question->corrects as $correct) {
-            if (strtolower($correct->content) == strtolower($request->content)) {
+        foreach($question->corrects as $correct) {
+            $trim_answer = trim($request->content);
+            $trim_correct = trim($correct->content);
+            if(strtolower($trim_answer) == strtolower($trim_correct)) {
                 $check = true;
                 $solution = Correct::find($correct->id);
                 break;
@@ -96,14 +111,13 @@ class ExamController extends Controller
             $result->update(['total_score' => $result->total_score + 1]);
         }
 
-        Grade::updateOrCreate([
-            'progress_id' => $progress->id,
+        Grade::create([
             'student_id' => $result->student_id,
             'result_id' => $result->id,
+            'module_id' => $result->module_id,
             'question_id' => $request->id,
-            'answer_id' => $answer->id,
             'correct_id' => $solution->id,
-        ], [
+            'answer_id' => $answer->id,
             'evaluation' => $check ? 'correct' : 'wrong',
             'skipped' => 0,
         ]);
@@ -134,7 +148,7 @@ class ExamController extends Controller
         $result->update([
             'completed' => 1,
         ]);
-        $result->load('answers','progress');
+        $result->load('answers','answers.grade','progress');
 
         $question_count = $module->questions->count();
         $total_score = $result->total_score;

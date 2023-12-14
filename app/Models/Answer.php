@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Grade;
 use App\Models\Module;
 use App\Models\Question;
 use App\Models\Result;
@@ -44,5 +45,10 @@ class Answer extends Model
 
     public function answers() {
         return $this->hasMany(Answer::class);
+    }
+
+    public function grade()
+    {
+        return $this->hasOne(Grade::class);
     }
 }

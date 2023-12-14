@@ -24,7 +24,9 @@ class TestController extends Controller
             
 
             foreach($question->corrects as $correct) {
-                if(strtolower($correct->content) == strtolower($request->content)) {
+                $trim_answer = trim($request->content);
+                $trim_correct = trim($correct->content);
+                if(strtolower($trim_answer) == strtolower($trim_correct)) {
                     $check = true;
                     $solution = Correct::find($correct->id);
                     break;
