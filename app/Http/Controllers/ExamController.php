@@ -139,8 +139,25 @@ class ExamController extends Controller
         $passing = $module->passing;
 
         $grade = ($total_score / $question_count) * 100;
-        if($grade >= $passing) {
+        $tries = $progress->tries;
 
+        if($grade >= $passing) {
+            $passed = $progress->passed;
+            Progress::update([
+                'tries' => $tries + 1,
+                'passed' => $passed + 1,
+            ]);
+        } else {
+            $failed = $progress->failed;
+            Progress::update([
+                'tries' => $tries + 1,
+                'failed' => $failed + 1,
+            ]);
         }
+
+        return response([
+            'result' => $result,
+            'progress' => $progress,
+        ], 201);
     }
 }
