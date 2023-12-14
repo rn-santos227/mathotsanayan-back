@@ -118,6 +118,7 @@ Route::group(['middleware' => ['auth:sanctum','student']], function() {
 
     Route::get('/student/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
     Route::post('/student/answer/{id}', [ExamController::class, 'answer'])->name('exam_answer');
+    Route::post('/student/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
 });
 
 //public access
