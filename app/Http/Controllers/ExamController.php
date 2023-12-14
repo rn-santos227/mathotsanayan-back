@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Correct;
 use App\Models\Grade;
 use App\Models\Progress;
@@ -133,6 +134,7 @@ class ExamController extends Controller
         $result->update([
             'completed' => 1,
         ]);
+        $result->load('answers','progress');
 
         $question_count = $module->questions->count();
         $total_score = $result->total_score;
@@ -140,11 +142,13 @@ class ExamController extends Controller
 
         $grade = ($total_score / $question_count) * 100;
         $tries = $progress->tries;
+        $progress = $progress->progress;
 
         if($grade >= $passing) {
             $passed = $progress->passed;
             Progress::update([
                 'tries' => $tries + 1,
+                'progress' => $progress,
                 'passed' => $passed + 1,
             ]);
         } else {
@@ -157,7 +161,6 @@ class ExamController extends Controller
 
         return response([
             'result' => $result,
-            'progress' => $progress,
         ], 201);
     }
 }

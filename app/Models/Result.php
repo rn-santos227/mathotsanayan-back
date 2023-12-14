@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Answer;
 use App\Models\Module;
 use App\Models\Progress;
 use App\Models\Student;
@@ -27,6 +28,10 @@ class Result extends Model
         'completed',
         'total_score',
     ];
+
+    public function answers() {
+        return $this->hasMany(Answer::class);
+    }
 
     public function student() {
         return $this->belongsTo(Student::class, 'module_id', 'id');
