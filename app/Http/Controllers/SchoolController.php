@@ -36,33 +36,33 @@ class SchoolController extends Controller
     }
 
     public function update(SchoolRequest $request) {
-        if($request->id) {
-            $request->validated();
-            $school = School::find($request->id);
-            $school->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'address' => $request->address,
-                'contact_number' => $request->contact_number,
-                'description' => $request->description
-            ]);
-            return response([
-                'school' => $school,
-            ], 201);
-        }  else return response([
-            'error' => 'Illegal Access',
-        ], 500);
+        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
+
+        $request->validated();
+        $school = School::find($request->id);
+        if (!$school) return response(['error' => 'Illegal Access'], 500);
+
+        $school->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'address' => $request->address,
+            'contact_number' => $request->contact_number,
+            'description' => $request->description
+        ]);
+        return response([
+            'school' => $school,
+        ], 201);
     }
 
     public function delete(Request $request ){
-        if($request->id) {
-            $school = School::find($request->id);
-            $school->delete();
-            return response([
-                'school' => $school,
-            ], 201);
-        } else return response([
-            'error' => 'Illegal Access',
-        ], 500); 
+        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
+
+        $school = School::find($request->id);
+        if (!$school) return response(['error' => 'Illegal Access'], 500);
+
+        $school->delete();
+        return response([
+            'school' => $school,
+        ], 201);
     }
 }

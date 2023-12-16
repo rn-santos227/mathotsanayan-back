@@ -52,13 +52,13 @@ class CorrectController extends Controller
     }
 
     public function update(Request $request) {
-        if (!$request->id) {
-            return response(['error' => 'Illegal Access'], 500);
-        }
+        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
 
         $payload_correct = json_decode($request->correct, true);
 
         $correct = Correct::find($request->id);
+        if (!$correct) return response(['error' => 'Illegal Access'], 500);
+
         $correct->update([
             'content' => $payload_correct['content'],
             'solution' => $payload_correct['solution'],
@@ -92,12 +92,14 @@ class CorrectController extends Controller
         }
 
         $correct = Correct::find($request->id);
-        $correct->delete();
+        if (!$correct) return response(['error' => 'Illegal Access'], 500);
 
         $question = Question::find($correct->question_id);
         $questions = Question::with('corrects', 'options')->where([
             'module_id' => $question->module_id,
         ])->get();
+
+        $correct->delete();
         return response([
             'questions' => $questions,
         ], 201);
