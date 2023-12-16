@@ -87,6 +87,12 @@ class ExamController extends Controller
             return response(['error' => 'Illegal Access'], 500);
         }
 
+        $total_time = $result->timer;
+
+        $result->update([
+            'result' => $total_time + $request->timer,
+        ]);
+
         $progress = Progress::find($result->progress_id);
         $question = Question::find($request->id);
         $question->load('corrects');
