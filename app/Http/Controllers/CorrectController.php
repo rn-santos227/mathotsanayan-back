@@ -16,12 +16,11 @@ class CorrectController extends Controller
     }
 
     public function create(Request $request) {
-        if (!$request->id) {
-            return response(['error' => 'Illegal Access'], 500);
-        }
+        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
+        $question = Question::find($request->id);
+        if (!$question) return response(['error' => 'Illegal Access'], 500);
 
         $payload_correct = json_decode($request->correct, true);
-        $question = Question::find($request->id);
         $correct = Correct::create([
             'content' => $payload_correct['content'],
             'solution' => $payload_correct['solution'],

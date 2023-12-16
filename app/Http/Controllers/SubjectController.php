@@ -45,34 +45,33 @@ class SubjectController extends Controller
     }
 
     public function update(SubjectRequest $request) {
-        if($request->id) {
-            $request->validated();
-            $subject = Subject::find($request->id);
-            $subject->update(
-                $request->only([
-                    "name",
-                    "description",
-                ])
-            );
-            $subject->load('modules');
-            return response([
-                'subject' => $subject,
-            ], 201);
-        }  else return response([
-            'error' => 'Illegal Access',
-        ], 500);
+        if(!$request->id) return response(['error' => 'Illegal Access',], 500); 
+
+        $request->validated();
+        $subject = Subject::find($request->id);
+        if(!$subject) return response(['error' => 'Illegal Access',], 500); 
+
+        $subject->update(
+            $request->only([
+                "name",
+                "description",
+            ])
+        );
+        $subject->load('modules');
+        return response([
+            'subject' => $subject,
+        ], 201);
     }
 
     public function delete(Request $request) {
-        if($request->id) {
-            $subject = Subject::find($request->id);
-            $subject->delete();
-            return response([
-                'subject' => $subject,
-            ], 201);
-        } 
-        else return response([
-            'error' => 'Illegal Access',
-        ], 500); 
+        if(!$request->id) return response(['error' => 'Illegal Access',], 500); 
+
+        $subject = Subject::find($request->id);
+        if(!$subject) return response(['error' => 'Illegal Access',], 500); 
+
+        $subject->delete();
+        return response([
+            'subject' => $subject,
+        ], 201);
     }
 }
