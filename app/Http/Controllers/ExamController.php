@@ -170,14 +170,14 @@ class ExamController extends Controller
 
         if($grade >= $passing) {
             $passed = $progress->passed;
-            Progress::update([
+            $progres->update([
                 'tries' => $tries + 1,
                 'progress' => $progress->progress + 1,
                 'passed' => $passed + 1,
             ]);
         } else {
             $failed = $progress->failed;
-            Progress::update([
+            $progres->update([
                 'tries' => $tries + 1,
                 'failed' => $failed + 1,
             ]);
