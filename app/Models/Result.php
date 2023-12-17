@@ -18,6 +18,7 @@ class Result extends Model
         'completed',
         'timer',
         'total_score',
+        'items',
         'module_id',
         'progress_id',
         'student_id',

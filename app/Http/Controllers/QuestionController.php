@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Models\Correct;
 use App\Models\Option;
+use App\Models\Module;
 use App\Models\Question;
 
 use Illuminate\Http\Request;
@@ -17,6 +18,10 @@ class QuestionController extends Controller
     }
 
     public function createMany(Request $request) {
+        $module = Module::find($request->module);
+        if (!$module) return response(['error' => 'Illegal Access'], 500);
+
+
         $payload_questions = json_decode($request->questions, true);
         $subject = json_decode($request->subject, true);
         $question_files = $request->file('question_files');

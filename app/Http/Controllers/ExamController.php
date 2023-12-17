@@ -27,6 +27,7 @@ class ExamController extends Controller
         if (!$module) {
             return response(['error' => 'Illegal Access'], 500);
         }
+        $module->load("questions");
 
         $progress = Progress::where([
             'student_id' => $request->query('student_id'),
@@ -43,6 +44,7 @@ class ExamController extends Controller
         if (!$result) {
             $result = Result::create([
                 'total_score' => 0,
+                'items' => $module->questions->count(),
                 'progress_id' => $progress->id,
                 'module_id' => $module->id,
                 'student_id' => $request->query('student_id'),
@@ -63,7 +65,8 @@ class ExamController extends Controller
 
             $result->update([
                 'total_score' => 0,
-                'timer' => null,
+                'items' => $module->questions->count(),
+                'timer' => 0,
             ]);
         }
 
@@ -143,14 +146,10 @@ class ExamController extends Controller
     }
 
     public function submit(Request $request) {
-        if (!$request->id) {
-            return response(['error' => 'Illegal Access'], 500);
-        }
+        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
 
         $result = Result::find($request->id);
-        if (!$result) {
-            return response(['error' => 'Illegal Access'], 500);
-        }
+        if (!$result) return response(['error' => 'Illegal Access'], 500);
 
         $module = Module::find($result->module_id);
         $module->load("questions");
@@ -169,27 +168,28 @@ class ExamController extends Controller
         $passing = $module->passing;
         
         $grade = ($total_score / $question_count) * 100;
-        
-        $progress = Progress::find($result->progress_id);
         $tries = $progress->tries;
+        $stage = $progress->progress;
+
+        $total_time = 0;
+        foreach($result->answers as $answer) {
+            $total_time += $answer->timer;
+        }
 
         if($grade >= $passing) {
             $passed = $progress->passed;
-            $progres->update([
+            $progress->update([
                 'tries' => $tries + 1,
                 'passed' => $passed + 1,
+                'timer' =>  $total_time,
+                'progress' => ($stage + 1) <= $module->step ?  ($stage + 1) : $stage,
             ]);
-
-            if($progres == ($progress->progress + 1)) {
-                $progres->update([
-                    'progress' => $progress->progress + 1,
-                ]);
-            }
         } else {
             $failed = $progress->failed;
-            $progres->update([
+            $progress->update([
                 'tries' => $tries + 1,
                 'failed' => $failed + 1,
+                'timer' =>  $total_time,
             ]);
         }
 

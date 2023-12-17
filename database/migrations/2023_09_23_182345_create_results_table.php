@@ -16,6 +16,7 @@ return new class extends Migration
             $table->tinyInteger('completed')->default(0);
             $table->bigInteger('timer')->nullable();
             $table->bigInteger('total_score');
+            $table->bigInteger('items');
             $table->unsignedBigInteger('progress_id');
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('module_id');
