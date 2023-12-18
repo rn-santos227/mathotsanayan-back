@@ -158,10 +158,8 @@ class ExamController extends Controller
         $progress = Progress::find($result->progress_id);
 
         $result->makeVisible(['timer', 'completed', 'total_score']);
-        $result->update([
-            'completed' => 1
-        ]);
-        $result->load('answers', 'answers.grade', 'progress');
+        $result->update(['completed' => 1]);
+        $result->load('answers', 'answers.question', 'answers.grade', 'module', 'progress');
         
         $module = Module::find($result->module_id);
         $module->load('questions');
@@ -173,8 +171,6 @@ class ExamController extends Controller
         $grade = ($total_score / $question_count) * 100;
         $tries = $progress->tries;
         $stage = $progress->progress;
-
-        $total_time = $result->answers->sum('timer');
 
         if($grade >= $passing) {
             $passed = $progress->passed;

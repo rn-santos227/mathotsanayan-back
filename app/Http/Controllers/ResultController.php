@@ -13,7 +13,7 @@ class ResultController extends Controller
     }
 
     public function index() {
-        Result::with('answers', 'module', 'progress')
+        Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress')
         ->where([
             'completed' => 1,
         ])
@@ -28,7 +28,7 @@ class ResultController extends Controller
 
     public function student(Request $request) {
         if (!$request->id) return response(['error' => 'Illegal Access'], 500);
-        $results = Result::with('answers', 'module', 'progress')
+        $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress')
         ->where([
             'student_id' => $request->id,
             'completed' => 1,
