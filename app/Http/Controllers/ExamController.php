@@ -124,9 +124,10 @@ class ExamController extends Controller
             }
         }
     
-        if ($check) {
-            $result->update(['total_score' => $result->total_score + 1]);
-        }
+        $result->update([
+            'total_score' => $check ? $result->total_score + 1 : $result->total_score,
+            'timer' => $result->timer + $answer->timer,
+        ]);
 
         Grade::create([
             'student_id' => $result->student_id,
@@ -157,7 +158,9 @@ class ExamController extends Controller
         $progress = Progress::find($result->progress_id);
 
         $result->makeVisible(['timer', 'completed', 'total_score']);
-        $result->update(['completed' => 1]);
+        $result->update([
+            'completed' => 1
+        ]);
         $result->load('answers', 'answers.grade', 'progress');
         
         $module = Module::find($result->module_id);
@@ -171,17 +174,14 @@ class ExamController extends Controller
         $tries = $progress->tries;
         $stage = $progress->progress;
 
-        $total_time = 0;
-        foreach($result->answers as $answer) {
-            $total_time += $answer->timer;
-        }
+        $total_time = $result->answers->sum('timer');
 
         if($grade >= $passing) {
             $passed = $progress->passed;
             $progress->update([
                 'tries' => $tries + 1,
                 'passed' => $passed + 1,
-                'timer' =>  $total_time,
+                'timer' =>  $progress->timer + $result->timer,
                 'progress' => ($stage + 1) <= $module->step ?  ($stage + 1) : $stage,
             ]);
         } else {
@@ -189,7 +189,7 @@ class ExamController extends Controller
             $progress->update([
                 'tries' => $tries + 1,
                 'failed' => $failed + 1,
-                'timer' =>  $total_time,
+                'timer' =>  $progress->timer + $result->timer,
             ]);
         }
 
