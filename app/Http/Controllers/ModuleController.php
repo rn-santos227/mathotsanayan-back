@@ -82,9 +82,6 @@ class ModuleController extends Controller
         $module = Module::find($request->id);
 
         if (!$module) return response(['error' => 'Illegal Access'], 500);
-        if ($module->active) return response(['error' => 'Cannot update when its active.'], 500);
-
-
         $module->update([
             'name' => $request->name,
             'objective' => $request->objective,
