@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Section;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class SectionRequest extends FormRequest
@@ -11,7 +13,17 @@ class SectionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        if (!auth()->check()) {
+            return false;
+        }
+
+        if (($this->isMethod('patch') || $this->isMethod('delete')) && (!$this->id || !Section::find($this->id))) {
+            throw new HttpResponseException(response([
+                'error' => 'Illegal Access',
+            ], 500));
+        }
+
+        return true;
     }
 
     /**
@@ -21,10 +33,13 @@ class SectionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|max:200',
-            'school' => 'required|integer',
-            'teacher' => 'required|integer',
-        ];
+        if (!$this->isMethod('delete')) {
+            return [
+                'name' => 'required|max:200',
+                'school' => 'required|integer',
+                'teacher' => 'required|integer',
+            ];
+        }
+        return [];
     }
 }

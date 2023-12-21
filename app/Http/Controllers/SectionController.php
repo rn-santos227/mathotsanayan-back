@@ -36,11 +36,8 @@ class SectionController extends Controller
     }
 
     public function update(SectionRequest $request) {
-        if(!$request->id) return response(['error' => 'Illegal Access',], 500); 
-
         $request->validated();
         $section = Section::find($request->id);
-        if(!$section) return response(['error' => 'Illegal Access',], 500); 
         $section->update([
             'name' => $request->name,
             'description' => $request->description,
@@ -54,11 +51,8 @@ class SectionController extends Controller
         ], 201);
     }
 
-    public function delete(Request $request ){
-        if(!$request->id) return response(['error' => 'Illegal Access',], 500); 
-
+    public function delete(SectionRequest $request ){
         $section = Section::find($request->id);
-        if(!$section) return response(['error' => 'Illegal Access',], 500); 
         $section->delete();
         return response([
             'section' => $section,
