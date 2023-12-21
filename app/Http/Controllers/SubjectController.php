@@ -45,12 +45,8 @@ class SubjectController extends Controller
     }
 
     public function update(SubjectRequest $request) {
-        if(!$request->id) return response(['error' => 'Illegal Access',], 500); 
-
         $request->validated();
         $subject = Subject::find($request->id);
-        if(!$subject) return response(['error' => 'Illegal Access',], 500); 
-
         $subject->update(
             $request->only([
                 "name",
@@ -63,12 +59,8 @@ class SubjectController extends Controller
         ], 201);
     }
 
-    public function delete(Request $request) {
-        if(!$request->id) return response(['error' => 'Illegal Access',], 500); 
-
+    public function delete(SubjectRequest $request) {
         $subject = Subject::find($request->id);
-        if(!$subject) return response(['error' => 'Illegal Access',], 500); 
-
         $subject->delete();
         return response([
             'subject' => $subject,

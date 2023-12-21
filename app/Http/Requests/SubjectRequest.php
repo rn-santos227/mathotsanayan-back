@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Subject;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class SubjectRequest extends FormRequest
@@ -11,7 +13,17 @@ class SubjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        if (!auth()->check()) {
+            return false;
+        }
+
+        if (($this->isMethod('patch') || $this->isMethod('delete')) && (!$this->id || !Subject::find($this->id))) {
+            throw new HttpResponseException(response([
+                'error' => 'Illegal Access',
+            ], 500));
+        }
+
+        return true;
     }
 
     /**
@@ -21,8 +33,11 @@ class SubjectRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|max:200',
-        ];
+        if (!$this->isMethod('delete')) {
+            return [
+                'name' => 'required|max:200',
+            ];
+        }
+        return [];
     }
 }
