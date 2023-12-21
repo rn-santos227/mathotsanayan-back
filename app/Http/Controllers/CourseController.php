@@ -50,7 +50,7 @@ class CourseController extends Controller
         ], 201);
     }
 
-    public function delete(Request $request) {
+    public function delete(CourseRequest $request) {
         $course = Course::find($request->id);
         $course->delete();
         return response([
