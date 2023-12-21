@@ -23,11 +23,13 @@ trait Auditable
     }
 
     protected function audit($activity) {
-        $excludedFields = ['file']; 
+        $excludedFields = ['file','password']; 
         $attributesToAudit = array_diff_key($this->attributes, array_flip($excludedFields));
 
+        $userId = Auth::id() ?? 1; 
+
         Audit::create([
-            'user_id'    => Auth::id(),
+            'user_id'    => $userId,
             'activity'   => $activity,
             'table'      => $this->getTable(),
             'content'    => json_encode($this->attributes),

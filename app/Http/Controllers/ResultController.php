@@ -17,9 +17,6 @@ class ResultController extends Controller
         ->where([
             'completed' => 1,
         ])
-        ->whereHas('module', function ($query) {
-            $query->where('active', 1);
-        })
         ->get();
 
         $results->makeVisible(['timer', 'completed', 'total_score']);
