@@ -22,9 +22,7 @@ class ModuleController extends Controller
         ]);
     }
 
-    public function check(Request $request) {
-        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
-        
+    public function check(ModuleRequest $request) {
         $module = Module::find($request->id);
         return response()->json([
             'module' => $module,
@@ -76,12 +74,8 @@ class ModuleController extends Controller
     }
 
     public function update(ModuleRequest $request) {
-        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
-
         $request->validated();
         $module = Module::find($request->id);
-
-        if (!$module) return response(['error' => 'Illegal Access'], 500);
         $module->update([
             'name' => $request->name,
             'objective' => $request->objective,
@@ -98,11 +92,8 @@ class ModuleController extends Controller
         ], 201);
     }
 
-    public function delete(Request $request){
-        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
+    public function delete(ModuleRequest $request){
         $module = Module::find($request->id);
-
-        if (!$module) return response(['error' => 'Illegal Access'], 500);
         if ($module->active) return response(['error' => 'Cannot delate when its active.'], 500);
 
         $module->delete();

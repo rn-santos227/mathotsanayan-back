@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Module;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class ModuleRequest extends FormRequest
@@ -11,7 +13,17 @@ class ModuleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        if (!auth()->check()) {
+            return false;
+        }
+
+        if (($this->isMethod('patch') || $this->isMethod('delete')) && (!$this->id || !Module::find($this->id))) {
+            throw new HttpResponseException(response([
+                'error' => 'Illegal Access',
+            ], 500));
+        }
+
+        return true;
     }
 
     /**
@@ -21,11 +33,14 @@ class ModuleRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|max:200',
-            'step' => 'required',
-            'passing' => 'required',
-            'subject' => 'required',
-        ];
+        if (!$this->isMethod('delete')) {
+            return [
+                'name' => 'required|max:200',
+                'step' => 'required',
+                'passing' => 'required',
+                'subject' => 'required',
+            ];
+        }
+        return [];
     }
 }
