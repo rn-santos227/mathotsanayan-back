@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\Result;
 
 use Illuminate\Http\Request;
@@ -13,13 +14,11 @@ class ResultController extends Controller
     }
 
     public function index() {
-        Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress')
-        ->where([
-            'completed' => 1,
-        ])
+        $results = Student::with('results', 'results.answers.question', 'results.answers.grade', 'results.module', 'results.progress'
+        ->whereHas('results', function ($query) {
+            $query->where('completed', 1);
+        })
         ->get();
-
-        $results->makeVisible(['timer', 'completed', 'total_score']);
     
         return response([
             'results' => $results
