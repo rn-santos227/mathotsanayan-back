@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Models\Result;
 
+use App\Http\Requests\ResultRequest;
 use Illuminate\Http\Request;
 
 class ResultController extends Controller
@@ -19,14 +20,17 @@ class ResultController extends Controller
             $query->where('completed', 1);
         })
         ->get();
+
+        $results->each(function ($student) {
+            $student->results->makeVisible(['timer', 'completed', 'total_score']);
+        });
     
         return response([
             'results' => $results
         ], 200);
     }
 
-    public function student(Request $request) {
-        if (!$request->id) return response(['error' => 'Illegal Access'], 500);
+    public function student(ResultRequest $request) {
         $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress')
         ->where([
             'student_id' => $request->id,
