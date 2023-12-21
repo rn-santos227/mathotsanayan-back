@@ -26,7 +26,7 @@ class CourseController extends Controller
             $request->only([
                 "name",
                 "abbreviation",
-                "destination",
+                "description",
             ])
         );
 
@@ -36,16 +36,13 @@ class CourseController extends Controller
     }
 
     public function update(CourseRequest $request) {
-        if (!$request->id) {
-            return response(['error' => 'Illegal Access'], 500);
-        }
         $request->validated();
         $course = Course::find($request->id);
         $course->update(
             $request->only([
                 "name",
                 "abbreviation",
-                "destination",
+                "description",
             ])
         );
         return response([
@@ -54,10 +51,6 @@ class CourseController extends Controller
     }
 
     public function delete(Request $request) {
-        if (!$request->id) {
-            return response(['error' => 'Illegal Access'], 500);
-        }
-
         $course = Course::find($request->id);
         $course->delete();
         return response([
