@@ -15,11 +15,10 @@ class ResultController extends Controller
     }
 
     public function index() {
-        $results = Student::with('results', 'results.answers.question', 'results.answers.grade', 'results.module', 'results.progress'
+        $results = Student::with('results', 'results.answers.question', 'results.answers.grade', 'results.module', 'results.progress')
         ->whereHas('results', function ($query) {
             $query->where('completed', 1);
-        })
-        ->get();
+        })->get();
 
         $results->each(function ($student) {
             $student->results->makeVisible(['timer', 'completed', 'total_score']);

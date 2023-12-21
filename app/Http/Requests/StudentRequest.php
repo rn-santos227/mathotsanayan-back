@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Student;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StudentRequest extends FormRequest
@@ -11,7 +13,17 @@ class StudentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        if (!auth()->check()) {
+            return false;
+        }
+
+        if (($this->isMethod('patch') || $this->isMethod('delete')) && (!$this->id || !Student::find($this->id))) {
+            throw new HttpResponseException(response([
+                'error' => 'Illegal Access',
+            ], 500));
+        }
+
+        return true;
     }
 
     /**
@@ -35,6 +47,9 @@ class StudentRequest extends FormRequest
                 'section' => 'required|integer',
                 'password' => 'required|min:6|max:50',
             ];
+            
+        } else if ($this->isMethod('delete')) {
+            return [];
         } else {
             return [
                 'first_name' => 'required|max:50|string',

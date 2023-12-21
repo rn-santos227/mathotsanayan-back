@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Teacher;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class TeacherRequest extends FormRequest
@@ -11,7 +13,17 @@ class TeacherRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        if (!auth()->check()) {
+            return false;
+        }
+
+        if (($this->isMethod('patch') || $this->isMethod('delete')) && (!$this->id || !Teacher::find($this->id))) {
+            throw new HttpResponseException(response([
+                'error' => 'Illegal Access',
+            ], 500));
+        }
+
+        return true;
     }
 
     /**
@@ -32,6 +44,8 @@ class TeacherRequest extends FormRequest
                 'password' => 'required|min:6|max:50',
                 'email' => 'required|unique:teachers',
             ];
+        } else if ($this->isMethod('delete')) {
+            return [];
         } else {
             return [
                 'first_name' => 'required|max:50|string',
