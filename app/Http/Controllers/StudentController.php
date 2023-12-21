@@ -57,11 +57,7 @@ class StudentController extends Controller
     }
 
     public function update(StudentRequest $request) {
-        if(!$request->id) return response(['error' => 'Illegal Access',], 500); 
-
         $student = Student::find($request->id);
-        if(!$student) return response(['error' => 'Illegal Access',], 500); 
-
         $student->makeVisible('user_id');
         if(!empty($request->password)) {
             $user = User::find($student->user_id);
@@ -90,12 +86,8 @@ class StudentController extends Controller
         ], 201);
     }
 
-    public function delete(Request $request ){
-        if(!$request->id) return response(['error' => 'Illegal Access',], 500); 
-
+    public function delete(StudentRequest $request){
         $student = Student::find($request->id);
-        if(!$student) return response(['error' => 'Illegal Access',], 500); 
-        
         $student->delete();
         return response([
             'student' => $student,
