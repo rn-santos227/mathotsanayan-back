@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -16,11 +17,18 @@ class UserController extends Controller
 
     }
 
-    public function delete(Request $request) {
-        if($request->id) {
+    public function password(UserRequest $request) {
+        $user = User::find($request->id);
+        $user->update([
+            'password' => $request->password,
+        ]);
 
-        }  else return response([
-            'error' => 'Illegal Access',
-        ], 500); 
+        return response([
+            'message' => "update successful",
+        ], 201);
+    }
+
+    public function delete(Request $request) {
+
     }
 }

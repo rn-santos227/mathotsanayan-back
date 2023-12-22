@@ -23,6 +23,7 @@ use App\Http\Controllers\SolutionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::post('/image', [ImageController::class, 'image'])->name('image');
     Route::get('/modules/check/{id}', [ModuleController::class, 'check'])->name('moduldes_check');
+
+    Route::patch('/password/{id}', [UserController::class, 'password']);
 });
 
 Route::group(['middleware' => ['auth:sanctum','admin']], function() {
