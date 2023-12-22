@@ -28,7 +28,11 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function delete(Request $request) {
-
+    public function delete(UserRequest $request) {
+        $user = User::find($request->id);
+        $user->delete();
+        return response([
+            'user' => $user,
+        ], 201);
     }
 }
