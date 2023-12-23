@@ -10,6 +10,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Admin;
+use App\Models\Student;
+use App\Models\Teacher;
+
 use App\Traits\Auditable;
 
 class User extends Authenticatable
@@ -26,6 +30,12 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
+    protected $appends = [
+        'type_name',
+        'owner',
+    ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -50,11 +60,31 @@ class User extends Authenticatable
     public function getTypeNameAttribute() {
         switch($this->type) {
             case 1:
-                return "Administrator";
+                return 'Administrator';
             case 2:
-                return "Teacher";
+                return 'Teacher';
             default:
-                return "Studen";
+                return 'Student';
+        }
+    }
+
+    public function getOwnerAttribute() {
+        switch($this->type) {
+            case 1:
+                $admin = Admin::where([
+                    "user_id" => $this->id,
+                ])->first();
+                return $admin;
+            case 2:
+                $teacher = Teacher::where([
+                    "user_id" => $this->id,
+                ])->first();
+                return $teacher;
+            default:
+                $student = Student::where([
+                    "user_id" => $this->id,
+                ])->first();
+                return $student;
         }
     }
 
