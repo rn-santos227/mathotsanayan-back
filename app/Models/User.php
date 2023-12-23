@@ -47,6 +47,17 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function getTypeNameAttribute() {
+        switch($this->type) {
+            case 1:
+                return "Administrator";
+            case 2:
+                return "Teacher";
+            default:
+                return "Studen";
+        }
+    }
+
     public function validatePassword($password) {
         if (Hash::check($password, $this->password)) {
             return true;
