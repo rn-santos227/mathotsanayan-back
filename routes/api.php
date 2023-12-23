@@ -109,6 +109,9 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function() {
     Route::patch('/teachers/{id}', [TeacherController::class, 'update'])->name('teachers_update');
     Route::delete('/teachers/{id}', [TeacherController::class, 'delete'])->name('teachers_delete');
 
+    Route::get('/accounts', [UserController::class, 'index'])->name('accounts_index');
+    Route::delete('/accounts/{id}', [UserController::class, 'delete'])->name('accounts_delete');
+
     Route::post('/test/{id}', [TestController::class, 'submit'])->name('admin_test');
 });
 

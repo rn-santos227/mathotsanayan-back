@@ -14,7 +14,10 @@ class UserController extends Controller
     }
 
     public function index() {
-
+        $accounts = User::all();
+        return response()->json([
+            'accounts' => $accounts
+        ]);
     }
 
     public function password(UserRequest $request) {
