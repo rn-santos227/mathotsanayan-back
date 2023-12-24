@@ -68,12 +68,25 @@ class User extends Authenticatable
         }
     }
 
-    public function getOwnerAttribute() {
-        return $this->owner ?? null;
-    }
 
-    public function owner() {
-        return $this->morphTo();
+    public function getOwnerAttribute() {
+        switch($this->type) {
+            case 1:
+                $admin = Admin::where([
+                    "user_id" => $this->id,
+                ])->first();
+                return $admin;
+            case 2:
+                $teacher = Teacher::where([
+                    "user_id" => $this->id,
+                ])->first();
+                return $teacher;
+            default:
+                $student = Student::where([
+                    "user_id" => $this->id,
+                ])->first();
+                return $student;
+        }
     }
 
     public function validatePassword($password) {

@@ -59,14 +59,10 @@ class Student extends Model
     }
 
     public function user() {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->morphOne(User::class, 'owner');
     }
 
     public function results() {
         return $this->hasMany(Result::class);
-    }
-
-    public function owber() {
-        return $this->morphOne(User::class, 'owner');
     }
 }

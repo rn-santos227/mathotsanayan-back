@@ -26,9 +26,4 @@ class Admin extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
-    public function owber()
-    {
-        return $this->morphOne(User::class, 'owner');
-    }
 }

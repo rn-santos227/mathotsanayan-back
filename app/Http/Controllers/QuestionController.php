@@ -88,7 +88,7 @@ class QuestionController extends Controller
         if(isset($option_files)) {
             $file_count = 0;
             foreach($option_files as $option_file) {
-                $id = $file_questions_ids[$file_count];
+                $id = $file_options_ids[$file_count];
                 $file_url = '/options/option-'.$id.'/option-'.$id.'.'.$option_file->getClientOriginalExtension();
     
                 $option = Option::find($id);
@@ -101,7 +101,7 @@ class QuestionController extends Controller
         if(isset($correct_files)) {
             $file_count = 0;
             foreach($correct_files as $correct_file) {
-                $id = $file_questions_ids[$file_count];
+                $id = $file_correct_ids[$file_count];
                 $file_url = '/corrects/correct-'.$id.'/correct-'.$id.'.'.$correct_file->getClientOriginalExtension();
     
                 $correct = Correct::find($id);
