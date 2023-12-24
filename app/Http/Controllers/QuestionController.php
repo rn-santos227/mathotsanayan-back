@@ -135,55 +135,53 @@ class QuestionController extends Controller
     }
 
     public function update(Request $request) {
-        if($request->id) {
-            $payload_questions = json_decode($request->question, true);
-
-            $question = Question::find($request->id);
-            $question->update([
-                'content' => $payload_questions['content'],
-                'type' => $payload_questions['type'],
-            ]);
-
-            $file = $request->file('question_file');
-
-            if(isset($file)) {
-                $file_url = '/questions/question-'.$question->id.'/question-'.$question->id.'.'.$file->getClientOriginalExtension();
-    
-                if (Storage::disk('minio')->exists($file_url)) {
-                    Storage::disk('minio')->delete($file_url);
-                }
-                
-                $question->update(['file' => $file_url]);
-                Storage::disk('minio')->put($file_url, file_get_contents($file));
-            }
-    
-            $question->load('corrects', 'options');
-            return response([
-                'question' => $question,
-            ], 201);
-        } else return response([
+        if(!$request->id) return response([
             'error' => 'Illegal Access',
-        ], 500);
+        ], 500); 
+        $payload_questions = json_decode($request->question, true);
+
+        $question = Question::find($request->id);
+        $question->update([
+            'content' => $payload_questions['content'],
+            'type' => $payload_questions['type'],
+        ]);
+
+        $file = $request->file('question_file');
+
+        if(isset($file)) {
+            $file_url = '/questions/question-'.$question->id.'/question-'.$question->id.'.'.$file->getClientOriginalExtension();
+
+            if (Storage::disk('minio')->exists($file_url)) {
+                Storage::disk('minio')->delete($file_url);
+            }
+            
+            $question->update(['file' => $file_url]);
+            Storage::disk('minio')->put($file_url, file_get_contents($file));
+        }
+
+        $question->load('corrects', 'options');
+        return response([
+            'question' => $question,
+        ], 201);
     }
 
     public function delete(Request $request){
-        if($request->id) {
-            $question = Question::find($request->id);
-            Option::where([
-                "question_id" => $question->id,
-            ])->delete();
-            Correct::where([
-                "question_id" => $question->id,
-            ])->delete();
-            
-            $question->load('corrects', 'options');
-            $question->delete();
-            return response([
-                'question' => $question,
-            ], 201);
-        } 
-        else return response([
+        if(!$request->id) return response([
             'error' => 'Illegal Access',
         ], 500); 
+
+        $question = Question::find($request->id);
+        Option::where([
+            "question_id" => $question->id,
+        ])->delete();
+        Correct::where([
+            "question_id" => $question->id,
+        ])->delete();
+        
+        $question->load('corrects', 'options');
+        $question->delete();
+        return response([
+            'question' => $question,
+        ], 201);
     }
 }

@@ -22,7 +22,11 @@ class ModuleController extends Controller
         ]);
     }
 
-    public function check(ModuleRequest $request) {
+    public function check(Request $request) {
+        if(!$request->id) return response([
+            'error' => 'Illegal Access',
+        ], 500); 
+        
         $module = Module::find($request->id);
         return response()->json([
             'module' => $module,
