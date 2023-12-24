@@ -66,4 +66,8 @@ class Student extends Model
     public function results() {
         return $this->hasMany(Result::class);
     }
+
+    public function owber() {
+        return $this->morphOne(User::class, 'owner');
+    }
 }
