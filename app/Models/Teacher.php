@@ -33,11 +33,10 @@ class Teacher extends Model
         'full_name'
     ];
 
-    public function getFullNameAttribute()
-    {
+    public function getFullNameAttribute() {
         $fullname = $this->last_name . ', ' . $this->first_name;
-        if(!empty($this->middle_name)) $fullname = $fullname.' '.strtoupper(substr($this->middle_name, 0, 1)).'.';
         if(!empty($this->suffix)) $fullname = $fullname.' '.$this->suffix;
+        if(!empty($this->middle_name)) $fullname = $fullname.' '.strtoupper(substr($this->middle_name, 0, 1)).'.';
         return $fullname;
     }
 
