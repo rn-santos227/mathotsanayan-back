@@ -21,7 +21,13 @@ class UserController extends Controller
     }
 
     public function password(UserRequest $request) {
-        $user = User::find($request->id);
+        $user = auth('sanctum')->user();
+        if(!$user || !$user->validatePassword($request->current_password)) {
+            return response([
+                'message' => 'Bad Credentials'
+            ], 401);
+        }
+
         $user->update([
             'password' => $request->password,
         ]);

@@ -35,6 +35,7 @@ class UserRequest extends FormRequest
     {
         if (!$this->isMethod('delete')) {
             return [
+                'current_password' => 'required|min:6|max:50',
                 'password' => 'required|min:6|max:50',
             ];
         }

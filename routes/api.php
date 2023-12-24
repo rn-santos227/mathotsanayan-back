@@ -42,7 +42,7 @@ use App\Http\Controllers\UserController;
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/user/{type}', [AuthController::class, 'user']);
-    Route::patch('/password/{id}', [UserController::class, 'password']);
+    Route::post('/password/{id}', [UserController::class, 'password']);
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin_dashboard');
