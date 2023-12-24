@@ -58,35 +58,22 @@ class User extends Authenticatable
     ];
 
     public function getTypeNameAttribute() {
-        switch($this->type) {
-            case 1:
-                return 'Administrator';
-            case 2:
-                return 'Teacher';
-            default:
-                return 'Student';
-        }
+        $typeNames = [
+            1 => 'Administrator',
+            2 => 'Teacher',
+            3 => 'Student',
+        ];
+        return $typeNames[$this->type] ?? $typeNames['default'];
     }
 
-
     public function getOwnerAttribute() {
-        switch($this->type) {
-            case 1:
-                $admin = Admin::where([
-                    "user_id" => $this->id,
-                ])->first();
-                return $admin;
-            case 2:
-                $teacher = Teacher::where([
-                    "user_id" => $this->id,
-                ])->first();
-                return $teacher;
-            default:
-                $student = Student::where([
-                    "user_id" => $this->id,
-                ])->first();
-                return $student;
-        }
+        $relationshipClasses = [
+            Admin::class,
+            Teacher::class,
+            Student::class,
+        ];
+        $class = $relationshipClasses[$this->type - 1] ?? null;
+        return $class ? $class::where('user_id', $this->id)->first() : null;
     }
 
     public function validatePassword($password) {
