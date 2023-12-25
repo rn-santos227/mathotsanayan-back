@@ -80,6 +80,47 @@ class ExamController extends Controller
         ], 201);
     }
 
+    public function skip(Request $request) {
+        if (!$request->id) {
+            return response(['error' => 'Illegal Access'], 500);
+        }
+        $result = Result::find($request->result);
+        if (!$result) {
+            return response(['error' => 'Illegal Access'], 500);
+        }
+
+        $progress = Progress::find($result->progress_id);
+        $question = Question::find($request->id);
+        $question->load('corrects');
+        $correct = $question->corrects->first();
+
+        $answer = Answer::create([
+            'progress_id' => $progress->id,
+            'student_id' => $result->student_id,
+            'result_id' => $result->id,
+            'module_id' => $result->module_id,
+            'question_id' => $request->id,
+            'content' => $request->content,
+            'timer' => $request->timer,
+            'attempts' => $request->attempts,
+        ]);
+
+        $result->update([
+            'timer' => $result->timer + $answer->timer,
+        ]);
+
+        Grade::create([
+            'student_id' => $result->student_id,
+            'result_id' => $result->id,
+            'module_id' => $result->module_id,
+            'question_id' => $request->id,
+            'correct_id' => $correct->id,
+            'answer_id' => $answer->id,
+            'evaluation' => $check ? 'correct' : 'wrong',
+            'skipped' => 1,
+        ]);
+    }
+
     public function answer(Request $request) {
         if (!$request->id) {
             return response(['error' => 'Illegal Access'], 500);
@@ -89,12 +130,6 @@ class ExamController extends Controller
         if (!$result) {
             return response(['error' => 'Illegal Access'], 500);
         }
-
-        $total_time = $result->timer;
-
-        $result->update([
-            'result' => $total_time + $request->timer,
-        ]);
 
         $progress = Progress::find($result->progress_id);
         $question = Question::find($request->id);

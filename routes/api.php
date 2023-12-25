@@ -120,6 +120,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
             Route::get('/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
             Route::get('/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
             Route::get('/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
+            Route::post('/skip/{id}', [ExamController::class, 'skip'])->name('exam_skip');
             Route::post('/answer/{id}', [ExamController::class, 'answer'])->name('exam_answer');
         });
     });
