@@ -17,7 +17,6 @@ class ResultController extends Controller
     public function index() {
         $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
         ->where([
-            'student_id' => $request->id,
             'completed' => 1,
         ])
         ->get();
