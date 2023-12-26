@@ -20,7 +20,7 @@ class ResultController extends Controller
             'completed' => 1,
         ])
         ->get();
-    
+        $results->makeVisible(['timer', 'completed', 'total_score']);
         return response([
             'results' => $results
         ], 200);
@@ -36,9 +36,7 @@ class ResultController extends Controller
             $query->where('active', 1);
         })
         ->get();
-
         $results->makeVisible(['timer', 'completed', 'total_score']);
-    
         return response([
             'results' => $results
         ], 200);
