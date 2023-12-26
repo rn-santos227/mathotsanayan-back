@@ -116,7 +116,7 @@ class ExamController extends Controller
             'question_id' => $request->id,
             'correct_id' => $correct->id,
             'answer_id' => $answer->id,
-            'evaluation' => $check ? 'correct' : 'wrong',
+            'evaluation' => 'skipped',
             'skipped' => 1,
         ]);
     }
