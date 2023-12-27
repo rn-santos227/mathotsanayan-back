@@ -47,7 +47,6 @@ class StudentRequest extends FormRequest
                 'section' => 'required|integer',
                 'password' => 'required|min:6|max:50',
             ];
-            
         } else if ($this->isMethod('patch')) {
             return [
                 'first_name' => 'required|max:50|string',
@@ -58,7 +57,6 @@ class StudentRequest extends FormRequest
                 'student_number' => 'required|max:50|string|nullable',
                 'email' => 'required',
                 'school' => 'required',
-                'section' => 'required',
                 'section' => 'required',
                 'password' => 'min:6|max:50|nullable',
             ];

@@ -21,18 +21,20 @@ class AdminController extends Controller
     }
 
     public function create(AdminRequest $request) {
+        $request->validated();
+        $user = User::create([
+            'type' => 1,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
 
     }
 
     public function update(AdminRequest $request) {
-        if (!$request->id) {
-            return response(['error' => 'Illegal Access'], 500);
-        }
+        $request->validated();
     }
 
-    public function delete(Request $request ){
-        if (!$request->id) {
-            return response(['error' => 'Illegal Access'], 500);
-        }
+    public function delete(AdminRequest $request ){
+
     }
 }
