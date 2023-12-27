@@ -45,8 +45,6 @@ class TeacherRequest extends FormRequest
                 'email' => 'required|unique:teachers',
             ];
         } else if ($this->isMethod('delete')) {
-            return [];
-        } else {
             return [
                 'first_name' => 'required|max:50|string',
                 'middle_name' => 'max:50|string|nullable',
@@ -57,6 +55,8 @@ class TeacherRequest extends FormRequest
                 'password' => 'min:6|max:50|nullable',
                 'email' => 'required',
             ];
+        } else {
+            return [];
         }
     }
 }

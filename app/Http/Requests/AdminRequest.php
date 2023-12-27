@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Admin;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminRequest extends FormRequest
@@ -11,7 +13,17 @@ class AdminRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        if (!auth()->check()) {
+            return false;
+        }
+
+        if (($this->isMethod('patch') || $this->isMethod('delete')) && (!$this->id || !Admin::find($this->id))) {
+            throw new HttpResponseException(response([
+                'error' => 'Illegal Access',
+            ], 500));
+        }
+
+        return true;
     }
 
     /**
@@ -21,8 +33,13 @@ class AdminRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if (!$this->isMethod('delete')) {
+            return [
+                'name' => 'required|max:200',
+                'school' => 'required|integer',
+                'teacher' => 'required|integer',
+            ];
+        }
+        return [];
     }
 }
