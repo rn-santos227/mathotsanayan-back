@@ -19,6 +19,9 @@ class ResultController extends Controller
         ->where([
             'completed' => 1,
         ])
+        ->whereHas('student', function ($query) {
+            $query->whereNull('students.deleted_at'); 
+        })
         ->get();
         $results->makeVisible(['timer', 'completed', 'total_score']);
         return response([
