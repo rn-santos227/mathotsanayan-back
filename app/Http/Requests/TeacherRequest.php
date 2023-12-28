@@ -44,7 +44,7 @@ class TeacherRequest extends FormRequest
                 'password' => 'required|min:6|max:50',
                 'email' => 'required|unique:teachers',
             ];
-        } else if ($this->isMethod('delete')) {
+        } else if ($this->isMethod('patch')) {
             return [
                 'first_name' => 'required|max:50|string',
                 'middle_name' => 'max:50|string|nullable',

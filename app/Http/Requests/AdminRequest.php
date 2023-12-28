@@ -33,13 +33,22 @@ class AdminRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (!$this->isMethod('delete')) {
+        if ($this->isMethod('post')) {
             return [
-                'name' => 'required|max:200',
-                'school' => 'required|integer',
-                'teacher' => 'required|integer',
+                'name' => 'required|max:200|string',
+                'email' => 'required|unique:admins',
+                'contact_number' => 'max:50|string|nullable',
+                'password' => 'required|min:6|max:50',
             ];
+        } else if ($this->isMethod('patch')) {
+            return [
+                'name' => 'required|max:200|string',
+                'email' => 'required',
+                'contact_number' => 'max:50|string|nullable',
+                'password' => 'min:6|max:50|nullable',
+            ];
+        } else {
+            return [];
         }
-        return [];
     }
 }

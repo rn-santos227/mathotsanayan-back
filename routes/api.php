@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin_dashboard');
+        
         Route::get('/admins', [AdminController::class, 'index'])->name('admin_index');
         Route::post('/admins/create', [AdminController::class, 'create'])->name('admin_create');
         Route::patch('/admins/{id}', [AdminController::class, 'update'])->name('admin_update');
