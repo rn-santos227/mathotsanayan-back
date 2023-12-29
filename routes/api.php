@@ -77,6 +77,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::delete('/questions/{id}', [QuestionController::class, 'delete'])->name('questions_delete');
     
         Route::get('/results', [ResultController::class, 'index'])->name('results_index');
+        Route::get('/results/search', [ResultController::class, 'search'])->name('result_search');
     
         Route::get('/schools', [SchoolController::class, 'index'])->name('schools_index');
         Route::post('/schools/create', [SchoolController::class, 'create'])->name('schools_create');
