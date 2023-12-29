@@ -29,6 +29,23 @@ class ResultController extends Controller
         ], 200);
     }
 
+    public function search(Request $request) {
+        if(!$request->query('field')) return response(['error' => 'Illegal Access'], 500);
+        $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
+        ->where('completed', 1)
+        ->where(function ($query) use ($request) {
+            $query->where($request->query('field'), 'like', '%' . $request->query('search') . '%');
+        })
+        ->whereHas('student', function ($query) {
+            $query->whereNull('students.deleted_at'); 
+        })
+        ->get();
+        $results->makeVisible(['timer', 'completed', 'total_score']);
+        return response([
+            'results' => $results
+        ], 200);
+    }
+
     public function student(ResultRequest $request) {
         $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress')
         ->where([
