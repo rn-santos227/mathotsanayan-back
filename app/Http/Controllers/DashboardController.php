@@ -28,6 +28,7 @@ class DashboardController extends Controller
         $teachers = Teacher::count(); 
 
         return response()->json([
+        'dashboard' => [
             'courses' => $courses,
             'modules' => $modules,
             'results' => $results,
@@ -35,7 +36,7 @@ class DashboardController extends Controller
             'students' => $students,
             'teachers' => $teachers,
             'subjects' => $subjects
-        ]);
+        ]]);
     }
 
     public function teacher(Request $request) {
