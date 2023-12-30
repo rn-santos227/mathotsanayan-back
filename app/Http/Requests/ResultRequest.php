@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Result;
+
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ResultRequest extends FormRequest
 {
@@ -14,6 +17,13 @@ class ResultRequest extends FormRequest
         if (!$this->id) {
             return false;
         }
+
+        if (($this->isMethod('patch') || $this->isMethod('delete')) && (!$this->id || !Result::find($this->id))) {
+            throw new HttpResponseException(response([
+                'error' => 'Illegal Access',
+            ], 500));
+        }
+
         return auth()->check();
     }
 

@@ -102,7 +102,7 @@ class ResultController extends Controller
       'invalidate' => 1,
     ]);
     return response([
-        '$result' => $result,
+        'result' => $result,
     ], 201);
 }
 }
