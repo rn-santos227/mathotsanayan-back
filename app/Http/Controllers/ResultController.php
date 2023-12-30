@@ -18,6 +18,7 @@ class ResultController extends Controller
         $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
         ->where([
             'completed' => 1,
+            'invalidate' => 0,
         ])
         ->whereHas('student', function ($query) {
             $query->whereNull('students.deleted_at'); 
@@ -32,7 +33,10 @@ class ResultController extends Controller
     public function search(Request $request) {
         if(!$request->query('field')) return response(['error' => 'Illegal Access'], 500);
         $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
-        ->where('completed', 1)
+        ->where([
+            'completed' => 1,
+            'invalidate' => 0,
+        ])
         ->where(function ($query) use ($request) {
             $query->where($request->query('field'), 'like', '%' . $request->query('search') . '%');
         })
@@ -51,6 +55,7 @@ class ResultController extends Controller
         ->where([
             'student_id' => $request->id,
             'completed' => 1,
+            'invalidate' => 0,
         ])
         ->whereHas('module', function ($query) {
             $query->where('active', 1);

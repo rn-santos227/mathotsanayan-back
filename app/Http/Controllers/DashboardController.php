@@ -17,8 +17,10 @@ class DashboardController extends Controller
     public function admin() {
         $courses = Course::count();
         $modules = Module::count();
-        $results = Result::where('completed', 1)
-        ->whereHas('student', function ($query) {
+        $results = Result::where([
+            'completed' => 1,
+            'invalidate' => 0,
+        ])->whereHas('student', function ($query) {
             $query->whereNull('students.deleted_at');
         })
         ->count();

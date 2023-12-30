@@ -16,6 +16,7 @@ class Result extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'completed',
+        'invalidate',
         'timer',
         'total_score',
         'items',

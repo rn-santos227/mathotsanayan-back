@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->tinyInteger('completed')->default(0);
+            $table->tinyInteger('invalidate')->default(0);
             $table->bigInteger('timer')->nullable();
             $table->bigInteger('total_score');
             $table->bigInteger('items');
