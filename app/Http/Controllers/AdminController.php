@@ -6,10 +6,9 @@ use App\Models\Admin;
 use App\Models\User;
 
 use App\Http\Requests\AdminRequest;
-use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Mail;
-use App\Mail\StudentMail;
+use App\Mail\AdminMail;
 
 class AdminController extends Controller
 {
