@@ -95,4 +95,14 @@ class ResultController extends Controller
         'results' => $results
     ], 200);
   }
+
+  public function invalidate(ResultRequest $request ){
+    $result = Result::find($request->id);
+    $result->update([
+      'invalidate' => 1,
+    ]);
+    return response([
+        '$result' => $result,
+    ], 201);
+}
 }

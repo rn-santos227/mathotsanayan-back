@@ -78,7 +78,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     
         Route::get('/results', [ResultController::class, 'index'])->name('results_index');
         Route::get('/results/search', [ResultController::class, 'search'])->name('result_search');
-    
+        Route::patch('/results/{id}', [ResultController::class, 'invalidate'])->name('results_invalidate');
+
         Route::get('/schools', [SchoolController::class, 'index'])->name('schools_index');
         Route::post('/schools/create', [SchoolController::class, 'create'])->name('schools_create');
         Route::patch('/schools/{id}', [SchoolController::class, 'update'])->name('schools_update');

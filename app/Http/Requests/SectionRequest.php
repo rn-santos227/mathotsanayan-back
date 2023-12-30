@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Section;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class SectionRequest extends FormRequest
 {

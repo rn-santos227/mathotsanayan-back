@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Student;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StudentRequest extends FormRequest
 {
