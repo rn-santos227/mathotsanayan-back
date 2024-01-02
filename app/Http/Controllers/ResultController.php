@@ -30,17 +30,17 @@ class ResultController extends Controller
   }
 
   public function search(Request $request) {
-    if(!$request->query('field')) return response(['error' => 'Illegal Access'], 500);
+    if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
     $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
     ->where([
         'completed' => 1,
         'invalidate' => 0,
     ])
     ->where(function ($query) use ($request) {
-      $field = $request->query('field');
+      $category = $request->query('category');
       $search = $request->query('search');
 
-      switch ($field) {
+      switch ($category) {
         case 'module.name':
           $query->where('module.name', 'like', '%' . $search . '%');
           break;
