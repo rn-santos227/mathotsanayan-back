@@ -81,26 +81,31 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::patch('/results/{id}', [ResultController::class, 'invalidate'])->name('results_invalidate');
 
         Route::get('/schools', [SchoolController::class, 'index'])->name('schools_index');
+        Route::get('/schools/search', [SchoolController::class, 'search'])->name('school_search');
         Route::post('/schools/create', [SchoolController::class, 'create'])->name('schools_create');
         Route::patch('/schools/{id}', [SchoolController::class, 'update'])->name('schools_update');
         Route::delete('/schools/{id}', [SchoolController::class, 'delete'])->name('schools_delete');
     
         Route::get('/sections', [SectionController::class, 'index'])->name('sections_index');
+        Route::get('/sections/search', [SectionController::class, 'search'])->name('sections_search');
         Route::post('/sections/create', [SectionController::class, 'create'])->name('sections_create');
         Route::patch('/sections/{id}', [SectionController::class, 'update'])->name('sections_update');
         Route::delete('/sections/{id}', [SectionController::class, 'delete'])->name('sections_delete');
     
         Route::get('/students', [StudentController::class, 'index'])->name('students_index');
+        Route::get('/students/search', [SectionController::class, 'search'])->name('students_search');
         Route::post('/students/create', [StudentController::class, 'create'])->name('students_create');
         Route::patch('/students/{id}', [StudentController::class, 'update'])->name('students_update');
         Route::delete('/students/{id}', [StudentController::class, 'delete'])->name('students_delete');
     
         Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects_index');
+        Route::get('/subjects/search', [SectionController::class, 'search'])->name('subjects_search');
         Route::post('/subjects/create', [SubjectController::class, 'create'])->name('subjects_create');
         Route::patch('/subjects/{id}', [SubjectController::class, 'update'])->name('subjects_update');
         Route::delete('/subjects/{id}', [SubjectController::class, 'delete'])->name('subjects_delete');
     
         Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers_index');
+        Route::get('/teachers/search', [TeacherController::class, 'search'])->name('teachers_search');
         Route::post('/teachers/create', [TeacherController::class, 'create'])->name('teachers_create');
         Route::patch('/teachers/{id}', [TeacherController::class, 'update'])->name('teachers_update');
         Route::delete('/teachers/{id}', [TeacherController::class, 'delete'])->name('teachers_delete');
