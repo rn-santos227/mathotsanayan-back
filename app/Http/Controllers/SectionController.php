@@ -20,6 +20,11 @@ class SectionController extends Controller
         ]);
     }
 
+    public function search(Request $request) {
+        if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
+
+    }
+
     public function create(SectionRequest $request) {
         $request->validated();
         $section = Section::create([

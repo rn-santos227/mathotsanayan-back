@@ -20,6 +20,11 @@ class CourseController extends Controller
         ]);
     }
 
+    public function search(Request $request) {
+        if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
+
+    }
+
     public function create(CourseRequest $request) {
         $request->validated();
         $course = Course::create(

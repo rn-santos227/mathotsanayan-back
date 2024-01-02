@@ -30,6 +30,11 @@ class SubjectController extends Controller
         ]);
     }
 
+    public function search(Request $request) {
+        if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
+
+    }
+
     public function create(SubjectRequest $request) {
         $request->validated();
         $subject = Subject::create(

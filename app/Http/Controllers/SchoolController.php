@@ -20,6 +20,11 @@ class SchoolController extends Controller
         ]);
     }
 
+    public function search(Request $request) {
+        if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
+
+    }
+
     public function create(SchoolRequest $request) {
         $request->validated();
         $school = School::create([

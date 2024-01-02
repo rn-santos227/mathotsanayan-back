@@ -24,6 +24,11 @@ class TeacherController extends Controller
         ]);
     }
 
+    public function search(Request $request) {
+        if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
+
+    }
+
     public function create(TeacherRequest $request) {
         $request->validated();
         $user = User::create([
