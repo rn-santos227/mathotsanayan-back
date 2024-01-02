@@ -57,11 +57,13 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::delete('/corrects/{id}', [CorrectController::class, 'delete'])->name('correct_delete');
     
         Route::get('/courses', [CourseController::class, 'index'])->name('courses_index');
+        Route::get('/courses/search', [CourseController::class, 'search'])->name('courses_search');
         Route::post('/courses/create', [CourseController::class, 'create'])->name('courses_create');
         Route::patch('/courses/{id}', [CourseController::class, 'update'])->name('courses_update');
         Route::delete('/courses/{id}', [CourseController::class, 'delete'])->name('courses_delete');
     
         Route::get('/modules', [ModuleController::class, 'index'])->name('moduldes_index');
+        Route::get('/modules/search', [ModuleController::class, 'search'])->name('modules_search');
         Route::post('/modules/create', [ModuleController::class, 'create'])->name('moduldes_create');
         Route::patch('/modules/{id}', [ModuleController::class, 'update'])->name('moduldes_update');
         Route::delete('/modules/{id}', [ModuleController::class, 'delete'])->name('moduldes_delete');
@@ -93,13 +95,13 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::delete('/sections/{id}', [SectionController::class, 'delete'])->name('sections_delete');
     
         Route::get('/students', [StudentController::class, 'index'])->name('students_index');
-        Route::get('/students/search', [SectionController::class, 'search'])->name('students_search');
+        Route::get('/students/search', [StudentController::class, 'search'])->name('students_search');
         Route::post('/students/create', [StudentController::class, 'create'])->name('students_create');
         Route::patch('/students/{id}', [StudentController::class, 'update'])->name('students_update');
         Route::delete('/students/{id}', [StudentController::class, 'delete'])->name('students_delete');
     
         Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects_index');
-        Route::get('/subjects/search', [SectionController::class, 'search'])->name('subjects_search');
+        Route::get('/subjects/search', [SubjectController::class, 'search'])->name('subjects_search');
         Route::post('/subjects/create', [SubjectController::class, 'create'])->name('subjects_create');
         Route::patch('/subjects/{id}', [SubjectController::class, 'update'])->name('subjects_update');
         Route::delete('/subjects/{id}', [SubjectController::class, 'delete'])->name('subjects_delete');
