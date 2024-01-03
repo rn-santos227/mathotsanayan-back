@@ -32,11 +32,11 @@ class Result extends Model
     ];
 
     public function answers() {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class)->withTrashed(); 
     }
 
     public function student() {
-        return $this->belongsTo(Student::class, 'student_id', 'id');
+        return $this->belongsTo(Student::class, 'student_id', 'id')->withTrashed(); 
     }
 
     public function progress() {
