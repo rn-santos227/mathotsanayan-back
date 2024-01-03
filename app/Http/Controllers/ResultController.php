@@ -14,7 +14,7 @@ class ResultController extends Controller
   }
 
   public function index() {
-    $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
+    $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student')
     ->where([
         'completed' => 1,
         'invalidate' => 0,
