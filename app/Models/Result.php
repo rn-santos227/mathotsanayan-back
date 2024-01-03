@@ -36,7 +36,7 @@ class Result extends Model
     }
 
     public function student() {
-        return $this->belongsTo(Student::class, 'module_id', 'id');
+        return $this->belongsTo(Student::class, 'student_id', 'id');
     }
 
     public function progress() {
