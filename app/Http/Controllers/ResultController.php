@@ -23,7 +23,7 @@ class ResultController extends Controller
         $query->whereNull('students.deleted_at'); 
     })
     ->orderBy('created_at', 'desc')
-    ->get();
+    ->paginate(10);
 
     $results->makeVisible(['timer', 'completed', 'total_score']);
     return response([
