@@ -14,7 +14,7 @@ class ResultController extends Controller
   }
 
   public function index() {
-    $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student')
+    $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
     ->where([
         'completed' => 1,
         'invalidate' => 0,
@@ -22,7 +22,10 @@ class ResultController extends Controller
     ->whereHas('student', function ($query) {
         $query->whereNull('students.deleted_at'); 
     })
+    ->orderBy('created_at', 'desc')
+    ->take(10)
     ->get();
+
     $results->makeVisible(['timer', 'completed', 'total_score']);
     return response([
         'results' => $results
