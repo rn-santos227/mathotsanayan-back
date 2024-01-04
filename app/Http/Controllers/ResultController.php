@@ -25,7 +25,9 @@ class ResultController extends Controller
     ->orderBy('created_at', 'desc')
     ->paginate(10);
 
-    $results->makeVisible(['timer', 'completed', 'total_score']);
+    $results->each(function ($result) {
+      $result->makeVisible(['timer', 'completed', 'total_score']);
+    });
     return response([
         'results' => $results
     ], 200);
