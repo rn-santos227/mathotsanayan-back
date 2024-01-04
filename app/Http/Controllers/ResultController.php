@@ -73,6 +73,7 @@ class ResultController extends Controller
           break;
       }
     })
+    ->orderBy('created_at', 'desc')
     ->get();
 
     $results->makeVisible(['timer', 'completed', 'total_score']);
