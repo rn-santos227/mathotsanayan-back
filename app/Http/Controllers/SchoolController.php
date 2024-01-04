@@ -14,7 +14,7 @@ class SchoolController extends Controller
     }
 
     public function index() {
-        $schools = School::get();
+        $schools = School::orderBy('created_at', 'desc')->get();
         return response()->json([
             'schools' => $schools
         ]);

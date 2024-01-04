@@ -14,7 +14,7 @@ class SubjectController extends Controller
     }
 
     public function index() {
-        $subjects = Subject::with("modules")->get();
+        $subjects = Subject::with("modules")->orderBy('created_at', 'desc')->get();
         return response()->json([
             'subjects' => $subjects
         ]);

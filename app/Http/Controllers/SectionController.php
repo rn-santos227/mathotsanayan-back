@@ -14,7 +14,7 @@ class SectionController extends Controller
     }
 
     public function index() {
-        $sections = Section::with('teacher', 'school', 'students')->get();
+        $sections = Section::with('teacher', 'school', 'students')->orderBy('created_at', 'desc')->get();
         return response()->json([
             'sections' => $sections
         ]);

@@ -17,7 +17,7 @@ class AdminController extends Controller
     }
 
     public function index() {
-        $admins = Admin::where('user_id', '!=', auth('sanctum')->user()->id)->get();
+        $admins = Admin::where('user_id', '!=', auth('sanctum')->user()->id)->orderBy('created_at', 'desc')->get();
         return response()->json([
             'admins' => $admins
         ]);
