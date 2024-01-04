@@ -54,7 +54,16 @@ class ResultController extends Controller
           });
           break;
 
-        case 'student.section.name':
+        case 'module.subject':
+            $query->whereHas('module.subject', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            });
+            $query->whereHas('student', function ($query) {
+                $query->whereNull('students.deleted_at');
+            });
+            break;
+
+        case 'student.section':
           $query->whereHas('student.section', function ($query) use ($search) {
               $query->where('name', 'like', '%' . $search . '%');
           });
@@ -62,8 +71,9 @@ class ResultController extends Controller
               $query->whereNull('students.deleted_at');
           });
           break;
+          
 
-        case 'student.school.name':
+        case 'student.school':
           $query->whereHas('student.school', function ($query) use ($search) {
               $query->where('name', 'like', '%' . $search . '%');
           });
