@@ -37,11 +37,9 @@ class ResultController extends Controller
     ->where([
         'completed' => 1,
         'invalidate' => 0,
-    ])
-    ->where(function ($query) use ($request) {
+    ])->where(function ($query) use ($request) {
       $category = $request->query('category');
       $search = $request->query('search');
-
       switch ($category) {
         case 'module.name':
           $query->where('module.name', 'like', '%' . $search . '%');
@@ -49,39 +47,29 @@ class ResultController extends Controller
 
         case 'student.full_name':
           $query->where('student.full_name', 'like', '%' . $search . '%');
-          $query->whereHas('student', function ($query) {
-              $query->whereNull('students.deleted_at');
-          });
           break;
 
         case 'module.subject':
-            $query->whereHas('module.subject', function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
-            });
-            $query->whereHas('student', function ($query) {
-                $query->whereNull('students.deleted_at');
-            });
-            break;
+          $query->whereHas('module.subject', function ($query) use ($search) {
+              $query->where('name', 'like', '%' . $search . '%');
+          });
+          break;
 
         case 'student.section':
           $query->whereHas('student.section', function ($query) use ($search) {
               $query->where('name', 'like', '%' . $search . '%');
           });
-          $query->whereHas('student', function ($query) {
-              $query->whereNull('students.deleted_at');
-          });
           break;
-          
 
         case 'student.school':
           $query->whereHas('student.school', function ($query) use ($search) {
               $query->where('name', 'like', '%' . $search . '%');
           });
-          $query->whereHas('student', function ($query) {
-              $query->whereNull('students.deleted_at');
-          });
           break;
       }
+      $query->whereHas('student', function ($query) {
+        $query->whereNull('students.deleted_at');
+      });
     })
     ->orderBy('created_at', 'desc')
     ->get();
