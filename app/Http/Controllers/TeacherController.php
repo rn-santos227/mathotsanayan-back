@@ -18,7 +18,7 @@ class TeacherController extends Controller
     }
 
     public function index() {
-        $teachers = Teacher::with('school')->get();
+        $teachers = Teacher::with('school')->orderBy('created_at', 'desc')->get();
         return response()->json([
             'teachers' => $teachers
         ]);

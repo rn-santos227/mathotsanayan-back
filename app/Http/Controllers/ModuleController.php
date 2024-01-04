@@ -16,7 +16,8 @@ class ModuleController extends Controller
     }
 
     public function index() {
-        $modules = Module::with('subject', 'questions', 'questions.corrects', 'questions.options')->get();
+        $modules = Module::with('subject', 'questions', 'questions.corrects', 'questions.options')
+        ->orderBy('created_at', 'desc')->get();
         return response()->json([
             'modules' => $modules
         ]);
