@@ -44,11 +44,15 @@ class ResultController extends Controller
       $search = $request->query('search');
       switch ($category) {
         case 'module.name':
-          $query->where('module.name', 'like', '%' . $search . '%');
+          $query->whereHas('module', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+          });
           break;
 
         case 'student.full_name':
-          $query->where('student.full_name', 'like', '%' . $search . '%');
+          $query->whereHas('student', function ($query) use ($search) {
+            $query->where('full_name', 'like', '%' . $search . '%');
+          });
           break;
 
         case 'module.subject':
