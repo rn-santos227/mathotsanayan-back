@@ -52,7 +52,7 @@ class ResultController extends Controller
         case 'student.full_name':
           $query->whereHas('student', function ($query) use ($search) {
             $query->whereRaw("CONCAT(last_name, ', ', first_name, ' ', COALESCE(suffix, ''), ' ', UPPER(SUBSTRING(middle_name, 1, 1))) LIKE ?", ['%' . $search . '%']);
-        });
+          });
           break;
 
         case 'module.subject':
