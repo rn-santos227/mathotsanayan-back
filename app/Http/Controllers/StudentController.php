@@ -18,7 +18,7 @@ class StudentController extends Controller
     }
 
     public function index() {
-        $students = Student::with('section','school','course')->orderBy('created_at', 'desc')->get();
+        $students = Student::with('section','school','course')->orderBy('created_at', 'desc')->paginate(10);
         return response()->json([
             'students' => $students
         ]);
