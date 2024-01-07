@@ -47,6 +47,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin_dashboard');
         
+        Route::get('/answers/{id}', [AnswerController::class, 'index'])->name('answers_index');
+
         Route::get('/admins', [AdminController::class, 'index'])->name('admin_index');
         Route::post('/admins/create', [AdminController::class, 'create'])->name('admin_create');
         Route::patch('/admins/{id}', [AdminController::class, 'update'])->name('admin_update');
@@ -120,6 +122,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::group(['middleware' => ['teacher']], function() {
         Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher_dashboard');
+        Route::prefix('teachers')->group(function () {
+
+        });
     });
 
     Route::group(['middleware' => ['student']], function() {
