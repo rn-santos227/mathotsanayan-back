@@ -41,24 +41,18 @@ class ModuleController extends Controller
       $category = $request->query('category');
       $search = $request->query('search');
       switch ($category) {
-        case 'full_name':
-          $query->whereRaw("CONCAT(last_name, ', ', first_name, ' ', COALESCE(suffix, ''), ' ', UPPER(SUBSTRING(middle_name, 1, 1))) LIKE ?", ['%' . $search . '%']);
+        case 'name':
+          $query->where('name', 'like', '%' . $search . '%');
           break;
-
-        case 'email':
-          $query->where('email', 'like', '%' . $search . '%');
-          break;
-
-        case 'school.name':
-          $query->whereHas('school', function ($query) use ($search) {
+  
+        case 'subject.name':
+          $query->whereHas('subject', function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%');
           });
           break;
-
-        case 'section.name':
-          $query->whereHas('section', function ($query) use ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
-          });
+    
+        case 'description':
+          $query->where('name', 'like', '%' . $search . '%');
           break;
       }
     })
