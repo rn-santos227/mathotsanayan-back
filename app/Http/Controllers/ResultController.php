@@ -14,7 +14,7 @@ class ResultController extends Controller
   }
 
   public function index() {
-    $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
+    $results = Result::with('module', 'progress', 'student', 'student.section', 'student.school')
     ->where([
         'completed' => 1,
         'invalidate' => 0,
@@ -35,7 +35,7 @@ class ResultController extends Controller
 
   public function search(Request $request) {
     if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
-    $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress', 'student', 'student.section', 'student.school')
+    $results = Result::with('module', 'progress', 'student', 'student.section', 'student.school')
     ->where([
         'completed' => 1,
         'invalidate' => 0,

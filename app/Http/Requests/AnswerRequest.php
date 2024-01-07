@@ -11,6 +11,9 @@ class AnswerRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if (!$this->id) {
+            return false;
+        }
         return auth()->check();
     }
 
