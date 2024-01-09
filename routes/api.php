@@ -129,6 +129,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::group(['middleware' => ['student']], function() {
         Route::prefix('student')->group(function () {
+            Route::get('/answers/{id}', [AnswerController::class, 'student'])->name('answers_student');
             Route::get('/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
             Route::get('/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
             Route::get('/results/{id}', [ResultController::class, 'student'])->name('results_student_index');
