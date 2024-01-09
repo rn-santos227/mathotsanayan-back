@@ -14,7 +14,8 @@ class AnswerController extends Controller
   }
 
   public function index(AnswerRequest $request) {
-    $answers = Answer::where([
+    $answers = Answer::with('grade','question')
+    ->where([
       'result_id' => $request->id,
     ])
     ->orderBy('created_at', 'desc')
@@ -31,7 +32,8 @@ class AnswerController extends Controller
       "user_id" => $user->id,
     ])->first();
 
-    $answers = Answer::where([
+    $answers = Answer::with('grade','question')
+    ->where([
       'result_id' => $request->id,
       'student_id' => $student->id,
     ])

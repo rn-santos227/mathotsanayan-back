@@ -87,7 +87,7 @@ class ResultController extends Controller
   }
 
   public function student(ResultRequest $request) {
-    $results = Result::with('answers', 'answers.question', 'answers.grade', 'module', 'progress')
+    $results = Result::with('module', 'progress')
     ->where([
         'student_id' => $request->id,
         'completed' => 1,
