@@ -16,7 +16,6 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\ResultController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
@@ -26,6 +25,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Students\ResultController as StudentsResultController;
+use App\Http\Controllers\Admin\ResultController as AdminResultController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::post('/questions/{id}', [QuestionController::class, 'update'])->name('questions_update');
         Route::delete('/questions/{id}', [QuestionController::class, 'delete'])->name('questions_delete');
     
-        Route::get('/results', [ResultController::class, 'index'])->name('results_index');
-        Route::get('/results/search', [ResultController::class, 'search'])->name('result_search');
-        Route::patch('/results/{id}', [ResultController::class, 'invalidate'])->name('results_invalidate');
+        Route::get('/results', [AdminResultController::class, 'index'])->name('results_index');
+        Route::get('/results/search', [AdminResultController::class, 'search'])->name('result_search');
+        Route::patch('/results/{id}', [AdminResultController::class, 'invalidate'])->name('results_invalidate');
 
         Route::get('/schools', [SchoolController::class, 'index'])->name('schools_index');
         Route::get('/schools/search', [SchoolController::class, 'search'])->name('school_search');

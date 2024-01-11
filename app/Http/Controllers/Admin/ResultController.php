@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Result;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ResultRequest;
 use Illuminate\Http\Request;
 
@@ -94,5 +95,5 @@ class ResultController extends Controller
     return response([
         'result' => $result,
     ], 201);
-}
+  }
 }
