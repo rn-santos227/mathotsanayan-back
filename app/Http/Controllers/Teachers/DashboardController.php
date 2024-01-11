@@ -10,15 +10,13 @@ use App\Models\Section;
 use App\Models\Student;
 use App\Models\Teacher;
 
-use Illuminate\Http\Request;
-
 class DashboardController extends Controller
 {
   public function __construct() {
     $this->middleware('auth:sanctum');
   }
 
-  public function index(Request $request) {
+  public function index() {
     $user = auth('sanctum')->user();
     $teacher = Teacher::where([
       "user_id" => $user->id,
