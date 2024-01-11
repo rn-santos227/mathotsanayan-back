@@ -49,13 +49,12 @@ class DashboardController extends Controller
     ])->first();
 
     $schools = School::count();
-  
     $sections = Section::where([
       'teacher_id' => $teacher->id,
     ])
     ->count();
 
-    $students = Subject::with('section')
+    $students = Student::with('section')
     ->whereHas('section', function ($query) use($teacher) {
       $query->where([
         'teacher_id' => $teacher->id,
