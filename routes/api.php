@@ -24,8 +24,12 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
-use App\Http\Controllers\Students\ResultController as StudentsResultController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
+
+use App\Http\Controllers\Teachers\DashboardController as TeacherDashboardController;
+
+use App\Http\Controllers\Students\ResultController as StudentsResultController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +53,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin/audit', [AuditController::class, 'admin'])->name('admin_audit');      
-        Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin_dashboard');
+        Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
         
         Route::get('/answers/{id}', [AnswerController::class, 'index'])->name('answers_index');
 
@@ -126,7 +130,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::group(['middleware' => ['teacher']], function() {
         Route::get('/teacher/audit', [AuditController::class, 'teacher'])->name('teacher_audit');         
-        Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher_dashboard');
+        Route::get('/teacher/dashboard', [TeacherDashboardController::class, 'index'])->name('teacher_dashboard');
         
         Route::prefix('teachers')->group(function () {
         });
@@ -136,7 +140,6 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::prefix('student')->group(function () {
             Route::get('/answers/{id}', [AnswerController::class, 'student'])->name('answers_student');
             Route::get('/audit', [AuditController::class, 'student'])->name('student_audit');         
-            Route::get('/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
             Route::get('/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
             Route::get('/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
             Route::get('/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
