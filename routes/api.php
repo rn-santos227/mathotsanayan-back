@@ -25,6 +25,8 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\Students\ResultController as StudentsResultController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -136,12 +138,13 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
             Route::get('/audit', [AuditController::class, 'student'])->name('student_audit');         
             Route::get('/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
             Route::get('/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
-            Route::get('/results/{id}', [ResultController::class, 'student'])->name('results_student_index');
             Route::get('/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
             Route::get('/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
             Route::get('/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
             Route::post('/skip/{id}', [ExamController::class, 'skip'])->name('exam_skip');
             Route::post('/answer/{id}', [ExamController::class, 'answer'])->name('exam_answer');
+
+            Route::get('/results/{id}', [StudentsResultController::class, 'index'])->name('results_student_index');
         });
     });
 

@@ -86,23 +86,6 @@ class ResultController extends Controller
     ], 200);
   }
 
-  public function student(ResultRequest $request) {
-    $results = Result::with('module', 'progress')
-    ->where([
-        'student_id' => $request->id,
-        'completed' => 1,
-        'invalidate' => 0,
-    ])
-    ->whereHas('module', function ($query) {
-        $query->where('active', 1);
-    })
-    ->get();
-    $results->makeVisible(['timer', 'completed', 'total_score']);
-    return response([
-        'results' => $results
-    ], 200);
-  }
-
   public function invalidate(ResultRequest $request ){
     $result = Result::find($request->id);
     $result->update([
