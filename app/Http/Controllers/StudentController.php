@@ -38,6 +38,12 @@ class StudentController extends Controller
         case 'email':
           $query->where('email', 'like', '%' . $search . '%');
           break;
+        
+        case 'section.name':
+            $query->whereHas('section', function ($query) use ($search) {
+              $query->where('name', 'like', '%' . $search . '%');
+            });
+            break;
 
         case 'school.name':
           $query->whereHas('school', function ($query) use ($search) {

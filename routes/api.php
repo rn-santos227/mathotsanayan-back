@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\AuditController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\CourseController;
@@ -45,6 +46,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/password/{id}', [UserController::class, 'password']);
 
     Route::middleware(['admin'])->group(function () {
+        Route::get('/admin/audit', [AuditController::class, 'admin'])->name('admin_audit');      
         Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin_dashboard');
         
         Route::get('/answers/{id}', [AnswerController::class, 'index'])->name('answers_index');
@@ -121,15 +123,17 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     });
 
     Route::group(['middleware' => ['teacher']], function() {
+        Route::get('/teacher/audit', [AuditController::class, 'teacher'])->name('teacher_audit');         
         Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher_dashboard');
+        
         Route::prefix('teachers')->group(function () {
-
         });
     });
 
     Route::group(['middleware' => ['student']], function() {
         Route::prefix('student')->group(function () {
             Route::get('/answers/{id}', [AnswerController::class, 'student'])->name('answers_student');
+            Route::get('/audit', [AuditController::class, 'student'])->name('student_audit');         
             Route::get('/dashboard', [DashboardController::class, 'student'])->name('student_dashboard');
             Route::get('/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
             Route::get('/results/{id}', [ResultController::class, 'student'])->name('results_student_index');
