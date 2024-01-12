@@ -11,7 +11,6 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
@@ -24,6 +23,7 @@ use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\SchoolController as AdminSchoolController;
 use App\Http\Controllers\Admin\SectionController as AdminSectionController;
 use App\Http\Controllers\Admin\StudentController as AdminStudentController;
+use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TeacherController as AdminTeacherController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
@@ -34,6 +34,7 @@ use App\Http\Controllers\Teachers\StudentController as TeachersStudentController
 use App\Http\Controllers\Students\AuditController as StudentsAuditController;
 use App\Http\Controllers\Students\ModuleController as StudentsModuleController;
 use App\Http\Controllers\Students\ResultController as StudentsResultController;
+use App\Http\Controllers\Students\SubjectController as StudentsSubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,10 +112,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/students/{id}', [AdminStudentController::class, 'update'])->name('students_update');
     Route::delete('/students/{id}', [AdminStudentController::class, 'delete'])->name('students_delete');
 
-    Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects_index');
-    Route::post('/subjects/create', [SubjectController::class, 'create'])->name('subjects_create');
-    Route::patch('/subjects/{id}', [SubjectController::class, 'update'])->name('subjects_update');
-    Route::delete('/subjects/{id}', [SubjectController::class, 'delete'])->name('subjects_delete');
+    Route::get('/subjects', [AdminSubjectController::class, 'index'])->name('subjects_index');
+    Route::post('/subjects/create', [AdminSubjectController::class, 'create'])->name('subjects_create');
+    Route::patch('/subjects/{id}', [AdminSubjectController::class, 'update'])->name('subjects_update');
+    Route::delete('/subjects/{id}', [AdminSubjectController::class, 'delete'])->name('subjects_delete');
 
     Route::get('/teachers', [AdminTeacherController::class, 'index'])->name('teachers_index');
     Route::get('/teachers/search', [AdminTeacherController::class, 'search'])->name('teachers_search');
@@ -143,8 +144,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::prefix('student')->group(function () {
       Route::get('/answers/{id}', [AnswerController::class, 'student'])->name('answers_student');
       Route::get('/audit', [StudentsAuditController::class, 'student'])->name('student_audit');         
-      Route::get('/modules/{id}', [StudentsModuleController::class, 'student'])->name('moduldes_student_index');
-      Route::get('/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
+      Route::get('/modules/{id}', [StudentsModuleController::class, 'index'])->name('moduldes_student_index');
+      Route::get('/subjects', [StudentsSubjectController::class, 'index'])->name('subjects_student_index');
       Route::get('/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
       Route::get('/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
       Route::post('/skip/{id}', [ExamController::class, 'skip'])->name('exam_skip');

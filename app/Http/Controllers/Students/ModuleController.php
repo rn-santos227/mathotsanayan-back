@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Students;
 use App\Http\Controllers\Controller;
 
 use App\Models\Progress;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Module;
 
@@ -29,10 +30,14 @@ class ModuleController extends Controller
 
   public function index(Request $request) {
     if (!$request->id) return response(['error' => 'Illegal Access'], 500);
+    $user = auth('sanctum')->user();
+    $student = Student::where([
+      "user_id" => $user->id,
+    ])->first();
 
     $subject = Subject::find($request->id);
     $progress = Progress::firstOrCreate([
-      'student_id' => $request->query('student_id'),
+      'student_id' => $student->id,
       'subject_id' => $subject->id,
     ]);
     
