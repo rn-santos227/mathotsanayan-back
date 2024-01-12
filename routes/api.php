@@ -9,7 +9,6 @@ use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubjectController;
@@ -20,6 +19,7 @@ use App\Http\Controllers\Admin\AdminController as AdminAdminController;
 use App\Http\Controllers\Admin\AuditController as AdminAuditController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ModuleController as AdminModuleController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\SchoolController as AdminSchoolController;
 use App\Http\Controllers\Admin\SectionController as AdminSectionController;
@@ -32,6 +32,7 @@ use App\Http\Controllers\Teachers\SectionController as TeachersSectionController
 use App\Http\Controllers\Teachers\StudentController as TeachersStudentController;
 
 use App\Http\Controllers\Students\AuditController as StudentsAuditController;
+use App\Http\Controllers\Students\ModuleController as StudentsModuleController;
 use App\Http\Controllers\Students\ResultController as StudentsResultController;
 
 /*
@@ -74,11 +75,11 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/courses/{id}', [AdminCourseController::class, 'update'])->name('courses_update');
     Route::delete('/courses/{id}', [AdminCourseController::class, 'delete'])->name('courses_delete');
 
-    Route::get('/modules', [ModuleController::class, 'index'])->name('moduldes_index');
-    Route::get('/modules/search', [ModuleController::class, 'search'])->name('modules_search');
-    Route::post('/modules/create', [ModuleController::class, 'create'])->name('moduldes_create');
-    Route::patch('/modules/{id}', [ModuleController::class, 'update'])->name('moduldes_update');
-    Route::delete('/modules/{id}', [ModuleController::class, 'delete'])->name('moduldes_delete');
+    Route::get('/modules', [AdminModuleController::class, 'index'])->name('moduldes_index');
+    Route::get('/modules/search', [AdminModuleController::class, 'search'])->name('modules_search');
+    Route::post('/modules/create', [AdminModuleController::class, 'create'])->name('moduldes_create');
+    Route::patch('/modules/{id}', [AdminModuleController::class, 'update'])->name('moduldes_update');
+    Route::delete('/modules/{id}', [AdminModuleController::class, 'delete'])->name('moduldes_delete');
 
     Route::post('/options/create/{id}', [OptionController::class, 'create'])->name('options_create');
     Route::post('/options/{id}', [OptionController::class, 'update'])->name('options_update');
@@ -142,7 +143,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::prefix('student')->group(function () {
       Route::get('/answers/{id}', [AnswerController::class, 'student'])->name('answers_student');
       Route::get('/audit', [StudentsAuditController::class, 'student'])->name('student_audit');         
-      Route::get('/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
+      Route::get('/modules/{id}', [StudentsModuleController::class, 'student'])->name('moduldes_student_index');
       Route::get('/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
       Route::get('/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
       Route::get('/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
@@ -154,7 +155,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   });
 
   Route::post('/image', [ImageController::class, 'image'])->name('image');
-  Route::get('/modules/check/{id}', [ModuleController::class, 'check'])->name('moduldes_check');
+  Route::get('/modules/check/{id}', [StudentsModuleController::class, 'check'])->name('moduldes_check');
 });
 
 //public access
