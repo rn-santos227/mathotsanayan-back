@@ -14,6 +14,14 @@ class ModuleController extends Controller
     $this->middleware('auth:sanctum');
   }
 
+  public function index() {
+    $modules = Module::with('subject', 'questions', 'questions.corrects', 'questions.options')
+    ->orderBy('created_at', 'desc')->paginate(10);
+    return response()->json([
+      'modules' => $modules
+    ]);
+  }
+
   public function search(Request $request) {
     if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
     $modules = Module::with('subject', 'questions', 'questions.corrects', 'questions.options')
