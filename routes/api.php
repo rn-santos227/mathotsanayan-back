@@ -10,7 +10,6 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OptionController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
@@ -19,6 +18,7 @@ use App\Http\Controllers\Admin\AuditController as AdminAuditController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ModuleController as AdminModuleController;
+use App\Http\Controllers\Admin\QuestionController as AdminQuestionController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\SchoolController as AdminSchoolController;
 use App\Http\Controllers\Admin\SectionController as AdminSectionController;
@@ -86,11 +86,11 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/options/{id}', [OptionController::class, 'update'])->name('options_update');
     Route::delete('/options/{id}', [OptionController::class, 'delete'])->name('options_delete');
   
-    Route::get('/questions', [QuestionController::class, 'index'])->name('questions_index');
-    Route::post('/questions/create', [QuestionController::class, 'create'])->name('questions_create');
-    Route::post('/questions/create-all/{id}', [QuestionController::class, 'createMany'])->name('questions_createAll');
-    Route::post('/questions/{id}', [QuestionController::class, 'update'])->name('questions_update');
-    Route::delete('/questions/{id}', [QuestionController::class, 'delete'])->name('questions_delete');
+    Route::get('/questions', [AdminQuestionController::class, 'index'])->name('questions_index');
+    Route::post('/questions/create', [AdminQuestionController::class, 'create'])->name('questions_create');
+    Route::post('/questions/create-all/{id}', [AdminQuestionController::class, 'createMany'])->name('questions_createAll');
+    Route::post('/questions/{id}', [AdminQuestionController::class, 'update'])->name('questions_update');
+    Route::delete('/questions/{id}', [AdminQuestionController::class, 'delete'])->name('questions_delete');
 
     Route::get('/results', [AdminResultController::class, 'index'])->name('results_index');
     Route::get('/results/search', [AdminResultController::class, 'search'])->name('result_search');
