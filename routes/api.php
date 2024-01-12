@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorrectController;
-use App\Http\Controllers\ExamController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OptionController;
@@ -33,6 +32,7 @@ use App\Http\Controllers\Teachers\StudentController as TeachersStudentController
 
 use App\Http\Controllers\Students\AuditController as StudentsAuditController;
 use App\Http\Controllers\Students\AnswerController as StudentsAnswerController;
+use App\Http\Controllers\Students\ExamController as StudentsExamController;
 use App\Http\Controllers\Students\ModuleController as StudentsModuleController;
 use App\Http\Controllers\Students\ResultController as StudentsResultController;
 use App\Http\Controllers\Students\SubjectController as StudentsSubjectController;
@@ -147,12 +147,12 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
       Route::get('/audit', [StudentsAuditController::class, 'student'])->name('student_audit');         
       Route::get('/modules/{id}', [StudentsModuleController::class, 'index'])->name('tudent_moduldes_sindex');
       Route::get('/subjects', [StudentsSubjectController::class, 'index'])->name('student_subjects_index');
-      Route::get('/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
-      Route::get('/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
-      Route::post('/skip/{id}', [ExamController::class, 'skip'])->name('exam_skip');
-      Route::post('/answer/{id}', [ExamController::class, 'answer'])->name('exam_answer');
-
-      Route::get('/results/{id}', [StudentsResultController::class, 'index'])->name('results_student_index');
+      Route::get('/questions/{id}', [StudentsExamController::class, 'questions'])->name('student_exam_question');
+      Route::get('/submit/{id}', [StudentsExamController::class, 'submit'])->name('student_exam_submit');
+      Route::get('/results/{id}', [StudentsResultController::class, 'index'])->name('student_results_index');
+      
+      Route::post('/skip/{id}', [StudentsExamController::class, 'skip'])->name('student_exam_skip');
+      Route::post('/answer/{id}', [StudentsExamController::class, 'answer'])->name('student_exam_answer');
     });
   });
 
