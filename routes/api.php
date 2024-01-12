@@ -13,7 +13,6 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
@@ -25,6 +24,7 @@ use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\SchoolController as AdminSchoolController;
 use App\Http\Controllers\Admin\SectionController as AdminSectionController;
 use App\Http\Controllers\Admin\StudentController as AdminStudentController;
+use App\Http\Controllers\Admin\TeacherController as AdminTeacherController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardController;
@@ -115,11 +115,11 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/subjects/{id}', [SubjectController::class, 'update'])->name('subjects_update');
     Route::delete('/subjects/{id}', [SubjectController::class, 'delete'])->name('subjects_delete');
 
-    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers_index');
-    Route::get('/teachers/search', [TeacherController::class, 'search'])->name('teachers_search');
-    Route::post('/teachers/create', [TeacherController::class, 'create'])->name('teachers_create');
-    Route::patch('/teachers/{id}', [TeacherController::class, 'update'])->name('teachers_update');
-    Route::delete('/teachers/{id}', [TeacherController::class, 'delete'])->name('teachers_delete');
+    Route::get('/teachers', [AdminTeacherController::class, 'index'])->name('teachers_index');
+    Route::get('/teachers/search', [AdminTeacherController::class, 'search'])->name('teachers_search');
+    Route::post('/teachers/create', [AdminTeacherController::class, 'create'])->name('teachers_create');
+    Route::patch('/teachers/{id}', [AdminTeacherController::class, 'update'])->name('teachers_update');
+    Route::delete('/teachers/{id}', [AdminTeacherController::class, 'delete'])->name('teachers_delete');
 
     Route::get('/accounts', [UserController::class, 'index'])->name('accounts_index');
     Route::delete('/accounts/{id}', [UserController::class, 'delete'])->name('accounts_delete');

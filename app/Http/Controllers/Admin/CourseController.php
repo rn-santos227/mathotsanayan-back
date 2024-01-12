@@ -13,6 +13,13 @@ class CourseController extends Controller
     $this->middleware('auth:sanctum');
   }
 
+  public function index() {
+    $courses = Course::get();
+    return response()->json([
+      'courses' => $courses
+    ]);
+  }
+
   public function create(CourseRequest $request) {
     $request->validated();
     $course = Course::create(
