@@ -10,7 +10,7 @@ use App\Http\Requests\AnswerRequest;
 
 class AnswerController extends Controller
 {
-  public function student(AnswerRequest $request) {
+  public function index(AnswerRequest $request) {
     $user = auth('sanctum')->user();
     $student = Student::where([
       "user_id" => $user->id,

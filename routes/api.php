@@ -143,7 +143,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
   Route::group(['middleware' => ['student']], function() {
     Route::prefix('student')->group(function () {
-      Route::get('/answers/{id}', [StudentsAnswerController::class, 'student'])->name('student_answers_index');
+      Route::get('/answers/{id}', [StudentsAnswerController::class, 'index'])->name('student_answers_index');
       Route::get('/audit', [StudentsAuditController::class, 'student'])->name('student_audit');         
       Route::get('/modules/{id}', [StudentsModuleController::class, 'index'])->name('tudent_moduldes_sindex');
       Route::get('/subjects', [StudentsSubjectController::class, 'index'])->name('student_subjects_index');
