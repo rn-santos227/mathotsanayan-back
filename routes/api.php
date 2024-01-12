@@ -4,10 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AnswerController;
-use App\Http\Controllers\AuditController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorrectController;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
@@ -24,6 +22,7 @@ use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
 use App\Http\Controllers\Admin\AuditController as AdminAuditController;
+use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
 
@@ -70,11 +69,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/corrects/{id}', [CorrectController::class, 'update'])->name('correct_update');
     Route::delete('/corrects/{id}', [CorrectController::class, 'delete'])->name('correct_delete');
 
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses_index');
-    Route::get('/courses/search', [CourseController::class, 'search'])->name('courses_search');
-    Route::post('/courses/create', [CourseController::class, 'create'])->name('courses_create');
-    Route::patch('/courses/{id}', [CourseController::class, 'update'])->name('courses_update');
-    Route::delete('/courses/{id}', [CourseController::class, 'delete'])->name('courses_delete');
+    Route::get('/courses', [AdminCourseController::class, 'index'])->name('courses_index');
+    Route::post('/courses/create', [AdminCourseController::class, 'create'])->name('courses_create');
+    Route::patch('/courses/{id}', [AdminCourseController::class, 'update'])->name('courses_update');
+    Route::delete('/courses/{id}', [AdminCourseController::class, 'delete'])->name('courses_delete');
 
     Route::get('/modules', [ModuleController::class, 'index'])->name('moduldes_index');
     Route::get('/modules/search', [ModuleController::class, 'search'])->name('modules_search');
@@ -97,13 +95,11 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/results/{id}', [AdminResultController::class, 'invalidate'])->name('results_invalidate');
 
     Route::get('/schools', [SchoolController::class, 'index'])->name('schools_index');
-    Route::get('/schools/search', [SchoolController::class, 'search'])->name('school_search');
     Route::post('/schools/create', [SchoolController::class, 'create'])->name('schools_create');
     Route::patch('/schools/{id}', [SchoolController::class, 'update'])->name('schools_update');
     Route::delete('/schools/{id}', [SchoolController::class, 'delete'])->name('schools_delete');
 
     Route::get('/sections', [SectionController::class, 'index'])->name('sections_index');
-    Route::get('/sections/search', [SectionController::class, 'search'])->name('sections_search');
     Route::post('/sections/create', [SectionController::class, 'create'])->name('sections_create');
     Route::patch('/sections/{id}', [SectionController::class, 'update'])->name('sections_update');
     Route::delete('/sections/{id}', [SectionController::class, 'delete'])->name('sections_delete');
@@ -115,7 +111,6 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::delete('/students/{id}', [StudentController::class, 'delete'])->name('students_delete');
 
     Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects_index');
-    Route::get('/subjects/search', [SubjectController::class, 'search'])->name('subjects_search');
     Route::post('/subjects/create', [SubjectController::class, 'create'])->name('subjects_create');
     Route::patch('/subjects/{id}', [SubjectController::class, 'update'])->name('subjects_update');
     Route::delete('/subjects/{id}', [SubjectController::class, 'delete'])->name('subjects_delete');
