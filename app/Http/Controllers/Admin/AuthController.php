@@ -14,7 +14,7 @@ class AuthController extends Controller
     $fields = User::validate($request);
     $user = User::where('email', $fields['email'])->first();
 
-    if(!$user || !$user->validatePassword($fields['password']) || $user->type > 1) {
+    if(!$user || !$user->validatePassword($fields['password']) || $user->type != 1) {
       return response([
         'message' => 'Bad Credentials'
       ], 401);
