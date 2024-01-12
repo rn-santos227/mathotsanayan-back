@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
@@ -11,8 +10,9 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
-use App\Http\Controllers\Admin\AuditController as AdminAuditController;
 use App\Http\Controllers\Admin\AnswerController as AdminAnswerController;
+use App\Http\Controllers\Admin\AuditController as AdminAuditController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ModuleController as AdminModuleController;
@@ -26,16 +26,20 @@ use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TeacherController as AdminTeacherController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
+use App\Http\Controllers\Teachers\AuthController as TeacherAuthController;
 use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardController;
 use App\Http\Controllers\Teachers\SectionController as TeachersSectionController;
 use App\Http\Controllers\Teachers\StudentController as TeachersStudentController;
 
 use App\Http\Controllers\Students\AuditController as StudentsAuditController;
 use App\Http\Controllers\Students\AnswerController as StudentsAnswerController;
+use App\Http\Controllers\Students\AuthController as StudentAuthController;
 use App\Http\Controllers\Students\ExamController as StudentsExamController;
 use App\Http\Controllers\Students\ModuleController as StudentsModuleController;
 use App\Http\Controllers\Students\ResultController as StudentsResultController;
 use App\Http\Controllers\Students\SubjectController as StudentsSubjectController;
+
+use App\Http\Controllers\Shared\AuthController as SharedAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,9 +57,12 @@ use App\Http\Controllers\Students\SubjectController as StudentsSubjectController
 // });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
-  Route::get('/logout', [AuthController::class, 'logout']);
-  Route::get('/user/{type}', [AuthController::class, 'user']);
-  Route::post('/password/{id}', [UserController::class, 'password']);
+  Route::get('/admin/user', [AdminAuthController::class, 'user']);
+  Route::get('/teacher/user', [TeacherAuthController::class, 'user']);
+  Route::get('/student/user', [StudentAuthController::class, 'user']);
+
+  Route::get('/logout', [SharedAuthController::class, 'logout']);
+  Route::post('/password', [SharedAuthController::class, 'password']);
 
   Route::middleware(['admin'])->group(function () {
     Route::get('/admin/audit', [AdminAuditController::class, 'admin'])->name('admin_audit');      
@@ -161,7 +168,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 });
 
 //public access
-Route::post('/admin', [AuthController::class, 'admin'])->name('admin');
-Route::post('/teacher', [AuthController::class, 'teacher'])->name('teacher');
-Route::post('/student', [AuthController::class, 'student'])->name('student');
-Route::get('/auth', [AuthController::class, 'auth'])->name('auth');
+Route::post('/admin/login', [AdminAuthController::class, 'index'])->name('login_admin');
+Route::post('/teacher/login', [TeacherAuthController::class, 'index'])->name('login_teacher');
+Route::post('/student/login', [StudentAuthController::class, 'index'])->name('login_student');
+
+Route::get('/auth', [SharedAuthController::class, 'auth'])->name('auth');

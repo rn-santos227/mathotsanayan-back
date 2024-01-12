@@ -35,17 +35,4 @@ class AuthController extends Controller
     $admin = Admin::where('user_id', $user->id)->first();
     return ['admin' => $admin];
   }
-
-  public function auth() {
-    return [
-      'auth' => auth('sanctum')->check(),
-    ];
-  }
-
-  public function logout(Request $request) {
-    $request->user()->tokens()->delete();
-    return [
-      'message' => 'Logged Out'
-    ];
-  }
 }
