@@ -12,7 +12,6 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentController;
@@ -25,6 +24,7 @@ use App\Http\Controllers\Admin\AuditController as AdminAuditController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
+use App\Http\Controllers\Admin\SchoolController as AdminSchoolController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardController;
@@ -94,10 +94,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/results/search', [AdminResultController::class, 'search'])->name('result_search');
     Route::patch('/results/{id}', [AdminResultController::class, 'invalidate'])->name('results_invalidate');
 
-    Route::get('/schools', [SchoolController::class, 'index'])->name('schools_index');
-    Route::post('/schools/create', [SchoolController::class, 'create'])->name('schools_create');
-    Route::patch('/schools/{id}', [SchoolController::class, 'update'])->name('schools_update');
-    Route::delete('/schools/{id}', [SchoolController::class, 'delete'])->name('schools_delete');
+    Route::get('/schools', [AdminSchoolController::class, 'index'])->name('schools_index');
+    Route::post('/schools/create', [AdminSchoolController::class, 'create'])->name('schools_create');
+    Route::patch('/schools/{id}', [AdminSchoolController::class, 'update'])->name('schools_update');
+    Route::delete('/schools/{id}', [AdminSchoolController::class, 'delete'])->name('schools_delete');
 
     Route::get('/sections', [SectionController::class, 'index'])->name('sections_index');
     Route::post('/sections/create', [SectionController::class, 'create'])->name('sections_create');
