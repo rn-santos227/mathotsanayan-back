@@ -7,7 +7,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\OptionController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
@@ -17,6 +16,7 @@ use App\Http\Controllers\Admin\AnswerController as AdminAnswerController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ModuleController as AdminModuleController;
+use App\Http\Controllers\Admin\OptionController as AdminOptionController;
 use App\Http\Controllers\Admin\QuestionController as AdminQuestionController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\SchoolController as AdminSchoolController;
@@ -83,9 +83,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/modules/{id}', [AdminModuleController::class, 'update'])->name('moduldes_update');
     Route::delete('/modules/{id}', [AdminModuleController::class, 'delete'])->name('moduldes_delete');
 
-    Route::post('/options/create/{id}', [OptionController::class, 'create'])->name('options_create');
-    Route::post('/options/{id}', [OptionController::class, 'update'])->name('options_update');
-    Route::delete('/options/{id}', [OptionController::class, 'delete'])->name('options_delete');
+    Route::post('/options/create/{id}', [AdminOptionController::class, 'create'])->name('options_create');
+    Route::post('/options/{id}', [AdminOptionController::class, 'update'])->name('options_update');
+    Route::delete('/options/{id}', [AdminOptionController::class, 'delete'])->name('options_delete');
   
     Route::get('/questions', [AdminQuestionController::class, 'index'])->name('questions_index');
     Route::post('/questions/create', [AdminQuestionController::class, 'create'])->name('questions_create');
