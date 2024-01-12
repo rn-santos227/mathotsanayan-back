@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\ExamController;
@@ -15,6 +14,7 @@ use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
 use App\Http\Controllers\Admin\AuditController as AdminAuditController;
+use App\Http\Controllers\Admin\AnswerController as AdminAnswerController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ModuleController as AdminModuleController;
@@ -32,6 +32,7 @@ use App\Http\Controllers\Teachers\SectionController as TeachersSectionController
 use App\Http\Controllers\Teachers\StudentController as TeachersStudentController;
 
 use App\Http\Controllers\Students\AuditController as StudentsAuditController;
+use App\Http\Controllers\Students\AnswerController as StudentsAnswerController;
 use App\Http\Controllers\Students\ModuleController as StudentsModuleController;
 use App\Http\Controllers\Students\ResultController as StudentsResultController;
 use App\Http\Controllers\Students\SubjectController as StudentsSubjectController;
@@ -60,7 +61,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/admin/audit', [AdminAuditController::class, 'admin'])->name('admin_audit');      
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     
-    Route::get('/answers/{id}', [AnswerController::class, 'index'])->name('answers_index');
+    Route::get('/answers/{id}', [AdminAnswerController::class, 'index'])->name('answers_index');
 
     Route::get('/admins', [AdminAdminController::class, 'index'])->name('admin_index');
     Route::post('/admins/create', [AdminAdminController::class, 'create'])->name('admin_create');
@@ -142,10 +143,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
   Route::group(['middleware' => ['student']], function() {
     Route::prefix('student')->group(function () {
-      Route::get('/answers/{id}', [AnswerController::class, 'student'])->name('answers_student');
+      Route::get('/answers/{id}', [StudentsAnswerController::class, 'student'])->name('student_answers_index');
       Route::get('/audit', [StudentsAuditController::class, 'student'])->name('student_audit');         
-      Route::get('/modules/{id}', [StudentsModuleController::class, 'index'])->name('moduldes_student_index');
-      Route::get('/subjects', [StudentsSubjectController::class, 'index'])->name('subjects_student_index');
+      Route::get('/modules/{id}', [StudentsModuleController::class, 'index'])->name('tudent_moduldes_sindex');
+      Route::get('/subjects', [StudentsSubjectController::class, 'index'])->name('student_subjects_index');
       Route::get('/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
       Route::get('/submit/{id}', [ExamController::class, 'submit'])->name('exam_submit');
       Route::post('/skip/{id}', [ExamController::class, 'skip'])->name('exam_skip');
