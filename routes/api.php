@@ -3,13 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
@@ -24,13 +22,17 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\Admin\AdminController as AdminAdminController;
+use App\Http\Controllers\Admin\AuditController as AdminAuditController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
 
-use App\Http\Controllers\Teachers\DashboardController as TeacherDashboardController;
-use App\Http\Controllers\Teachers\SectionController as TeacherSectionController;
-use App\Http\Controllers\Teachers\StudentController as TeacherStudentController;
+use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
+use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardController;
+use App\Http\Controllers\Teachers\SectionController as TeachersSectionController;
+use App\Http\Controllers\Teachers\StudentController as TeachersStudentController;
 
+use App\Http\Controllers\Students\AuditController as StudentsAuditController;
 use App\Http\Controllers\Students\ResultController as StudentsResultController;
 
 /*
@@ -54,15 +56,15 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   Route::post('/password/{id}', [UserController::class, 'password']);
 
   Route::middleware(['admin'])->group(function () {
-    Route::get('/admin/audit', [AuditController::class, 'admin'])->name('admin_audit');      
+    Route::get('/admin/audit', [AdminAuditController::class, 'admin'])->name('admin_audit');      
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     
     Route::get('/answers/{id}', [AnswerController::class, 'index'])->name('answers_index');
 
-    Route::get('/admins', [AdminController::class, 'index'])->name('admin_index');
-    Route::post('/admins/create', [AdminController::class, 'create'])->name('admin_create');
-    Route::patch('/admins/{id}', [AdminController::class, 'update'])->name('admin_update');
-    Route::delete('/admins/{id}', [AdminController::class, 'delete'])->name('admin_delete');
+    Route::get('/admins', [AdminAdminController::class, 'index'])->name('admin_index');
+    Route::post('/admins/create', [AdminAdminController::class, 'create'])->name('admin_create');
+    Route::patch('/admins/{id}', [AdminAdminController::class, 'update'])->name('admin_update');
+    Route::delete('/admins/{id}', [AdminAdminController::class, 'delete'])->name('admin_delete');
 
     Route::post('/corrects/create/{id}', [CorrectController::class, 'create'])->name('correct_create');
     Route::post('/corrects/{id}', [CorrectController::class, 'update'])->name('correct_update');
@@ -131,20 +133,20 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   });
 
   Route::group(['middleware' => ['teacher']], function() {
-    Route::get('/teacher/audit', [AuditController::class, 'teacher'])->name('teacher_audit');         
-    Route::get('/teacher/dashboard', [TeacherDashboardController::class, 'index'])->name('teacher_dashboard');
+    Route::get('/teacher/audit', [TeachersAuditController::class, 'teacher'])->name('teacher_audit');         
+    Route::get('/teacher/dashboard', [TeachersDashboardController::class, 'index'])->name('teacher_dashboard');
     
     Route::prefix('teachers')->group(function () {
-      Route::get('/sections', [TeacherSectionController::class, 'index'])->name('teachers_sections_index');
+      Route::get('/sections', [TeachersSectionController::class, 'index'])->name('teachers_sections_index');
 
-      Route::get('/students', [TeacherStudentController::class, 'index'])->name('teachers_students_index');
+      Route::get('/students', [TeachersStudentController::class, 'index'])->name('teachers_students_index');
     });
   });
 
   Route::group(['middleware' => ['student']], function() {
     Route::prefix('student')->group(function () {
       Route::get('/answers/{id}', [AnswerController::class, 'student'])->name('answers_student');
-      Route::get('/audit', [AuditController::class, 'student'])->name('student_audit');         
+      Route::get('/audit', [StudentsAuditController::class, 'student'])->name('student_audit');         
       Route::get('/modules/{id}', [ModuleController::class, 'student'])->name('moduldes_student_index');
       Route::get('/subjects', [SubjectController::class, 'student'])->name('subjects_student_index');
       Route::get('/questions/{id}', [ExamController::class, 'questions'])->name('exam_question');
