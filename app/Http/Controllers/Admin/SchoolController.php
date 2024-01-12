@@ -14,6 +14,13 @@ class SchoolController extends Controller
     $this->middleware('auth:sanctum');
   }
 
+  public function index() {
+    $schools = School::orderBy('created_at', 'desc')->get();
+    return response()->json([
+      'schools' => $schools
+    ]);
+  }
+
   public function create(SchoolRequest $request) {
     $request->validated();
     $school = School::create([

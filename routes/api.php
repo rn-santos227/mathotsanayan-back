@@ -12,7 +12,6 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -25,6 +24,7 @@ use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\SchoolController as AdminSchoolController;
+use App\Http\Controllers\Admin\SectionController as AdminSectionController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardController;
@@ -99,10 +99,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/schools/{id}', [AdminSchoolController::class, 'update'])->name('schools_update');
     Route::delete('/schools/{id}', [AdminSchoolController::class, 'delete'])->name('schools_delete');
 
-    Route::get('/sections', [SectionController::class, 'index'])->name('sections_index');
-    Route::post('/sections/create', [SectionController::class, 'create'])->name('sections_create');
-    Route::patch('/sections/{id}', [SectionController::class, 'update'])->name('sections_update');
-    Route::delete('/sections/{id}', [SectionController::class, 'delete'])->name('sections_delete');
+    Route::get('/sections', [AdminSectionController::class, 'index'])->name('sections_index');
+    Route::post('/sections/create', [AdminSectionController::class, 'create'])->name('sections_create');
+    Route::patch('/sections/{id}', [AdminSectionController::class, 'update'])->name('sections_update');
+    Route::delete('/sections/{id}', [AdminSectionController::class, 'delete'])->name('sections_delete');
 
     Route::get('/students', [StudentController::class, 'index'])->name('students_index');
     Route::get('/students/search', [StudentController::class, 'search'])->name('students_search');
