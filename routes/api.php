@@ -13,7 +13,6 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
@@ -25,6 +24,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\SchoolController as AdminSchoolController;
 use App\Http\Controllers\Admin\SectionController as AdminSectionController;
+use App\Http\Controllers\Admin\StudentController as AdminStudentController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardController;
@@ -104,11 +104,11 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/sections/{id}', [AdminSectionController::class, 'update'])->name('sections_update');
     Route::delete('/sections/{id}', [AdminSectionController::class, 'delete'])->name('sections_delete');
 
-    Route::get('/students', [StudentController::class, 'index'])->name('students_index');
-    Route::get('/students/search', [StudentController::class, 'search'])->name('students_search');
-    Route::post('/students/create', [StudentController::class, 'create'])->name('students_create');
-    Route::patch('/students/{id}', [StudentController::class, 'update'])->name('students_update');
-    Route::delete('/students/{id}', [StudentController::class, 'delete'])->name('students_delete');
+    Route::get('/students', [AdminStudentController::class, 'index'])->name('students_index');
+    Route::get('/students/search', [AdminStudentController::class, 'search'])->name('students_search');
+    Route::post('/students/create', [AdminStudentController::class, 'create'])->name('students_create');
+    Route::patch('/students/{id}', [AdminStudentController::class, 'update'])->name('students_update');
+    Route::delete('/students/{id}', [AdminStudentController::class, 'delete'])->name('students_delete');
 
     Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects_index');
     Route::post('/subjects/create', [SubjectController::class, 'create'])->name('subjects_create');
