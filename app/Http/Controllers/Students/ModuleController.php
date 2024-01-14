@@ -8,7 +8,6 @@ use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Module;
 
-use App\Http\Requests\ModuleRequest;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller

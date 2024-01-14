@@ -3,8 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\GradeController;
-
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
 use App\Http\Controllers\Admin\AnswerController as AdminAnswerController;
 use App\Http\Controllers\Admin\AuditController as AdminAuditController;
@@ -40,6 +38,7 @@ use App\Http\Controllers\Students\SubjectController as StudentsSubjectController
 
 use App\Http\Controllers\Shared\AuthController as SharedAuthController;
 use App\Http\Controllers\Shared\ImageController as SharedImageController;
+use App\Http\Controllers\Shared\ModuleController as SharedModuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -164,7 +163,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   });
 
   Route::post('/image', [SharedImageController::class, 'image'])->name('image');
-  Route::get('/modules/check/{id}', [StudentsModuleController::class, 'check'])->name('module_check');
+  Route::get('/modules/check/{id}', [SharedModuleController::class, 'check'])->name('module_check');
 });
 
 //public access
