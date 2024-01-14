@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GradeController;
-use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
 use App\Http\Controllers\Admin\AnswerController as AdminAnswerController;
@@ -23,6 +22,7 @@ use App\Http\Controllers\Admin\StudentController as AdminStudentController;
 use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TeacherController as AdminTeacherController;
 use App\Http\Controllers\Admin\TestController as AdminTestController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\AuthController as TeacherAuthController;
@@ -131,8 +131,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/teachers/{id}', [AdminTeacherController::class, 'update'])->name('teachers_update');
     Route::delete('/teachers/{id}', [AdminTeacherController::class, 'delete'])->name('teachers_delete');
 
-    Route::get('/accounts', [UserController::class, 'index'])->name('accounts_index');
-    Route::delete('/accounts/{id}', [UserController::class, 'delete'])->name('accounts_delete');
+    Route::get('/accounts', [AdminUserController::class, 'index'])->name('accounts_index');
+    Route::delete('/accounts/{id}', [AdminUserController::class, 'delete'])->name('accounts_delete');
 
     Route::post('/test/{id}', [AdminTestController::class, 'submit'])->name('admin_test');
   });
