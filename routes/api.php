@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\AuthController as TeacherAuthController;
+use App\Http\Controllers\Teachers\CourseController as TeacherCourseController;
 use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardController;
 use App\Http\Controllers\Teachers\SectionController as TeachersSectionController;
 use App\Http\Controllers\Teachers\StudentController as TeachersStudentController;
@@ -141,6 +142,11 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/teacher/dashboard', [TeachersDashboardController::class, 'index'])->name('teacher_dashboard');
     
     Route::prefix('teachers')->group(function () {
+      Route::get('/courses', [TeacherCourseController::class, 'index'])->name('teachers_courses_index');
+      Route::post('/courses/create', [TeacherCourseController::class, 'create'])->name('teachers_courses_create');
+      Route::patch('/courses/{id}', [TeacherCourseController::class, 'update'])->name('teachers_courses_update');
+      Route::delete('/courses/{id}', [TeacherCourseController::class, 'delete'])->name('teachers_courses_delete');
+
       Route::get('/sections', [TeachersSectionController::class, 'index'])->name('teachers_sections_index');
       Route::post('/sections/create', [TeachersSectionController::class, 'create'])->name('teachers_ssections_create');
       Route::patch('/sections/{id}', [TeachersSectionController::class, 'update'])->name('teachers_ssections_update');
