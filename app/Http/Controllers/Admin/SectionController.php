@@ -29,7 +29,7 @@ class SectionController extends Controller
       'description' => $request->description,
       'teacher_id' => $request->teacher,
       'school_id' => $request->school,
-  ])->load('teacher', 'school', 'students');
+    ])->load('teacher', 'school', 'students');
 
     return response([
       'section' => $section,

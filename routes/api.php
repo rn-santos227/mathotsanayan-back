@@ -142,6 +142,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     
     Route::prefix('teachers')->group(function () {
       Route::get('/sections', [TeachersSectionController::class, 'index'])->name('teachers_sections_index');
+      Route::post('/sections/create', [TeachersSectionController::class, 'create'])->name('teachers_ssections_create');
+      Route::patch('/sections/{id}', [TeachersSectionController::class, 'update'])->name('teachers_ssections_update');
+      Route::delete('/sections/{id}', [TeachersSectionController::class, 'delete'])->name('teachers_ssections_delete');
 
       Route::get('/students', [TeachersStudentController::class, 'index'])->name('teachers_students_index');
     });

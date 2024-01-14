@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Section;
 use App\Models\Teacher;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\SectionRequest;
 
 class SectionController extends Controller
 {
@@ -27,5 +27,80 @@ class SectionController extends Controller
     return response()->json([
       'sections' => $sections
     ]);
+  }
+
+  public function create(SectionRequest $request) {
+    $request->validated();
+
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      "user_id" => $user->id,
+    ])->first();
+
+    $section = Section::create([
+      'name' => $request->name,
+      'description' => $request->description,
+      'teacher_id' => $teacher->id,
+      'school_id' => $request->school,
+    ])->load('teacher', 'school', 'students');
+
+    return response([
+      'section' => $section,
+    ], 201);
+  }
+
+  public function update(SectionRequest $request) {
+    $request->validated();
+
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      'user_id' => $user->id,
+    ])->first();
+
+
+    $section = Section::where([
+      'id' => $request->id,
+      'teacher_id' => $teacher->id,
+    ])->fist();
+
+    if(!isset($section)) {
+      return response([
+        'error' => 'Illegal Access',
+      ], 201);
+    }
+
+    $section->update([
+      'name' => $request->name,
+      'description' => $request->description,
+      'school_id' => $request->school,
+    ]);
+
+    $section->load('teacher', 'school', 'students');
+    return response([
+      'section' => $section,
+    ], 201);
+  }
+
+  public function delete(SectionRequest $request ){
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      'user_id' => $user->id,
+    ])->first();
+
+    $section = Section::where([
+      'id' => $request->id,
+      'teacher_id' => $teacher->id,
+    ])->fist();
+
+    if(!isset($section)) {
+      return response([
+        'error' => 'Illegal Access',
+      ], 201);
+    }
+
+    $section->delete();
+    return response([
+      'section' => $section,
+    ], 201);
   }
 }
