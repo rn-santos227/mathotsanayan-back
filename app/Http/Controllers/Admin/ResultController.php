@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
 use App\Models\Result;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ResultRequest;
 use Illuminate\Http\Request;
 
