@@ -3,10 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\CorrectController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
@@ -14,6 +12,7 @@ use App\Http\Controllers\Admin\AnswerController as AdminAnswerController;
 use App\Http\Controllers\Admin\AuditController as AdminAuditController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
+use App\Http\Controllers\Admin\CorrectController as AdminCorrectController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ModuleController as AdminModuleController;
 use App\Http\Controllers\Admin\OptionController as AdminOptionController;
@@ -24,6 +23,7 @@ use App\Http\Controllers\Admin\SectionController as AdminSectionController;
 use App\Http\Controllers\Admin\StudentController as AdminStudentController;
 use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TeacherController as AdminTeacherController;
+use App\Http\Controllers\Admin\TestController as AdminTestController;
 
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\AuthController as TeacherAuthController;
@@ -75,9 +75,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::patch('/admins/{id}', [AdminAdminController::class, 'update'])->name('admin_update');
     Route::delete('/admins/{id}', [AdminAdminController::class, 'delete'])->name('admin_delete');
 
-    Route::post('/corrects/create/{id}', [CorrectController::class, 'create'])->name('correct_create');
-    Route::post('/corrects/{id}', [CorrectController::class, 'update'])->name('correct_update');
-    Route::delete('/corrects/{id}', [CorrectController::class, 'delete'])->name('correct_delete');
+    Route::post('/corrects/create/{id}', [AdminCorrectController::class, 'create'])->name('correct_create');
+    Route::post('/corrects/{id}', [AdminCorrectController::class, 'update'])->name('correct_update');
+    Route::delete('/corrects/{id}', [AdminCorrectController::class, 'delete'])->name('correct_delete');
 
     Route::get('/courses', [AdminCourseController::class, 'index'])->name('courses_index');
     Route::post('/courses/create', [AdminCourseController::class, 'create'])->name('courses_create');
@@ -134,7 +134,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/accounts', [UserController::class, 'index'])->name('accounts_index');
     Route::delete('/accounts/{id}', [UserController::class, 'delete'])->name('accounts_delete');
 
-    Route::post('/test/{id}', [TestController::class, 'submit'])->name('admin_test');
+    Route::post('/test/{id}', [AdminTestController::class, 'submit'])->name('admin_test');
   });
 
   Route::group(['middleware' => ['teacher']], function() {
@@ -164,7 +164,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   });
 
   Route::post('/image', [ImageController::class, 'image'])->name('image');
-  Route::get('/modules/check/{id}', [StudentsModuleController::class, 'check'])->name('moduldes_check');
+  Route::get('/modules/check/{id}', [StudentsModuleController::class, 'check'])->name('module_check');
 });
 
 //public access
