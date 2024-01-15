@@ -33,6 +33,7 @@ use App\Http\Controllers\Teachers\StudentController as TeachersStudentController
 use App\Http\Controllers\Students\AuditController as StudentsAuditController;
 use App\Http\Controllers\Students\AnswerController as StudentsAnswerController;
 use App\Http\Controllers\Students\AuthController as StudentAuthController;
+use App\Http\Controllers\Students\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Students\ExamController as StudentsExamController;
 use App\Http\Controllers\Students\ModuleController as StudentsModuleController;
 use App\Http\Controllers\Students\ResultController as StudentsResultController;
@@ -139,10 +140,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   });
 
   Route::group(['middleware' => ['teacher']], function() {
-    Route::get('/teacher/audit', [TeachersAuditController::class, 'teacher'])->name('teacher_audit');         
-    Route::get('/teacher/dashboard', [TeachersDashboardController::class, 'index'])->name('teacher_dashboard');
-    
     Route::prefix('teachers')->group(function () {
+      Route::get('/audit', [TeachersAuditController::class, 'teacher'])->name('teacher_audit');         
+      Route::get('/dashboard', [TeachersDashboardController::class, 'index'])->name('teacher_dashboard');
+    
       Route::get('/courses', [TeacherCourseController::class, 'index'])->name('teachers_courses_index');
       Route::post('/courses/create', [TeacherCourseController::class, 'create'])->name('teachers_courses_create');
       Route::patch('/courses/{id}', [TeacherCourseController::class, 'update'])->name('teachers_courses_update');
@@ -168,14 +169,16 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
   Route::group(['middleware' => ['student']], function() {
     Route::prefix('student')->group(function () {
-      Route::get('/answers/{id}', [StudentsAnswerController::class, 'index'])->name('student_answers_index');
-      Route::get('/audit', [StudentsAuditController::class, 'student'])->name('student_audit');         
-      Route::get('/modules/{id}', [StudentsModuleController::class, 'index'])->name('tudent_moduldes_sindex');
-      Route::get('/subjects', [StudentsSubjectController::class, 'index'])->name('student_subjects_index');
+      Route::get('/audit', [StudentsAuditController::class, 'teacher'])->name('student_audit');         
+      Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student_dashboard');
+    
+      Route::get('/answers/{id}', [StudentsAnswerController::class, 'index'])->name('student_answers_index');    
+      Route::get('/modules/{id}', [StudentsModuleController::class, 'index'])->name('student_moduldes_sindex');
       Route::get('/questions/{id}', [StudentsExamController::class, 'questions'])->name('student_exam_question');
-      Route::get('/submit/{id}', [StudentsExamController::class, 'submit'])->name('student_exam_submit');
       Route::get('/results/{id}', [StudentsResultController::class, 'index'])->name('student_results_index');
-      
+      Route::get('/submit/{id}', [StudentsExamController::class, 'submit'])->name('student_exam_submit');
+      Route::get('/subjects', [StudentsSubjectController::class, 'index'])->name('student_subjects_index');
+       
       Route::post('/skip/{id}', [StudentsExamController::class, 'skip'])->name('student_exam_skip');
       Route::post('/answer/{id}', [StudentsExamController::class, 'answer'])->name('student_exam_answer');
     });
