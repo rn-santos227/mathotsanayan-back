@@ -50,20 +50,19 @@ class StudentController extends Controller
       "user_id" => $user->id,
     ])->first();
 
+    $section = Section::where('id', $request->section)
+    ->where('teacher_id', $teacher->id)
+    ->first();
+
+    if (!$section) {
+      return response(['error' => 'Illegal Access'], 500);
+    }
+
     $user = User::create([
       'type' => 3,
       'email' => $request->email,
       'password' => $request->password,
     ]);
-
-    $section = Section::where([
-      'id' => $request->section,
-      'teacher_id' => $teacher->id,
-    ])->first();
-
-    if(!isset($section)) {
-      return response(['error' => 'Illegal Access'], 500);
-    }
 
     $student = Student::create([
       'first_name' => $request->first_name,
@@ -95,7 +94,6 @@ class StudentController extends Controller
     $teacher = Teacher::where([
       "user_id" => $user->id,
     ])->first();
-
 
     $students = Student::with('section', 'school', 'course')
     ->whereHas('section', function ($query) use ($teacher) {
@@ -129,5 +127,66 @@ class StudentController extends Controller
     return response()->json([
       'students' => $students,
     ]);
+  }
+
+  public function update(StudentRequest $request) {
+    $request->validated();
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      "user_id" => $user->id,
+    ])->first();
+
+    $section = Section::where('id', is_numeric($request->section)  ? $request->section['id'] : $request->section_id)
+    ->where('teacher_id', $teacher->id)
+    ->first();
+
+    if (!$section) {
+      return response(['error' => 'Illegal Access'], 500);
+    }
+
+    $student = Student::find($request->id);
+    $student->makeVisible('user_id');
+    if(!empty($request->password)) {
+      $user = User::find($student->user_id);
+      $user->update([
+        'email' => $request->email,
+        'password' => $request->password,
+      ]);
+    }
+
+    $student->update([
+      'first_name' => $request->first_name,
+      'middle_name' => $request->middle_name,
+      'last_name' => $request->last_name,
+      'suffix' => $request->suffix,
+      'email' => $request->email,
+      'contact_number' => $request->contact_number,
+      'student_number' => $request->student_number,
+      'course_id' => is_numeric($request->course) ? $request->course['id'] : $request->course_id,
+      'school_id' => is_numeric($request->school) ? $request->school['id'] : $request->school_id,
+      'section_id' => $section->id,
+    ]);
+    
+    $student->load('school', 'section', 'course');
+    return response([
+      'student' => $student,
+    ], 201);
+  }
+
+  public function delete(StudentRequest $request){
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      'user_id' => $user->id,
+    ])->first();
+
+    $student = Student::where('id', $request->id)
+    ->whereHas('section', function ($query) use ($teacher) {
+        $query->where('teacher_id', $teacher->id);
+    })->first();
+
+    $student->delete();
+    return response([
+      'student' => $student,
+    ], 201);
   }
 }
