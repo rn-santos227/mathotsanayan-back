@@ -26,6 +26,7 @@ use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\AuthController as TeacherAuthController;
 use App\Http\Controllers\Teachers\CourseController as TeacherCourseController;
 use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardController;
+use App\Http\Controllers\Teachers\SchoolController as TeacherSchoolController;
 use App\Http\Controllers\Teachers\SectionController as TeachersSectionController;
 use App\Http\Controllers\Teachers\StudentController as TeachersStudentController;
 
@@ -147,9 +148,14 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
       Route::patch('/courses/{id}', [TeacherCourseController::class, 'update'])->name('teachers_courses_update');
       Route::delete('/courses/{id}', [TeacherCourseController::class, 'delete'])->name('teachers_courses_delete');
 
+      Route::get('/schools', [TeacherSchoolController::class, 'index'])->name('teachers_schools_index');
+      Route::post('/schools/create', [TeacherSchoolController::class, 'create'])->name('teachers_schools_create');
+      Route::patch('/schools/{id}', [TeacherSchoolController::class, 'update'])->name('teachers_schools_update');
+      Route::delete('/schools/{id}', [TeacherSchoolController::class, 'delete'])->name('teachers_schools_delete');
+
       Route::get('/sections', [TeachersSectionController::class, 'index'])->name('teachers_sections_index');
-      Route::post('/sections/create', [TeachersSectionController::class, 'create'])->name('teachers_ssections_create');
-      Route::patch('/sections/{id}', [TeachersSectionController::class, 'update'])->name('teachers_ssections_update');
+      Route::post('/sections/create', [TeachersSectionController::class, 'create'])->name('teachers_sections_create');
+      Route::patch('/sections/{id}', [TeachersSectionController::class, 'update'])->name('teachers_sections_update');
       Route::delete('/sections/{id}', [TeachersSectionController::class, 'delete'])->name('teachers_ssections_delete');
 
       Route::get('/students', [TeachersStudentController::class, 'index'])->name('teachers_students_index');
