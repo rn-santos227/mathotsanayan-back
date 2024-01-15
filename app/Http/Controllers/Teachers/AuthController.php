@@ -28,7 +28,7 @@ class AuthController extends Controller
 
   public function user(Request $request) {
     $user = auth('sanctum')->user();
-    if ($user->type != 1) {
+    if ($user->type != 2) {
       return response(['error' => 'Illegal Access'], 500);
     }
 
