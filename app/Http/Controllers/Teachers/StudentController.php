@@ -57,8 +57,13 @@ class StudentController extends Controller
     ]);
 
     $section = Section::where([
+      'id' => $request->section,
       'teacher_id' => $teacher->id,
     ])->first();
+
+    if(!isset($section)) {
+      return response(['error' => 'Illegal Access'], 500);
+    }
 
     $student = Student::create([
       'first_name' => $request->first_name,
@@ -82,5 +87,47 @@ class StudentController extends Controller
     return response([
       'student' => $student,
     ], 201);
+  }
+
+  public function search(Request $request) {
+    if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      "user_id" => $user->id,
+    ])->first();
+
+
+    $students = Student::with('section','school','course')
+    ->where(function($query) use($request) {
+      $category = $request->query('category');
+      $search = $request->query('search');
+      switch ($category) {
+      case 'full_name':
+        $query->whereRaw("CONCAT(last_name, ', ', first_name, ' ', COALESCE(suffix, ''), ' ', UPPER(SUBSTRING(middle_name, 1, 1))) LIKE ?", ['%' . $search . '%']);
+        break;
+
+      case 'email':
+        $query->where('email', 'like', '%' . $search . '%');
+        break;
+
+      case 'school.name':
+        $query->whereHas('school', function ($query) use ($search) {
+          $query->where('name', 'like', '%' . $search . '%');
+        });
+        break;
+
+      case 'section.name':
+        $query->whereHas('section', function ($query) use ($search) {
+          $query->where('name', 'like', '%' . $search . '%');
+        });
+        break;
+      }
+    })
+    ->orderBy('created_at', 'desc')
+    ->get();
+
+    return response()->json([
+      'students' => $students,
+    ]);
   }
 }
