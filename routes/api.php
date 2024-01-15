@@ -153,6 +153,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
       Route::delete('/sections/{id}', [TeachersSectionController::class, 'delete'])->name('teachers_ssections_delete');
 
       Route::get('/students', [TeachersStudentController::class, 'index'])->name('teachers_students_index');
+      Route::get('/students/search', [TeachersStudentController::class, 'search'])->name('teachers_students_search');
+      Route::get('/students/create', [TeachersStudentController::class, 'create'])->name('teachers_students_create');
     });
   });
 

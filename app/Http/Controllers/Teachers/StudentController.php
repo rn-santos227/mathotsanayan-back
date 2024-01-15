@@ -97,30 +97,30 @@ class StudentController extends Controller
     ])->first();
 
 
-    $students = Student::with('section','school','course')
-    ->where(function($query) use($request) {
+    $students = Student::with('section', 'school', 'course')
+    ->whereHas('section', function ($query) use ($teacher) {
+      $query->where('teacher_id', $teacher->id);
+    })
+    ->where(function ($query) use ($request) {
       $category = $request->query('category');
       $search = $request->query('search');
+
       switch ($category) {
-      case 'full_name':
-        $query->whereRaw("CONCAT(last_name, ', ', first_name, ' ', COALESCE(suffix, ''), ' ', UPPER(SUBSTRING(middle_name, 1, 1))) LIKE ?", ['%' . $search . '%']);
-        break;
+        case 'full_name':
+          $query->whereRaw("CONCAT(last_name, ', ', first_name, ' ', COALESCE(suffix, ''), ' ', UPPER(SUBSTRING(middle_name, 1, 1))) LIKE ?", ['%' . $search . '%']);
+          break;
 
-      case 'email':
-        $query->where('email', 'like', '%' . $search . '%');
-        break;
+        case 'email':
+          $query->where('email', 'like', '%' . $search . '%');
+          break;
 
-      case 'school.name':
-        $query->whereHas('school', function ($query) use ($search) {
-          $query->where('name', 'like', '%' . $search . '%');
-        });
-        break;
-
-      case 'section.name':
-        $query->whereHas('section', function ($query) use ($search) {
-          $query->where('name', 'like', '%' . $search . '%');
-        });
-        break;
+        case 'school.name':
+        case 'section.name':
+          $relation = $category == 'school.name' ? 'school' : 'section';
+          $query->whereHas($relation, function ($query) use ($search, $category) {
+              $query->where('name', 'like', '%' . $search . '%');
+          });
+          break;
       }
     })
     ->orderBy('created_at', 'desc')
