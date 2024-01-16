@@ -67,7 +67,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   Route::post('/password', [SharedAuthController::class, 'password']);
 
   Route::middleware(['admin'])->group(function () {
-    Route::get('/admin/audit', [AdminAuditController::class, 'admin'])->name('admin_audit');      
+    Route::get('/admin/audit', [AdminAuditController::class, 'index'])->name('admin_audit');      
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     
     Route::get('/answers/{id}', [AdminAnswerController::class, 'index'])->name('answers_index');
@@ -141,7 +141,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
   Route::group(['middleware' => ['teacher']], function() {
     Route::prefix('teachers')->group(function () {
-      Route::get('/audit', [TeachersAuditController::class, 'teacher'])->name('teacher_audit');         
+      Route::get('/audit', [TeachersAuditController::class, 'index'])->name('teacher_audit');         
       Route::get('/dashboard', [TeachersDashboardController::class, 'index'])->name('teacher_dashboard');
     
       Route::get('/courses', [TeacherCourseController::class, 'index'])->name('teachers_courses_index');
@@ -169,7 +169,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
   Route::group(['middleware' => ['student']], function() {
     Route::prefix('student')->group(function () {
-      Route::get('/audit', [StudentsAuditController::class, 'teacher'])->name('student_audit');         
+      Route::get('/audit', [StudentsAuditController::class, 'index'])->name('student_audit');         
       Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student_dashboard');
     
       Route::get('/answers/{id}', [StudentsAnswerController::class, 'index'])->name('student_answers_index');    
