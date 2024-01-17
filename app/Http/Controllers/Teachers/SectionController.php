@@ -20,7 +20,7 @@ class SectionController extends Controller
       "user_id" => $user->id,
     ])->first();
 
-    $sections = Section::where([
+    $sections = Section::with('school', 'students')->where([
       'teacher_id' => $teacher->id
     ])->get();
 
