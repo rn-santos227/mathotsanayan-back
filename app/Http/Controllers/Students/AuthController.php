@@ -33,6 +33,7 @@ class AuthController extends Controller
     }
 
     $student = Student::where('user_id', $user->id)->first();
+    $student->load('course','section','school','section.teacher');
     return ['student' => $student];
   }
 }
