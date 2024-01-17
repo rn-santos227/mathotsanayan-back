@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   });
 
   Route::group(['middleware' => ['teacher']], function() {
-    Route::prefix('teachers')->group(function () {
+    Route::prefix('teacher')->group(function () {
       Route::get('/audit', [TeachersAuditController::class, 'index'])->name('teacher_audit');         
       Route::get('/dashboard', [TeachersDashboardController::class, 'index'])->name('teacher_dashboard');
     
