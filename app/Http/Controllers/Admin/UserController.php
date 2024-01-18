@@ -16,6 +16,13 @@ class UserController extends Controller
     $this->middleware('auth:sanctum');
   }
 
+  public function index() {
+    $accounts = User::all();
+    return response()->json([
+        'accounts' => $accounts
+    ]);
+}
+
   public function reset(UserRequest $request) {
     $user = User::find($request->id);
     $user->update([
