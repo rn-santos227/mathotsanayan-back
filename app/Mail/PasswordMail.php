@@ -12,14 +12,17 @@ use Illuminate\Queue\SerializesModels;
 class PasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $email;
+    public $password;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($email, $password)
     {
-        //
+        $this->email = $email;
+        $this->password = $password;
     }
+
 
     /**
      * Get the message envelope.
@@ -27,7 +30,7 @@ class PasswordMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Password Mail',
+            subject: 'Mathotsanayan Password Reset',
         );
     }
 
@@ -37,7 +40,11 @@ class PasswordMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.password',
+            with: [
+                'email' => $this->email,
+                'password' => $this->password, 
+            ]
         );
     }
 
