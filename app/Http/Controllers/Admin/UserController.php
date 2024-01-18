@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordMail;
 
 class UserController extends Controller
 {
@@ -14,8 +16,19 @@ class UserController extends Controller
     $this->middleware('auth:sanctum');
   }
 
-  public function email(Request $request) {
-    
+  public function email(UserRequest $request) {
+    $user = User::find($request->id);
+    $user->update([
+      'password' => $request->password,
+    ]);
+
+    $username = $request->email;
+    $password = $request->password;
+    Mail::to($request->email)->send(new PasswordMail($username, $password));
+
+    return response([
+      'user' => $user,
+    ], 201);
   }
 
   public function delete(UserRequest $request) {
