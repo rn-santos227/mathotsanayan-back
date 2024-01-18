@@ -104,4 +104,27 @@ class ResultController extends Controller
         'results' => $results
     ], 200);
   }
+
+  public function invalidate(ResultRequest $request ){
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      "user_id" => $user->id,
+    ])->first();
+
+    $result = Result::where([
+      'id' => $request->id
+    ])->whereHas('student', function ($query) use ($teacher) {
+      $query->whereNull('students.deleted_at')
+      ->whereHas('section', function($query) use ($teacher) {
+        $query->where('teacher_id', $teacher->id);
+      });
+    })->first();
+
+    $result->update([
+      'invalidate' => 1,
+    ]);
+    return response([
+        'result' => $result,
+    ], 201);
+  }
 }
