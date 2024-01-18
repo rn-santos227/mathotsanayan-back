@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\TeacherController as AdminTeacherController;
 use App\Http\Controllers\Admin\TestController as AdminTestController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 
+use App\Http\Controllers\Teachers\AnswerController as TeacherAnswerController;
 use App\Http\Controllers\Teachers\AuditController as TeachersAuditController;
 use App\Http\Controllers\Teachers\AuthController as TeacherAuthController;
 use App\Http\Controllers\Teachers\CourseController as TeacherCourseController;
@@ -146,14 +147,16 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
       Route::get('/audit', [TeachersAuditController::class, 'index'])->name('teacher_audit');         
       Route::get('/dashboard', [TeachersDashboardController::class, 'index'])->name('teacher_dashboard');
     
+      Route::get('/answers/{id}', [TeacherAnswerController::class, 'index'])->name('teacher_answers_index');
+
       Route::get('/courses', [TeacherCourseController::class, 'index'])->name('teachers_courses_index');
       Route::post('/courses/create', [TeacherCourseController::class, 'create'])->name('teachers_courses_create');
       Route::patch('/courses/{id}', [TeacherCourseController::class, 'update'])->name('teachers_courses_update');
       Route::delete('/courses/{id}', [TeacherCourseController::class, 'delete'])->name('teachers_courses_delete');
 
-      Route::get('/results', [TeacherResultController::class, 'index'])->name('results_index');
-      Route::get('/results/search', [TeacherResultController::class, 'search'])->name('result_search');
-      Route::patch('/results/{id}', [TeacherResultController::class, 'invalidate'])->name('results_invalidate');
+      Route::get('/results', [TeacherResultController::class, 'index'])->name('teacher_results_index');
+      Route::get('/results/search', [TeacherResultController::class, 'search'])->name('teacher_result_search');
+      Route::patch('/results/{id}', [TeacherResultController::class, 'invalidate'])->name('teacher_results_invalidate');
 
       Route::get('/schools', [TeacherSchoolController::class, 'index'])->name('teachers_schools_index');
       Route::post('/schools/create', [TeacherSchoolController::class, 'create'])->name('teachers_schools_create');
