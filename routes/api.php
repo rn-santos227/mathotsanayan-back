@@ -134,6 +134,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::delete('/teachers/{id}', [AdminTeacherController::class, 'delete'])->name('teachers_delete');
 
     Route::get('/accounts', [AdminUserController::class, 'index'])->name('accounts_index');
+    Route::patch('/accounts/reset/{id}', [AdminUserController::class, 'reset'])->name('accounts_password_reset');
     Route::delete('/accounts/{id}', [AdminUserController::class, 'delete'])->name('accounts_delete');
 
     Route::post('/test/{id}', [AdminTestController::class, 'submit'])->name('admin_test');

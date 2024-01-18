@@ -16,7 +16,7 @@ class UserController extends Controller
     $this->middleware('auth:sanctum');
   }
 
-  public function email(UserRequest $request) {
+  public function reset(UserRequest $request) {
     $user = User::find($request->id);
     $user->update([
       'password' => $request->password,
