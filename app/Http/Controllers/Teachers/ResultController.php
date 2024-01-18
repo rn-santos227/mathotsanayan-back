@@ -42,4 +42,66 @@ class ResultController extends Controller
         'results' => $results
     ], 200);
   }
+
+  public function search(Request $request) {
+    if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      "user_id" => $user->id,
+    ])->first();
+
+    $results = Result::with('module', 'progress', 'student', 'student.section', 'student.school')
+    ->where([
+        'completed' => 1,
+        'invalidate' => 0,
+    ])->where(function ($query) use ($request) {
+      $category = $request->query('category');
+      $search = $request->query('search');
+      switch ($category) {
+        case 'module.name':
+          $query->whereHas('module', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+          });
+          break;
+
+        case 'student.full_name':
+          $query->whereHas('student', function ($query) use ($search) {
+            $query->whereRaw("CONCAT(last_name, ', ', first_name, ' ', COALESCE(suffix, ''), ' ', UPPER(SUBSTRING(middle_name, 1, 1))) LIKE ?", ['%' . $search . '%']);
+          });
+          break;
+
+        case 'module.subject':
+          $query->whereHas('module.subject', function ($query) use ($search) {
+              $query->where('name', 'like', '%' . $search . '%');
+          });
+          break;
+
+        case 'student.section':
+          $query->whereHas('student.section', function ($query) use ($search) {
+              $query->where('name', 'like', '%' . $search . '%');
+          });
+          break;
+
+        case 'student.school':
+          $query->whereHas('student.school', function ($query) use ($search) {
+              $query->where('name', 'like', '%' . $search . '%');
+          });
+          break;
+      }
+      $query->whereHas('student', function ($query) {
+        $query->whereNull('students.deleted_at');
+      });
+    })->whereHas('student', function ($query) use ($teacher) {
+      $query->whereNull('students.deleted_at')
+      ->whereHas('section', function($query) use ($teacher) {
+        $query->where('teacher_id', $teacher->id);
+      });
+    })->orderBy('created_at', 'desc')
+    ->get();
+
+    $results->makeVisible(['timer', 'completed', 'total_score']);
+    return response([
+        'results' => $results
+    ], 200);
+  }
 }
