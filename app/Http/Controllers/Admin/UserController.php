@@ -17,7 +17,7 @@ class UserController extends Controller
   }
 
   public function index() {
-    $accounts = User::all();
+    $accounts = User::where('id', '!=', auth('sanctum')->user()->id)->orderBy('created_at', 'desc')->get();
     return response()->json([
         'accounts' => $accounts
     ]);
