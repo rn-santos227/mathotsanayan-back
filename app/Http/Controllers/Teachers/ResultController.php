@@ -120,6 +120,8 @@ class ResultController extends Controller
       });
     })->first();
 
+    if(!$result) return response(['error' => 'Illegal Access'], 500);
+    
     $result->update([
       'invalidate' => 1,
     ]);
