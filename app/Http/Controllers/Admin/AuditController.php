@@ -20,6 +20,6 @@ class AuditController extends Controller
 
     return response([
       'audit' => $audit
-  ], 200);
+    ], 200);
   }
 }
