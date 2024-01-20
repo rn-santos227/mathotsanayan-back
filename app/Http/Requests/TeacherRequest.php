@@ -53,7 +53,6 @@ class TeacherRequest extends FormRequest
                 'suffix' => 'max:5|string|nullable',
                 'contact_number' => 'max:50|string|nullable',
                 'school' => 'required',
-                'password' => 'min:6|max:50|nullable',
                 'email' => 'required',
             ];
         } else {

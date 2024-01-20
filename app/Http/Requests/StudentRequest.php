@@ -59,7 +59,6 @@ class StudentRequest extends FormRequest
                 'email' => 'required',
                 'school' => 'required',
                 'section' => 'required',
-                'password' => 'min:6|max:50|nullable',
             ];
         } else {
             return [];

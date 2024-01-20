@@ -46,7 +46,6 @@ class AdminRequest extends FormRequest
                 'name' => 'required|max:200|string',
                 'email' => 'required',
                 'contact_number' => 'max:50|string|nullable',
-                'password' => 'min:6|max:50|nullable',
             ];
         } else {
             return [];
