@@ -146,13 +146,6 @@ class StudentController extends Controller
 
     $student = Student::find($request->id);
     $student->makeVisible('user_id');
-    if(!empty($request->password)) {
-      $user = User::find($student->user_id);
-      $user->update([
-        'email' => $request->email,
-        'password' => $request->password,
-      ]);
-    }
 
     $student->update([
       'first_name' => $request->first_name,

@@ -94,15 +94,6 @@ class TeacherController extends Controller
     $request->validated();
     $teacher = Teacher::find($request->id);
 
-    if(!empty($request->password)) {
-      $teacher->makeVisible('user_id');
-      $user = User::find($teacher->user_id);
-      $user->update([
-        'email' => $request->email,
-        'password' => $request->password,
-      ]);
-    }
-    
     $teacher->update([
       'first_name' => $request->first_name,
       'middle_name' => $request->middle_name,

@@ -52,14 +52,7 @@ class AdminController extends Controller
   public function update(AdminRequest $request) {
     $request->validated();
     $admin = Admin::find($request->id);
-    if(!empty($request->password)) {
-      $user = User::find($admin->user_id);
-      $user->update([
-        'email' => $request->email,
-        'password' => $request->password,
-      ]);
-    }
-
+    
     $admin->update([
       'name' => $request->name,
       'email' => $request->email,
