@@ -30,6 +30,14 @@ class AuditController extends Controller
       $category = $request->query('category');
       $search = $request->query('search');
       switch ($category) {
+        case 'user.full_name';
+          $query->whereHas('user', function ($userQuery) use ($search) {
+            $userQuery->whereHas('owner', function ($ownerQuery) use ($search) {
+                $ownerQuery->whereRaw("CONCAT(last_name, ', ', first_name, ' ', COALESCE(suffix, ''), ' ', UPPER(SUBSTRING(middle_name, 1, 1))) LIKE ?", ['%' . $search . '%']);
+            });
+          });
+          break;
+
         case 'activity':
           $query->where('activity', 'like', '%' . $search . '%');
           break;
