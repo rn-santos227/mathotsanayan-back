@@ -38,7 +38,7 @@ class AuditController extends Controller
           $query->where('content', 'like', '%' . $search . '%');
           break;
 
-        case 'created_at':
+        case 'date':
           if (preg_match('/^\d{4}(-\d{2})?$/', $search)) {
               $query->where('created_at', 'like', $search . '%');
           } else {
