@@ -69,7 +69,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   Route::post('/password', [SharedAuthController::class, 'password']);
 
   Route::middleware(['admin'])->group(function () {
-    Route::get('/admin/audit', [AdminAuditController::class, 'index'])->name('admin_audit');      
+    Route::get('/admin/audit', [AdminAuditController::class, 'index'])->name('admin_audit'); 
+    Route::get('/admin/audit/search', [AdminAuditController::class, 'search'])->name('admin_audit_search');           
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     
     Route::get('/answers/{id}', [AdminAnswerController::class, 'index'])->name('answers_index');
