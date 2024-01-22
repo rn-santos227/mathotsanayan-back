@@ -29,9 +29,9 @@ class UserController extends Controller
       'password' => $request->password,
     ]);
 
-    $username = $request->email;
+    $username = $user->email;
     $password = $request->password;
-    Mail::to($request->email)->send(new PasswordMail($username, $password));
+    Mail::to($user->email)->send(new PasswordMail($username, $password));
 
     return response([
       'user' => $user,
