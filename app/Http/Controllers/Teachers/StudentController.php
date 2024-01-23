@@ -105,7 +105,13 @@ class StudentController extends Controller
 
       switch ($category) {
         case 'full_name':
-          $query->whereRaw("CONCAT(last_name, ', ', first_name, ' ', COALESCE(suffix, ''), ' ', UPPER(SUBSTRING(middle_name, 1, 1))) LIKE ?", ['%' . $search . '%']);
+          $search = '%' . $search . '%';   
+          $query->where(function ($query) use ($search) {
+            $query->where('last_name', 'LIKE', $search)
+            ->orWhere('first_name', 'LIKE', $search)
+            ->orWhere('suffix', 'LIKE', $search)
+            ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
+          });
           break;
 
         case 'email':
