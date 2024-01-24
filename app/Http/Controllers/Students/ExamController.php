@@ -10,6 +10,7 @@ use App\Models\Progress;
 use App\Models\Module;
 use App\Models\Question;
 use App\Models\Result;
+use App\Models\Student;
 
 use Illuminate\Http\Request;
 
@@ -29,9 +30,14 @@ class ExamController extends Controller
       return response(['error' => 'Illegal Access'], 500);
     }
     $module->load("questions");
+    $user = auth('sanctum')->user();
+    $student = Student::where([
+      "user_id" => $user->id,
+    ])->first();
+
 
     $progress = Progress::where([
-      'student_id' => $request->query('student_id'),
+      'student_id' => $student->id,
       'subject_id' => $module->subject_id,
     ])->first();
 
@@ -39,7 +45,7 @@ class ExamController extends Controller
       'completed' => 0,
       'progress_id' => $progress->id,
       'module_id' => $module->id,
-      'student_id' => $request->query('student_id'),
+      'student_id' => $student->id,
     ])->first();
     
     if (!$result) {
@@ -48,7 +54,7 @@ class ExamController extends Controller
         'items' => $module->questions->count(),
         'progress_id' => $progress->id,
         'module_id' => $module->id,
-        'student_id' => $request->query('student_id'),
+        'student_id' => $student->id,
       ]);
     } else {
       $answers = Answer::where([
