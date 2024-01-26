@@ -29,7 +29,18 @@ class Result extends Model
         'timer',
         'completed',
         'total_score',
+        'grade',
+        'invalidate'
     ];
+
+    protected $appends = [
+        'grade'
+    ];
+
+    public function getGradeAttribute() {
+        $grade = ($this->total_score / $this->items) * 100;
+        return $grade;
+    }
 
     public function answers() {
         return $this->hasMany(Answer::class)->withTrashed(); 

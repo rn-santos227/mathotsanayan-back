@@ -41,4 +41,8 @@ class DashboardController extends Controller
       'teachers' => $teachers
     ]]);
   }
+
+  public function ratio() {
+    
+  }
 }
