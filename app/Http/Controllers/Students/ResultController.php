@@ -30,7 +30,8 @@ class ResultController extends Controller
         $query->where('active', 1);
     })
     ->get();
-    $results->makeVisible(['timer', 'completed', 'total_score']);
+
+    $results->makeVisible(['timer', 'completed', 'total_score', 'grade']);
     return response([
         'results' => $results
     ], 200);
