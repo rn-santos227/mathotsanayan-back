@@ -76,9 +76,10 @@ class DashboardController extends Controller
 
     foreach($modules as $module) {
       $result_module = [
-        'modules' => $module,
+        'module' => $module,
         'passed' => 0,
         'failed' => 0,
+        'total' => 0,
       ];
 
       $results = Result::where([
@@ -89,12 +90,14 @@ class DashboardController extends Controller
 
       foreach ($results as $result) {
         $module = $result->module;
+        $result_module['total'] =  $result_module['total'] + 1;
         if($result->grade >= $module->passing) {
           $result_module['passed'] =  $result_module['passed'] + 1;
         } else {
           $result_module['failed'] =  $result_module['failed'] + 1;
         }
       }
+
       array_push($result_modules, $result_module);
     }
 
