@@ -57,4 +57,44 @@ class DashboardController extends Controller
       'results' => $results,
     ]]);
   }
+
+  public function ratio() {
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      "user_id" => $user->id,
+    ])->first();
+
+    $graph = [
+      'passed' => 0,
+      'failed' => 0,
+    ];
+
+    $results = Result::where([
+      'completed' => 1,
+      'invalidate' => 0,
+    ])->whereHas('student', function ($query) use($teacher) {
+      $query->whereNull('students.deleted_at')
+      ->whereHas('section', function ($query) use($teacher) {
+        $query->where([
+          'teacher_id' => $teacher->id,
+        ]);
+      });
+    })->get();
+
+    $results->makeVisible(['total_score', 'grade', 'module']);
+
+    foreach ($results as $result) {
+      $module = $result->module;
+      if($result->grade >= $module->passing) {
+        $graph['passed'] =  $graph['passed'] + 1;
+      } else {
+        $graph['failed'] =  $graph['failed'] + 1;
+      }
+    }
+
+    return response()->json([
+      'graph' => $graph
+    ]);
+  }
+
 }
