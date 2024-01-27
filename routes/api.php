@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/admin/audit/search', [AdminAuditController::class, 'search'])->name('admin_audit_search');           
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     Route::get('/admin/dashboard/ratio', [AdminDashboardController::class, 'ratio'])->name('admin_dashboard_ratio');
+    Route::get('/admin/dashboard/modules', [AdminDashboardController::class, 'modules'])->name('admin_dashboard_modules');
 
     Route::get('/answers/{id}', [AdminAnswerController::class, 'index'])->name('answers_index');
 
