@@ -34,22 +34,13 @@ class SectionRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->isMethod('post')) {
+        if (!$this->isMethod('delete')) {
             return [
                 'name' => 'required|max:200',
-                'email' => 'required|unique:admins',
-                'contact_number' => 'max:50|string|nullable',
-                'password' => 'required|min:6|max:50',
+                'teacher' => 'required',
+                'school' => 'required',
             ];
-        } else if ($this->isMethod('patch')) {
-            return [
-                'name' => 'required|max:200',
-                'email' => 'required|unique:admins',
-                'contact_number' => 'max:50|string|nullable',
-                'password' => 'min:6|max:50|nullable',
-            ];
-        } else {
-            return [];
         }
+        return [];
     }
 }
