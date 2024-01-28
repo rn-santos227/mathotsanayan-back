@@ -150,7 +150,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
       Route::get('/audit', [TeachersAuditController::class, 'index'])->name('teacher_audit');         
       Route::get('/dashboard', [TeachersDashboardController::class, 'index'])->name('teacher_dashboard');
       Route::get('/dashboard/ratio', [TeachersDashboardController::class, 'ratio'])->name('teacher_dashboard_ratio');
-    
+      Route::get('/dashboard/modules', [TeachersDashboardController::class, 'modules'])->name('teacher_dashboard_modules');
+
       Route::get('/answers/{id}', [TeacherAnswerController::class, 'index'])->name('teacher_answers_index');
 
       Route::get('/courses', [TeacherCourseController::class, 'index'])->name('teachers_courses_index');
