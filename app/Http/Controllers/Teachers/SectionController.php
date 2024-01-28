@@ -97,6 +97,11 @@ class SectionController extends Controller
         'error' => 'Illegal Access',
       ], 201);
     }
+    if ($section->students()->count() > 0) {
+      return response([
+          'message' => 'Cannot delete section with students.',
+      ], 400);
+    }
 
     $section->delete();
     return response([

@@ -118,6 +118,12 @@ class TeacherController extends Controller
 
   public function delete(TeacherRequest $request ){
     $teacher = Teacher::find($request->id);
+    if ($teacher->sections()->count() > 0) {
+      return response([
+          'message' => 'Cannot delete teacher with sections.',
+      ], 400);
+    }
+
     $teacher->delete();
     return response([
       'teacher' => $teacher,
