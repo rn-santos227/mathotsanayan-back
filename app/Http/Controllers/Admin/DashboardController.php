@@ -86,7 +86,9 @@ class DashboardController extends Controller
         'completed' => 1,
         'invalidate' => 0,
         'module_id' => $module->id,
-      ])->get();
+      ])->whereHas('student', function ($query) {
+        $query->whereNull('students.deleted_at'); 
+      })->get();
 
       foreach ($results as $result) {
         $module = $result->module;

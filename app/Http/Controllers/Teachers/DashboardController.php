@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teachers;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Module;
 use App\Models\Result;
 use App\Models\School;
 use App\Models\Section;
@@ -97,4 +98,26 @@ class DashboardController extends Controller
     ]);
   }
 
+  public function modules() {
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      "user_id" => $user->id,
+    ])->first();
+
+    $modules = Module::get();
+    $result_modules = [];
+
+    foreach($modules as $module) {
+      $result_module = [
+        'module' => $module,
+        'passed' => 0,
+        'failed' => 0,
+        'total' => 0,
+      ];
+    }
+
+    return response()->json([
+      'result_modules' => $result_modules
+    ]);
+  }
 }
