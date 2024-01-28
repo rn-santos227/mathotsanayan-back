@@ -54,6 +54,13 @@ class SectionController extends Controller
 
   public function delete(SectionRequest $request ){
     $section = Section::find($request->id);
+
+    if ($section->students()->count() > 0) {
+      return response([
+          'message' => 'Cannot delete section with students.',
+      ], 400);
+    }
+
     $section->delete();
     return response([
       'section' => $section,

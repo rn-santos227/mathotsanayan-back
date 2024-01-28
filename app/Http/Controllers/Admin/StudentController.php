@@ -32,14 +32,14 @@ class StudentController extends Controller
       $search = $request->query('search');
       switch ($category) {
       case 'full_name':
-        $search = '%' . $search . '%';   
-        $query->where(function ($query) use ($search) {
-          $query->where('last_name', 'LIKE', $search)
-          ->orWhere('first_name', 'LIKE', $search)
-          ->orWhere('suffix', 'LIKE', $search)
-          ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
-        });
-        break;
+      $search = '%' . $search . '%';   
+      $query->where(function ($query) use ($search) {
+        $query->where('last_name', 'LIKE', $search)
+        ->orWhere('first_name', 'LIKE', $search)
+        ->orWhere('suffix', 'LIKE', $search)
+        ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
+      });
+      break;
 
       case 'email':
         $query->where('email', 'like', '%' . $search . '%');
@@ -123,6 +123,13 @@ class StudentController extends Controller
 
   public function delete(StudentRequest $request){
     $student = Student::find($request->id);
+    
+    if ($student->results()->count() > 0) {
+      return response([
+          'message' => 'Cannot delete student with results.',
+      ], 400);
+    }
+    
     $student->delete();
     return response([
       'student' => $student,

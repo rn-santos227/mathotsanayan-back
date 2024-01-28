@@ -51,6 +51,12 @@ class SubjectController extends Controller
 
   public function delete(SubjectRequest $request) {
     $subject = Subject::find($request->id);
+    if ($subject->modules()->count() > 0) {
+      return response([
+          'message' => 'Cannot delete subject with modules.',
+      ], 400);
+    }
+
     $subject->delete();
     return response([
       'subject' => $subject,
