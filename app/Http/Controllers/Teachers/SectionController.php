@@ -72,7 +72,7 @@ class SectionController extends Controller
     $section->update([
       'name' => $request->name,
       'description' => $request->description,
-      'school_id' => $request->school,
+      'school_id' => is_numeric($request->school) ? $request->school['id'] : $request->school_id,
     ]);
 
     $section->load('teacher', 'school', 'students');
