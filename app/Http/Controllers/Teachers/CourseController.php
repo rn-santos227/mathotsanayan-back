@@ -52,6 +52,12 @@ class CourseController extends Controller
 
   public function delete(CourseRequest $request) {
     $course = Course::find($request->id);
+    if ($course->students()->count() > 0) {
+      return response([
+          'message' => 'Cannot delete course with students.',
+      ], 400);
+    }
+
     $course->delete();
     return response([
       'course' => $course,
