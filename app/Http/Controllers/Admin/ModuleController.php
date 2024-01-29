@@ -91,6 +91,11 @@ class ModuleController extends Controller
   public function delete(ModuleRequest $request){
     $module = Module::find($request->id);
     if ($module->active) return response(['error' => 'Cannot delate when its active.'], 500);
+    if ($module->questions()->count() > 0) {
+      return response([
+          'message' => 'Cannot module teacher with questions.',
+      ], 400);
+    }
 
     $module->delete();
     return response([
