@@ -53,6 +53,12 @@ class SchoolController extends Controller
 
   public function delete(SchoolRequest $request ){
     $school = School::find($request->id);
+    if ($school->sections()->count() > 0) {
+      return response([
+          'message' => 'Cannot delete school with sections.',
+      ], 400);
+    }
+
     $school->delete();
     return response([
       'school' => $school,
