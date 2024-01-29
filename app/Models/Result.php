@@ -38,10 +38,12 @@ class Result extends Model
     ];
 
     public function getGradeAttribute() {
+        $grade = 0;
         if($this->items != 0) {
             $grade = ($this->total_score / $this->items) * 100;
         } else {
-            $grade = 0;
+            $module = Module::find($this->module_id);
+            $grade = ($this->total_score / $module->questions->count) * 100;
         }
 
         return $grade;
