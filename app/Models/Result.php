@@ -43,6 +43,7 @@ class Result extends Model
             $grade = ($this->total_score / $this->items) * 100;
         } else {
             $module = Module::find($this->module_id);
+            $module->load('questions');
             $grade = ($this->total_score / $module->questions->count) * 100;
         }
 
