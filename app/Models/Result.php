@@ -38,7 +38,12 @@ class Result extends Model
     ];
 
     public function getGradeAttribute() {
-        $grade = ($this->total_score / $this->items) * 100;
+        if($this->items != 0) {
+            $grade = ($this->total_score / $this->items) * 100;
+        } else {
+            $grade = 0;
+        }
+
         return $grade;
     }
 
