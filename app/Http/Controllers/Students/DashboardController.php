@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Students;
 use App\Http\Controllers\Controller;
 
+use App\Models\Module;
+use App\Models\Progress;
 use App\Models\Result;
 use App\Models\Student;
 
@@ -13,6 +15,37 @@ class DashboardController extends Controller
   }
 
   public function index() {
+    $user = auth('sanctum')->user();
+    $student = Student::where('user_id', $user->id)->first();
+    
+    $progress = Progress::where([
+      'student_id' => $student->id,
+    ])->first();
+
+    $step = $progress->progress + 1;
+    $modules = Module::where([
+      "active" => 1,
+    ])
+    ->where('step', '<=', $step)
+    ->has('questions')
+    ->with('subject')
+    ->count();
+
+    $results = Result::with('student')
+    ->where([
+        'completed' => 1,
+        'invalidate' => 0,
+        'student_id' => $student->id,
+    ])->count();
+
+    return response()->json([
+      'dashboard' => [
+        'modules' => $modules,
+        'results' => $results,
+      ]]);
+  }
+
+  public function ratio() {
     $user = auth('sanctum')->user();
     $student = Student::where('user_id', $user->id)->first();
     
