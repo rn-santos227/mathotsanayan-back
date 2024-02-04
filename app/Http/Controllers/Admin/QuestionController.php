@@ -182,4 +182,21 @@ class QuestionController extends Controller
       'question' => $question,
     ], 201);
   }
+
+  public function removeImage(Request $request) {
+    if(!$request->id) return response([
+      'error' => 'Illegal Access',
+    ], 500); 
+
+    $question = Question::find($request->id);
+
+    if (Storage::disk('minio')->exists($question->file)) {
+      Storage::disk('minio')->delete($question->file);
+      $question->update(['file' => '']);
+    }
+
+    return response([
+      'question' => $question,
+    ], 201);
+  }
 }
