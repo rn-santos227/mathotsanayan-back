@@ -103,8 +103,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
   
     Route::get('/questions', [AdminQuestionController::class, 'index'])->name('questions_index');
     Route::post('/questions/create', [AdminQuestionController::class, 'create'])->name('questions_create');
-    Route::post('/questions/create-all/{id}', [AdminQuestionController::class, 'createMany'])->name('questions_createAll');
+    Route::post('/questions/create-all/{id}', [AdminQuestionController::class, 'createMany'])->name('questions_create_all');
     Route::post('/questions/{id}', [AdminQuestionController::class, 'update'])->name('questions_update');
+    Route::patch('/questions/img-remove/{id}', [AdminQuestionController::class, 'removeImage'])->name('questions_remove_image');
     Route::delete('/questions/{id}', [AdminQuestionController::class, 'delete'])->name('questions_delete');
 
     Route::get('/results', [AdminResultController::class, 'index'])->name('results_index');
