@@ -73,4 +73,43 @@ class DashboardController extends Controller
       ],
     ], 200);
   }
+
+  public function modules() {
+    $user = auth('sanctum')->user();
+    $student = Student::where('user_id', $user->id)->first();
+    $modules = Module::get();
+    $result_modules = [];
+
+    foreach($modules as $module) {
+      $result_module = [
+        'module' => $module,
+        'passed' => 0,
+        'failed' => 0,
+        'total' => 0,
+      ];
+
+      $results = Result::where([
+        'completed' => 1,
+        'invalidate' => 0,
+        'module_id' => $module->id,
+        'student_id' => $student->id,
+      ])->get();
+
+      foreach ($results as $result) {
+        $module = $result->module;
+        $result_module['total'] =  $result_module['total'] + 1;
+        if($result->grade >= $module->passing) {
+          $result_module['passed'] =  $result_module['passed'] + 1;
+        } else {
+          $result_module['failed'] =  $result_module['failed'] + 1;
+        }
+      }
+
+      array_push($result_modules, $result_module);
+    }
+
+    return response()->json([
+      'result_modules' => $result_modules
+    ]);
+  }
 }
