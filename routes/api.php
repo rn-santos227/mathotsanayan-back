@@ -187,7 +187,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
       Route::get('/audit', [StudentsAuditController::class, 'index'])->name('student_audit');         
       Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student_dashboard');
       Route::get('/dashboard/ratio', [StudentDashboardController::class, 'ratio'])->name('student_dashboard_ratio');
-    
+      Route::get('/dashboard/modules', [StudentDashboardController::class, 'modules'])->name('student_dashboard_modules');
+
       Route::get('/answers/{id}', [StudentsAnswerController::class, 'index'])->name('student_answers_index');    
       Route::get('/modules/{id}', [StudentsModuleController::class, 'index'])->name('student_moduldes_sindex');
       Route::get('/questions/{id}', [StudentsExamController::class, 'questions'])->name('student_exam_question');
