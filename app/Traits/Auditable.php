@@ -32,7 +32,7 @@ trait Auditable
             'user_id'    => $userId,
             'activity'   => $activity,
             'table'      => $this->getTable(),
-            'content'    => json_encode($this->attributes),
+            'content'    => json_encode($attributesToAudit),
             'ip_address' => Request::ip(),
         ]);
     }
