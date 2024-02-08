@@ -183,7 +183,7 @@ class QuestionController extends Controller
     ], 201);
   }
 
-  public function removeImage(Request $request) {
+public function removeImage(Request $request) {
     if(!$request->id) return response([
       'error' => 'Illegal Access',
     ], 500); 

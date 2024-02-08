@@ -123,13 +123,12 @@ class StudentController extends Controller
 
   public function delete(StudentRequest $request){
     $student = Student::find($request->id);
-    
     if ($student->results()->count() > 0) {
       return response([
           'message' => 'Cannot delete student with results.',
       ], 400);
     }
-    
+
     $student->delete();
     return response([
       'student' => $student,
