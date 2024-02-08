@@ -7,9 +7,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Answer;
+use App\Models\Audit;
 use App\Models\Module;
 use App\Models\Progress;
 use App\Models\Student;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class Result extends Model
 {
@@ -36,6 +40,18 @@ class Result extends Model
     protected $appends = [
         'grade'
     ];
+
+    public static function recordExam($module) {
+        $userId = Auth::id() ?? 1; 
+        Audit::create([
+			'user_id'    => $userId,
+			'activity'   => 'take exam',
+			'table'      => 'modules', 
+			'content'    => json_encode($module),
+			'ip_address' => Request::ip(),
+			'created_at' => now(),
+		]);
+    }
 
     public function getGradeAttribute() {
         $grade = 0;
