@@ -21,6 +21,7 @@ class TestController extends Controller
 
     $question = Question::find($request->id);
     $question->load('corrects');
+    $question->testQuestion($question);
     
     $check = false;
     $solution = null;
