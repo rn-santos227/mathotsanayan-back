@@ -7,6 +7,7 @@ use App\Models\Module;
 use App\Models\Progress;
 use App\Models\Result;
 use App\Models\Student;
+use App\Models\Subject;
 
 class DashboardController extends Controller
 {
@@ -28,8 +29,9 @@ class DashboardController extends Controller
     ])
     ->where('step', '<=', $step)
     ->has('questions')
-    ->with('subject')
     ->count();
+
+    $subjects = Subject::has('modules')->count();
 
     $results = Result::with('student')
     ->where([
@@ -41,6 +43,7 @@ class DashboardController extends Controller
     return response()->json([
       'dashboard' => [
         'modules' => $modules,
+        'subjects' => $subjects,
         'results' => $results,
       ]]);
   }
