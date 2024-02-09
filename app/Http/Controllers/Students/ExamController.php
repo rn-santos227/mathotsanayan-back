@@ -29,6 +29,7 @@ class ExamController extends Controller
     if (!$module) {
       return response(['error' => 'Illegal Access'], 500);
     }
+    
     $module->load("questions");
     $user = auth('sanctum')->user();
     $student = Student::where([
@@ -76,6 +77,8 @@ class ExamController extends Controller
         'timer' => 0,
       ]);
     }
+
+    $result->recordExam($module);
 
     $questions = Question::with('options')->where([
       'module_id' => $request->id,

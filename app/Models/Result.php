@@ -41,7 +41,7 @@ class Result extends Model
         'grade'
     ];
 
-    public static function recordExam($module) {
+    public function recordExam($module) {
         $userId = Auth::id() ?? 1; 
         Audit::create([
 			'user_id'    => $userId,
