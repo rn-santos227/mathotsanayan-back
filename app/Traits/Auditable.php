@@ -47,4 +47,16 @@ trait Auditable
 			'created_at' => now(),
 		]);
 	}
+
+	public static function testQuestion($question) {
+		$userId = Auth::id() ?? 1; 
+		Audit::create([
+			'user_id'    => $userId,
+			'activity'   => 'test',
+			'table'      => 'questions', 
+			'content'    => json_encode($question),
+			'ip_address' => Request::ip(),
+			'created_at' => now(),
+		]);
+	}
 }
