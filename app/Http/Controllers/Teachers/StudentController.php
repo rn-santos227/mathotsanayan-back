@@ -142,7 +142,7 @@ class StudentController extends Controller
       "user_id" => $user->id,
     ])->first();
 
-    $section = Section::where('id', is_numeric($request->section)  ? $request->section['id'] : $request->section_id)
+    $section = Section::where('id', is_numeric($request->section)  ? $request->section: $request->section['id'])
     ->where('teacher_id', $teacher->id)
     ->first();
 
@@ -161,8 +161,8 @@ class StudentController extends Controller
       'email' => $request->email,
       'contact_number' => $request->contact_number,
       'student_number' => $request->student_number,
-      'course_id' => is_numeric($request->course) ? $request->course['id'] : $request->course_id,
-      'school_id' => is_numeric($request->school) ? $request->school['id'] : $request->school_id,
+      'course_id' => is_numeric($request->course) ? $request->course : $request->course['id'],
+      'school_id' => is_numeric($request->school) ? $request->school : $request->school['id'],
       'section_id' => $section->id,
     ]);
     
