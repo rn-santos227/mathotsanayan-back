@@ -34,12 +34,20 @@ class SectionRequest extends FormRequest
      */
     public function rules(): array
     {
+        
         if (!$this->isMethod('delete')) {
-            return [
+            $rules = [
                 'name' => 'required|max:200',
-                'teacher' => 'required',
                 'school' => 'required',
             ];
+        
+            if (strpos(request()->url(), '/teacher/') !== false) {
+                unset($rules['teacher']);
+            } else {
+                $rules['teacher'] = 'required';
+            }
+        
+            return $rules;
         }
         return [];
     }
