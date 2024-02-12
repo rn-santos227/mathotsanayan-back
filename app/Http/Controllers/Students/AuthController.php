@@ -20,7 +20,7 @@ class AuthController extends Controller
       ], 401);
     }
 
-    $student = Student::with('section','school','course', 'section.teacher')->where([
+    $student = Student::with('section','school','course','section.teacher')->where([
       "user_id" => $user->id,
     ])->first();
     return $user->getToken($user, $student, "student");
