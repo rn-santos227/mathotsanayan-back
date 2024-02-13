@@ -196,5 +196,23 @@ class StudentController extends Controller
     $teacher = Teacher::where([
       'user_id' => $user->id,
     ])->first();
+
+    $student = Student::where('id', $request->id)
+    ->whereHas('section', function ($query) use ($teacher) {
+        $query->where('teacher_id', $teacher->id);
+    })->first();
+
+    $user = User::find($student->user_id);
+    $user->update([
+      'password' => $request->password,
+    ]);
+
+    $username = $user->email;
+    $password = $request->password;
+    Mail::to($user->email)->send(new PasswordMail($username, $password));
+
+    return response([
+      'student' => $student,
+    ], 201);
   }
 }
