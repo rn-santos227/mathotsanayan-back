@@ -191,7 +191,7 @@ class StudentController extends Controller
     ], 201);
   }
 
-  public function password(UserRequest $request) {
+  public function reset(UserRequest $request) {
     $user = auth('sanctum')->user();
     $teacher = Teacher::where([
       'user_id' => $user->id,

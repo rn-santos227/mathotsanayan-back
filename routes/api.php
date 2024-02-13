@@ -176,6 +176,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
       Route::get('/students', [TeachersStudentController::class, 'index'])->name('teachers_students_index');
       Route::get('/students/search', [TeachersStudentController::class, 'search'])->name('teachers_students_search');
+      Route::post('/students/reset/{id}', [TeachersStudentController::class, 'create'])->name('teachers_students_reset');
       Route::post('/students/create', [TeachersStudentController::class, 'create'])->name('teachers_students_create');
       Route::patch('/students/{id}', [TeachersStudentController::class, 'update'])->name('teachers_students_update');
       Route::delete('/students/{id}', [TeachersStudentController::class, 'delete'])->name('teachers_students_delete');
