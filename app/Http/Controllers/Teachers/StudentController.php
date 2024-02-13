@@ -10,10 +10,12 @@ use App\Models\Teacher;
 use App\Models\User;
 
 use App\Http\Requests\StudentRequest;
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StudentMail;
+use App\Mail\PasswordMail;
 
 class StudentController extends Controller
 {
@@ -187,5 +189,12 @@ class StudentController extends Controller
     return response([
       'student' => $student,
     ], 201);
+  }
+
+  public function password(UserRequest $request) {
+    $user = auth('sanctum')->user();
+    $teacher = Teacher::where([
+      'user_id' => $user->id,
+    ])->first();
   }
 }
