@@ -20,7 +20,7 @@ class AuthController extends Controller
       ], 401);
     }
 
-    $teacher = Teacher::with('school','section')->where([
+    $teacher = Teacher::with('school')->where([
       "user_id" => $user->id,
     ])->first();
     return $user->getToken($user, $teacher, "teacher");
@@ -32,7 +32,7 @@ class AuthController extends Controller
       return response(['error' => 'Illegal Access'], 500);
     }
 
-    $teacher = Teacher::with('school','section')->where('user_id', $user->id)->first();
+    $teacher = Teacher::with('school')->where('user_id', $user->id)->first();
     $teacher->load('school');
     return ['teacher' => $teacher];
   }
