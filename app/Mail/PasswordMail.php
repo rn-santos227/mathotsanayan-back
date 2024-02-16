@@ -47,6 +47,7 @@ class PasswordMail extends Mailable
             with: [
                 'email' => $this->email,
                 'password' => $this->password, 
+                'type' => $this->type,
             ]
         );
     }
