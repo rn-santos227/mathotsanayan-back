@@ -14,13 +14,15 @@ class PasswordMail extends Mailable
     use Queueable, SerializesModels;
     public $email;
     public $password;
+    public $type;
     /**
      * Create a new message instance.
      */
-    public function __construct($email, $password)
+    public function __construct($email, $password, $type)
     {
         $this->email = $email;
         $this->password = $password;
+        $this->type = $type;
     }
 
 
@@ -39,8 +41,9 @@ class PasswordMail extends Mailable
      */
     public function content(): Content
     {
+        $view = 'emails.password';
         return new Content(
-            view: 'emails.password',
+            view: $view,
             with: [
                 'email' => $this->email,
                 'password' => $this->password, 

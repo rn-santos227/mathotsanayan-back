@@ -209,7 +209,7 @@ class StudentController extends Controller
 
     $username = $user->email;
     $password = $request->password;
-    Mail::to($user->email)->send(new PasswordMail($username, $password));
+    Mail::to($user->email)->send(new PasswordMail($username, $password, $user->type));
 
     return response([
       'student' => $student,
