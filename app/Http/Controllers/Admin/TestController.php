@@ -33,6 +33,12 @@ class TestController extends Controller
       }
     }
 
+    if(!$check) {
+      $solution = Correct::where([
+        'question_id' => $question->id
+      ])->inRandomOrder()->first();
+    }
+
     return response([
       'solution' => $solution,
       'correct' => $check,
