@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Correct;
 use App\Models\Question;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\TestRequest;
 
 class TestController extends Controller
 {
@@ -14,11 +14,7 @@ class TestController extends Controller
     $this->middleware('auth:sanctum');
   }
 
-  public function submit(Request $request) {
-    if (!$request->id) {
-      return response(['error' => 'Illegal Access'], 500);
-    }
-
+  public function submit(TestRequest $request) {
     $question = Question::find($request->id);
     $question->load('corrects');
     $question->testQuestion($question);

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Teachers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 use App\Models\Correct;
 use App\Models\Question;
+
+use App\Http\Requests\TestRequest;
 
 class TestController extends Controller
 {
@@ -14,7 +15,7 @@ class TestController extends Controller
     $this->middleware('auth:sanctum');
   }
 
-  public function submit(Request $request) {
+  public function submit(TestRequest $request) {
     if (!$request->id) {
       return response(['error' => 'Illegal Access'], 500);
     }
