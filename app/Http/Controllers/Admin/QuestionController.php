@@ -18,6 +18,22 @@ class QuestionController extends Controller
     $this->middleware('auth:sanctum');
   }
 
+  public function index(Request $request) {
+    if(!$request->id) return response([
+      'error' => 'Illegal Access',
+    ], 500); 
+    $module = Module::find($request->id);
+    if (!$module) return response(['error' => 'Illegal Access'], 500);
+
+    $questions = Question::with('corrects','options')->where([
+      'module_id' => $module->id
+    ])->get();
+
+    return response([
+      'questions' => $questions,
+    ], 201);
+  }
+
   public function createMany(Request $request) {
     $module = Module::find($request->module);
     if (!$module) return response(['error' => 'Illegal Access'], 500);
@@ -183,7 +199,7 @@ class QuestionController extends Controller
     ], 201);
   }
 
-public function removeImage(Request $request) {
+  public function removeImage(Request $request) {
     if(!$request->id) return response([
       'error' => 'Illegal Access',
     ], 500); 
