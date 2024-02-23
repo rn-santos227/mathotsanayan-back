@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Module;
 use App\Models\Result;
-use App\Models\School;
 use App\Models\Section;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -23,7 +22,12 @@ class DashboardController extends Controller
       "user_id" => $user->id,
     ])->first();
 
-    $schools = School::count();
+    $modules = Module::where([
+      "active" => 1,
+    ])
+    ->has('questions')
+    ->count();
+
     $sections = Section::where([
       'teacher_id' => $teacher->id,
     ])
@@ -52,9 +56,9 @@ class DashboardController extends Controller
 
     return response()->json([
     'dashboard' => [
-      'schools' => $schools,
       'sections' => $sections,
       'students' => $students,
+      'modules' => $modules,
       'results' => $results,
     ]]);
   }
