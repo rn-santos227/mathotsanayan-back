@@ -30,6 +30,7 @@ use App\Http\Controllers\Teachers\DashboardController as TeachersDashboardContro
 use App\Http\Controllers\Teachers\ModuleController as TeacherModuleController;
 use App\Http\Controllers\Teachers\QuestionController as TeachersQuestionController;
 use App\Http\Controllers\Teachers\ResultController as TeacherResultController;
+use App\Http\Controllers\Teachers\SchoolController as TeacherSchoolController;
 use App\Http\Controllers\Teachers\SectionController as TeachersSectionController;
 use App\Http\Controllers\Teachers\StudentController as TeachersStudentController;
 use App\Http\Controllers\Teachers\TestController as TeachersTestController;
@@ -170,6 +171,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
       Route::get('/results', [TeacherResultController::class, 'index'])->name('teacher_results_index');
       Route::get('/results/search', [TeacherResultController::class, 'search'])->name('teacher_result_search');
       Route::patch('/results/{id}', [TeacherResultController::class, 'invalidate'])->name('teacher_results_invalidate');
+
+      Route::get('/schools', [TeacherSchoolController::class, 'index'])->name('teachers_schools_index');
 
       Route::get('/sections', [TeachersSectionController::class, 'index'])->name('teachers_sections_index');
       Route::post('/sections/create', [TeachersSectionController::class, 'create'])->name('teachers_sections_create');
