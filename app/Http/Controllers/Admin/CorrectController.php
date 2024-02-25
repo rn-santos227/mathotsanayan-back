@@ -42,12 +42,8 @@ class CorrectController extends Controller
       Storage::disk('minio')->put($file_url, file_get_contents($file));
     }
 
-    $questions = Question::with('corrects', 'options')->where([
-      'module_id' => $question->module_id,
-    ])->get();
-
     return response([
-      'questions' => $questions,
+      'question' => $question,
     ], 201);
   }
 
@@ -76,12 +72,9 @@ class CorrectController extends Controller
     }
     
     $question = Question::find($correct->question_id);
-    $questions = Question::with('corrects', 'options')->where([
-      'module_id' => $question->module_id,
-    ])->get();
 
     return response([
-      'questions' => $questions,
+      'question' => $question,
     ], 201);
   }
 
@@ -94,13 +87,10 @@ class CorrectController extends Controller
     if (!$correct) return response(['error' => 'Illegal Access'], 500);
 
     $question = Question::find($correct->question_id);
-    $questions = Question::with('corrects', 'options')->where([
-      'module_id' => $question->module_id,
-    ])->get();
 
     $correct->delete();
     return response([
-      'questions' => $questions,
+      'question' => $question,
     ], 201);
   }
 }
