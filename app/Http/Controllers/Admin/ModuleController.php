@@ -58,7 +58,7 @@ class ModuleController extends Controller
       'name' => $request->name,
       'objective' => $request->objective,
       'description' => $request->description,
-      'direction' => $request->objective,
+      'direction' => $request->direction,
       'passing' => $request->passing,
       'step' => $request->step,
       'subject_id' => $request->subject,
