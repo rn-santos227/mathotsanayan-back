@@ -83,7 +83,11 @@ class DashboardController extends Controller
   public function modules() {
     $user = auth('sanctum')->user();
     $student = Student::where('user_id', $user->id)->first();
-    $modules = Module::get();
+    $modules = Module::where([
+      "active" => 1,
+    ])
+    ->has('questions')
+    ->get();
     $result_modules = [];
 
     foreach($modules as $module) {
