@@ -15,7 +15,7 @@ class ModuleController extends Controller
   }
 
   public function index() {
-    $modules = Module::with('subject', 'questions', 'questions.corrects', 'questions.options')
+    $modules = Module::with('subject')
     ->orderBy('created_at', 'desc')->paginate(10);
     return response()->json([
       'modules' => $modules
@@ -24,7 +24,7 @@ class ModuleController extends Controller
 
   public function search(Request $request) {
     if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
-    $modules = Module::with('subject', 'questions', 'questions.corrects', 'questions.options')
+    $modules = Module::with('subject')
     ->where(function($query) use($request) {
       $category = $request->query('category');
       $search = $request->query('search');
@@ -62,7 +62,7 @@ class ModuleController extends Controller
       'passing' => $request->passing,
       'step' => $request->step,
       'subject_id' => $request->subject,
-    ])->load('subject', 'questions', 'questions.solutions', 'questions.options');
+    ])->load('subject');
 
     return response([
         'module' => $module,
@@ -82,7 +82,7 @@ class ModuleController extends Controller
       'active' => $request->active,
       'subject_id' => is_numeric($request->subject) ? $request->subject['id'] : $request->subject_id,
     ]);
-    $module->load('subject', 'questions', 'questions.corrects', 'questions.options');
+    $module->load('subject');
     return response([
         'module' => $module,
     ], 201);
