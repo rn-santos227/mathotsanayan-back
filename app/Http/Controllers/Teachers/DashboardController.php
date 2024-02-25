@@ -108,7 +108,11 @@ class DashboardController extends Controller
       "user_id" => $user->id,
     ])->first();
 
-    $modules = Module::get();
+    $modules = Module::where([
+      "active" => 1,
+    ])
+    ->has('questions')
+    ->get();
     $result_modules = [];
 
     foreach($modules as $module) {

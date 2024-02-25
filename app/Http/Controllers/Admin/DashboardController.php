@@ -71,7 +71,11 @@ class DashboardController extends Controller
   }
 
   public function modules() {
-    $modules = Module::get();
+    $modules = Module::where([
+      "active" => 1,
+    ])
+    ->has('questions')
+    ->get();
     $result_modules = [];
 
     foreach($modules as $module) {
