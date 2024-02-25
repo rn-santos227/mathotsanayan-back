@@ -42,12 +42,10 @@ class OptionController extends Controller
       Storage::disk('minio')->put($file_url, file_get_contents($file));
     }
 
-    $questions = Question::with('corrects', 'options')->where([
-      'module_id' => $question->module_id,
-    ])->get();
+    $question->load('corrects', 'options');
 
     return response([
-      'questions' => $questions,
+      'question' => $question,
     ], 201);
   }
 
@@ -74,12 +72,10 @@ class OptionController extends Controller
     }
 
     $question = Question::find($option->question_id);
-    $questions = Question::with('corrects', 'options')->where([
-      'module_id' => $question->module_id,
-    ])->get();
+    $question->load('corrects', 'options');
 
     return response([
-      'questions' => $questions,
+      'question' => $question,
     ], 201);
   }
 
@@ -89,12 +85,11 @@ class OptionController extends Controller
     if(!$option) return response(['error' => 'Illegal Access',], 500); 
 
     $question = Question::find($option->question_id);
-    $questions = Question::with('corrects', 'options')->where([
-      'module_id' => $question->module_id,
-    ])->get();
+    $question->load('corrects', 'options');
+
     $option->delete();
     return response([
-      'questions' => $questions,
+      'question' => $question,
     ], 201);
   }
 }

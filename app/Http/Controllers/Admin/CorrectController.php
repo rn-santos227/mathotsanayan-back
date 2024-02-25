@@ -42,6 +42,7 @@ class CorrectController extends Controller
       Storage::disk('minio')->put($file_url, file_get_contents($file));
     }
 
+    $question->load('corrects', 'options');
     return response([
       'question' => $question,
     ], 201);
@@ -73,6 +74,7 @@ class CorrectController extends Controller
     
     $question = Question::find($correct->question_id);
 
+    $question->load('corrects', 'options');
     return response([
       'question' => $question,
     ], 201);
@@ -87,6 +89,7 @@ class CorrectController extends Controller
     if (!$correct) return response(['error' => 'Illegal Access'], 500);
 
     $question = Question::find($correct->question_id);
+    $question->load('corrects', 'options');
 
     $correct->delete();
     return response([
