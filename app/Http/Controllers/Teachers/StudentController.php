@@ -116,6 +116,12 @@ class StudentController extends Controller
           });
           break;
 
+        case 'course.name':
+          $query->whereHas('course', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+          });
+          break;
+
         case 'email':
           $query->where('email', 'like', '%' . $search . '%');
           break;
@@ -123,8 +129,8 @@ class StudentController extends Controller
         case 'school.name':
         case 'section.name':
           $relation = $category == 'school.name' ? 'school' : 'section';
-          $query->whereHas($relation, function ($query) use ($search, $category) {
-              $query->where('name', 'like', '%' . $search . '%');
+          $query->whereHas($relation, function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
           });
           break;
       }

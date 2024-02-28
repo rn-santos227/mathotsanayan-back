@@ -41,21 +41,23 @@ class StudentController extends Controller
       });
       break;
 
+      case 'course.name':
+        $query->whereHas('course', function ($query) use ($search) {
+          $query->where('name', 'like', '%' . $search . '%');
+        });
+        break;
+
       case 'email':
         $query->where('email', 'like', '%' . $search . '%');
         break;
 
-      case 'school.name':
-        $query->whereHas('school', function ($query) use ($search) {
-          $query->where('name', 'like', '%' . $search . '%');
-        });
-        break;
-
-      case 'section.name':
-        $query->whereHas('section', function ($query) use ($search) {
-          $query->where('name', 'like', '%' . $search . '%');
-        });
-        break;
+        case 'school.name':
+        case 'section.name':
+          $relation = $category == 'school.name' ? 'school' : 'section';
+          $query->whereHas($relation, function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+          });
+          break;
       }
     })
     ->orderBy('created_at', 'desc')
