@@ -64,19 +64,25 @@ class ResultController extends Controller
 
         case 'module.subject':
           $query->whereHas('module.subject', function ($query) use ($search) {
-              $query->where('name', 'like', '%' . $search . '%');
+            $query->where('name', 'like', "%$search%");
+          });
+          break;
+
+        case 'student.course':
+          $query->whereHas('student.course', function ($query) use ($search) {
+            $query->where('name', 'like', "%$search%");
           });
           break;
 
         case 'student.section':
           $query->whereHas('student.section', function ($query) use ($search) {
-              $query->where('name', 'like', '%' . $search . '%');
+            $query->where('name', 'like', "%$search%");
           });
           break;
 
         case 'student.school':
           $query->whereHas('student.school', function ($query) use ($search) {
-              $query->where('name', 'like', '%' . $search . '%');
+            $query->where('name', 'like', "%$search%");
           });
           break;
       }
