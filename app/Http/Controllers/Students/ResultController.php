@@ -29,6 +29,7 @@ class ResultController extends Controller
     ->whereHas('module', function ($query) {
         $query->where('active', 1);
     })
+    ->orderBy('created_at', 'desc')
     ->get();
 
     $results->makeVisible(['timer', 'completed', 'total_score', 'grade']);
