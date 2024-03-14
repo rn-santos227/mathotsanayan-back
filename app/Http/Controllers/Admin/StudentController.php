@@ -32,14 +32,14 @@ class StudentController extends Controller
       $search = $request->query('search');
       switch ($category) {
       case 'full_name':
-      $search = '%' . $search . '%';   
-      $query->where(function ($query) use ($search) {
-        $query->where('last_name', 'LIKE', $search)
-        ->orWhere('first_name', 'LIKE', $search)
-        ->orWhere('suffix', 'LIKE', $search)
-        ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
-      });
-      break;
+        $search = '%' . $search . '%';   
+        $query->where(function ($query) use ($search) {
+          $query->where('last_name', 'LIKE', $search)
+          ->orWhere('first_name', 'LIKE', $search)
+          ->orWhere('suffix', 'LIKE', $search)
+          ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
+        });
+        break;
 
       case 'course.name':
         $query->whereHas('course', function ($query) use ($search) {
