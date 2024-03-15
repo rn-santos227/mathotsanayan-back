@@ -76,6 +76,48 @@ class User extends Authenticatable
         return $class ? $class::where('user_id', $this->id)->first() : null;
     }
 
+    public function setPasswordAttribute($value){
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    public static function findUserByName($name) {
+
+        $admins = Admin::where('name', $name)
+        ->orderBy('created_at', 'desc')
+        ->get();
+        if($admins) {
+            return $admins;
+        }
+
+        $teachers = Teacher::where(function($query) use($name) {
+            $search = '%' . $name . '%';  
+            $query->where(function ($query) use ($search) {
+                $query->where('last_name', 'LIKE', $search)
+                ->orWhere('first_name', 'LIKE', $search)
+                ->orWhere('suffix', 'LIKE', $search)
+                ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
+            });
+        })->orderBy('created_at', 'desc')
+        ->get();
+        if($teachers) {
+            return $teachers;
+        }
+
+        $students = Student::where(function($query) use($name) {
+            $search = '%' . $name . '%';  
+            $query->where(function ($query) use ($search) {
+                $query->where('last_name', 'LIKE', $search)
+                ->orWhere('first_name', 'LIKE', $search)
+                ->orWhere('suffix', 'LIKE', $search)
+                ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
+            });
+        })->orderBy('created_at', 'desc')
+        ->get();
+        if($students) {
+            return $students;
+        }
+    }
+
     public function validatePassword($password) {
         if (Hash::check($password, $this->password)) {
             return true;
@@ -83,19 +125,15 @@ class User extends Authenticatable
         else return false;
     }
 
-    public function setPasswordAttribute($value){
-        $this->attributes['password'] = Hash::make($value);
-    }
-
-    public function currentAccessToken() {
-        return $this->tokens()->latest()->first();
-    }
-
     public static function validate($request) {
         return $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string|min:6'
         ]);
+    }
+
+    public function currentAccessToken() {
+        return $this->tokens()->latest()->first();
     }
 
     public function getToken($user, $account, $type) {
