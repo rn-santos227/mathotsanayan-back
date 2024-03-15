@@ -81,42 +81,36 @@ class User extends Authenticatable
     }
 
     public static function findUserByName($name) {
-
-        $admins = Admin::where('name', $name)
-        ->orderBy('created_at', 'desc')
-        ->get();
-        if($admins) {
-            return $admins;
-        }
-
+        $userIds = [];
+        
+        $admins = Admin::where('name', $name)->orderBy('created_at', 'desc')->pluck('user_id')->toArray();
+        $userIds = array_merge($userIds, $admins);
+    
         $teachers = Teacher::where(function($query) use($name) {
             $search = '%' . $name . '%';  
             $query->where(function ($query) use ($search) {
                 $query->where('last_name', 'LIKE', $search)
-                ->orWhere('first_name', 'LIKE', $search)
-                ->orWhere('suffix', 'LIKE', $search)
-                ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
+                    ->orWhere('first_name', 'LIKE', $search)
+                    ->orWhere('suffix', 'LIKE', $search)
+                    ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
             });
-        })->orderBy('created_at', 'desc')
-        ->get();
-        if($teachers) {
-            return $teachers;
-        }
-
+        })->orderBy('created_at', 'desc')->pluck('user_id')->toArray();
+        $userIds = array_merge($userIds, $teachers);
+    
         $students = Student::where(function($query) use($name) {
             $search = '%' . $name . '%';  
             $query->where(function ($query) use ($search) {
                 $query->where('last_name', 'LIKE', $search)
-                ->orWhere('first_name', 'LIKE', $search)
-                ->orWhere('suffix', 'LIKE', $search)
-                ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
+                    ->orWhere('first_name', 'LIKE', $search)
+                    ->orWhere('suffix', 'LIKE', $search)
+                    ->orWhereRaw("UPPER(SUBSTRING(middle_name, 1, 1)) LIKE ?", [strtoupper(substr($search, 1, 1))]);
             });
-        })->orderBy('created_at', 'desc')
-        ->get();
-        if($students) {
-            return $students;
-        }
+        })->orderBy('created_at', 'desc')->pluck('user_id')->toArray();
+        $userIds = array_merge($userIds, $students);
+    
+        return array_unique($userIds);
     }
+    
 
     public function validatePassword($password) {
         if (Hash::check($password, $this->password)) {
