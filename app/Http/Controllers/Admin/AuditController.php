@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Audit;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -34,7 +35,15 @@ class AuditController extends Controller
   public function search(Request $request) {
     if(!$request->query('category')) return response(['error' => 'Illegal Access'], 500);
     if($request->query('category') === 'user.full_name') {
-      
+      $results = User::findUserByName($request->query('search'));
+      if (!empty($results)) {
+        $audit = Audit::with('user')
+        ->whereIn('user_id', $results)
+        ->orderBy('created_at', 'desc')
+        ->get();
+      } else {
+        $audit = collect();
+      }
     } else {
       $audit = Audit::with('user')
       ->where(function($query) use($request) {
