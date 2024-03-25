@@ -114,7 +114,7 @@ class StudentController extends Controller
       'student_number' => $request->student_number,
       'course_id' => is_numeric($request->course) ? $request->course : $request->course['id'],
       'school_id' => is_numeric($request->school) ? $request->school : $request->school['id'],
-      'section_id' => is_numeric($request->section)  ? $request->section_id :  $request->section['id'],
+      'section_id' => is_numeric($request->section) ? $request->section : $request->section['id'],
     ]);
     
     $student->load('school', 'section', 'course');
