@@ -124,7 +124,11 @@ class TeacherController extends Controller
       ], 400);
     }
 
+    $user = User::find($teacher->user_id);
+
     $teacher->delete();
+    $user->delete();
+    
     return response([
       'teacher' => $teacher,
     ], 201);
