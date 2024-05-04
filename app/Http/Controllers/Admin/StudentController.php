@@ -131,7 +131,11 @@ class StudentController extends Controller
       ], 400);
     }
 
+    $user = User::find($student->user_id);
+
     $student->delete();
+    $user->delete();
+    
     return response([
       'student' => $student,
     ], 201);
