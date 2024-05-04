@@ -191,7 +191,11 @@ class StudentController extends Controller
         $query->where('teacher_id', $teacher->id);
     })->first();
 
+    $user = User::find($student->user_id);
+
     $student->delete();
+    $user->delete();
+    
     return response([
       'student' => $student,
     ], 201);
