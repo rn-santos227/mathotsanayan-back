@@ -127,7 +127,7 @@ class StudentController extends Controller
     $student = Student::find($request->id);
     if ($student->results()->count() > 0) {
       return response([
-          'message' => 'Cannot delete student with results.',
+        'message' => 'Cannot delete student with results.',
       ], 400);
     }
 
@@ -135,7 +135,7 @@ class StudentController extends Controller
 
     $student->delete();
     $user->delete();
-    
+
     return response([
       'student' => $student,
     ], 201);
